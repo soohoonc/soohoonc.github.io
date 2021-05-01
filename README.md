@@ -1,2 +1,3 @@
-Creating schoi98.github.io
-Redirects to react app
+# schoi98.github.io
+
+Welcome to my website
