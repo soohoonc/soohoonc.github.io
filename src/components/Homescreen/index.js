@@ -1,11 +1,10 @@
-import React from 'react'
+import React from 'react';
 
-import { NavBar } from '../';
+import './stylesheets.scss';
 
 const Homescreen = () => {
   return (
     <div>
-      <NavBar />
       <div style={{
         display: 'flex', justifyContent: 'center'
       }}>
@@ -13,9 +12,21 @@ const Homescreen = () => {
       </div>
       <div>
         <p>
-          The website is currently under construction,
-          I will work on it after finals are over...
+          I am (now) a 3rd year Computer Science and Mathematics major at Georgia Tech.
+          Outside of school I enjoy painting and problem solving for fun.
         </p>
+        <p>
+          This website is under construction, I am working on my finals right now and I
+          should be studying but here I am trying to rebuild my website after learning 
+          some JavaScript and React.
+        </p>
+      </div>
+      <div>
+        Links to my socials:
+        <br/>
+        <a href="https://github.com/schoi98" target="_blank">GitHub</a>
+        <br/>
+        <a href="https://www.linkedin.com/in/soohoonchoi/" target="_blank">LinkedIn</a>
       </div>
     </div>
   )

@@ -1,4 +1,7 @@
 import React from 'react'
+import { Link } from 'react-router-dom';
+
+import './stylesheets.scss';
 
 const NavBar = () => {
   return (
@@ -6,10 +9,29 @@ const NavBar = () => {
       <div style={{
         display: 'flex', flexDirection: 'row', justifyContent: 'center'
       }}>
-        <button> Home </button>
-        <button> Projects </button>
-        <button> Resume </button>
-        <button> About Me </button>
+        <div>
+          <Link to='/'>
+            <button className="button"> Home </button>
+          </Link>
+        </div>
+
+        <div>
+          <Link to='projects'>
+            <button className="button"> Projects </button>
+          </Link>
+        </div>
+        
+        <div>
+          <Link to='/resume'>
+            <button className="button"> Resume </button>
+          </Link>
+        </div>
+
+        <div>
+          <Link to='/schoi98'>
+            <button className="button"> About Me </button>
+          </Link>
+        </div>
       </div>
     </div>
   )
