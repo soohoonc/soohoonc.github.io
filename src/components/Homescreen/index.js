@@ -4,7 +4,9 @@ import './stylesheets.scss';
 
 const Homescreen = () => {
   return (
-    <div>
+    <div style={{
+      display:'flex', justifyContent: 'center', flexDirection: 'column'
+    }}>
       <div style={{
         display: 'flex', justifyContent: 'center'
       }}>
@@ -12,7 +14,7 @@ const Homescreen = () => {
       </div>
       <div>
         <p>
-          I am (now) a 3rd year Computer Science and Mathematics major at Georgia Tech.
+          I am a 3rd year Computer Science and Mathematics major at the Georgia Institute of Technology interested artificial intelligence, databases, and applied mathematics.
           Outside of school I enjoy painting and problem solving for fun.
         </p>
         <p>
@@ -20,13 +22,6 @@ const Homescreen = () => {
           should be studying but here I am trying to rebuild my website after learning 
           some JavaScript and React.
         </p>
-      </div>
-      <div>
-        Links to my socials:
-        <br/>
-        <a href="https://github.com/schoi98" target="_blank">GitHub</a>
-        <br/>
-        <a href="https://www.linkedin.com/in/soohoonchoi/" target="_blank">LinkedIn</a>
       </div>
     </div>
   )
