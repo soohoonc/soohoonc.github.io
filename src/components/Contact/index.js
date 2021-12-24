@@ -1,20 +1,49 @@
 import React from 'react'
 
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { AppBar, Box, Container, Link } from '@mui/material';
+import { LinkedIn, GitHub } from '@mui/icons-material'
+
+const Item = (props) => {
+  const { sx, ...other } = props;
+  return (
+    <Box
+      sx={{
+        m:1,
+        pr:2,
+        borderRadius: 1,
+        textAlign: 'center',
+        fontSize: '1rem',
+        fontWeight: '700',
+        ...sx,
+      }}
+      {...other}
+    />
+  );
+}
 
 
 const Contact = () => {
   return (
-    <div>
-      <h2>Contact</h2>
-      <h3>
-        Socials
-      </h3>
-      <a href="https://github.com/schoi98" target="blank"> <FontAwesomeIcon icon={["fab", "github"]}/></a>
-      <a href="https://www.linkedin.com/in/soohoonchoi/" target="blank"><FontAwesomeIcon icon={["fab", "linkedin"]}/></a>
-      <form>
-      </form>
-    </div>
+    <AppBar position='static' style = {{ background: 'transparent', boxShadow: 'none' }}>
+      
+      <Container maxWidth="xl" style={{
+        display: 'flex', flexDirection: 'row', justifyContent: 'center'
+      }}>
+        <Link href="https://github.com/schoi98" target="blank" underline="none">
+          <Box sx={{ display: 'flex', flexDirection:'row', alignItems: 'center' }}>
+            <Item sx={{ m:0, pr:0 }}><GitHub/></Item>
+            <Item>GitHub</Item>
+          </Box>
+        </Link>
+        <Link href="https://www.linkedin.com/in/soohoonchoi/" target="blank" underline="none">
+          <Box sx={{ display: 'flex', flexDirection:'row', alignItems: 'center' }}>
+            <Item sx={{ m:0, pr:0 }}><LinkedIn/></Item>
+            <Item>LinkedIn</Item>
+          </Box>
+          
+        </Link>
+      </Container>
+    </AppBar>
   )
 }
 
