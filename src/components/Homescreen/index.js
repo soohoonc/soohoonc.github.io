@@ -1,29 +1,31 @@
 import React from 'react';
 
-import './stylesheets.scss';
+import { Box, Container, Typography } from '@mui/material';
+
+const welcomes = [
+  <p>print("Welcome")</p>,
+  <p>std::cout&lt;&lt;"Welcome"&lt;&lt;"\n";</p>,
+  <p>printf("Welcome");</p>,
+  <p>System.out.println("Welcome");</p>,
+  <p>echo "Welcome" </p>,
+  <p>Console.WriteLine("Welcome");</p>,
+  <p>document.write("Welcome");</p>,
+  <p>SELECT "Welcome"</p>,
+  <p>putStrLn "Welcome"</p>,
+  <p>println("Welcome");</p>
+];
 
 const Homescreen = () => {
   return (
-    <div style={{
-      display:'flex', justifyContent: 'center', flexDirection: 'column'
-    }}>
-      <div style={{
-        display: 'flex', justifyContent: 'center'
+    <Container>
+      <Box sx={{
+        display: 'flex', justifyContent: 'center', pt: '100px', pb: '100px'
       }}>
-        <h1>Welcome to My Website</h1>
-      </div>
-      <div>
-        <p>
-          I am a 3rd year Computer Science and Mathematics major at the Georgia Institute of Technology interested artificial intelligence, databases, and applied mathematics.
-          Outside of school I enjoy painting and problem solving for fun.
-        </p>
-        <p>
-          This website is under construction, I am working on my finals right now and I
-          should be studying but here I am trying to rebuild my website after learning 
-          some JavaScript and React.
-        </p>
-      </div>
-    </div>
+        <Typography variant='h2'>
+          {welcomes[Math.floor(Math.random() * welcomes.length)]}
+        </Typography>
+      </Box>
+    </Container>
   )
 }
 
