@@ -1,6 +1,6 @@
 import React from 'react';
 import { HashRouter as Router, Switch, Route } from 'react-router-dom';
-import { Homescreen, Projects, NavBar, AboutMe, Contact } from '../';
+import { Homescreen, Projects, Blogs, NavBar, AboutMe, Contact } from '../';
 
 const App = () => {
   return (
@@ -12,6 +12,9 @@ const App = () => {
       <Switch>
         <Route path="/projects">
           <Projects />
+        </Route>
+        <Route path="/blogs">
+          <Blogs />
         </Route>
         <Route path="/schoi98">
           <AboutMe />

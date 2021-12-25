@@ -27,6 +27,10 @@ const NavBar = () => {
 
           <Button onClick={resumeRedirect} className="button"> Resume </Button>
 
+          <Link to='/blogs' style={{ textDecoration: 'none' }}>
+            <Button> Blog </Button>
+          </Link>
+
           <Link to='/schoi98' style={{ textDecoration: 'none' }}>
             <Button> About Me </Button>
           </Link>

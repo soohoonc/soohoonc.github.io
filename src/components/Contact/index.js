@@ -26,7 +26,7 @@ const Contact = () => {
   return (
     <AppBar position='static' style = {{ background: 'transparent', boxShadow: 'none' }}>
       
-      <Container maxWidth="xl" style={{
+      <Container maxWidth="xl" sx= {{pb:'100px'}} style={{
         display: 'flex', flexDirection: 'row', justifyContent: 'center'
       }}>
         <Link href="https://github.com/schoi98" target="blank" underline="none">
