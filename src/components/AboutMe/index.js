@@ -1,40 +1,8 @@
 import React from 'react'
 
 import { Box, Container, Typography } from '@mui/material';
-// import { makeStyles } from '@mui/styles';
-
-// const useStyle = makeStyles((theme) => ({
-//   root: {
-//     display: 'flex',
-//     justifyContent: 'center',
-//   },
-//   container: {
-//     flexDirection: 'column',
-//     justifyContent: 'center',
-//   },
-//   headerBox: {
-//     display: 'flex',
-//     justifyContent: 'center',
-//     padding: '30px'
-//   },
-//   headerText: {
-//     fontWeight: 500,
-//     fontSize: 60,
-//     fontFamily: 'consolas, monospace'
-//   },
-//   textBox: {
-//     padding: '30px',
-//   },
-//   text: {
-//     fontSize: 18,
-//     fontWeight: 10,
-//     fontFamily: 'Helvetica, sans-serif'
-//   }
-// }))
 
 export const AboutMe = () => {
-
-  // const classes = useStyle();
 
   return (
     <Container sx={{

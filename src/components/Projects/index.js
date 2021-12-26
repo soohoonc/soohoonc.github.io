@@ -1,7 +1,7 @@
 import React from 'react'
 
 import { Box, Container, Typography } from '@mui/material';
-import { makeStyles } from '@mui/styles';
+// import { makeStyles } from '@mui/styles';
 
 const projects = [
   {title: 'Reviewr',
@@ -64,57 +64,81 @@ const projects = [
   </p>},
 ];
 
-const useStyle = makeStyles((theme) => ({
-  root: {
-    display: 'flex',
-    justifyContent: 'center',
-  },
-  container: {
-    flexDirection: 'column',
-    justifyContent: 'center',
-  },
-  headerBox: {
-    display: 'flex',
-    justifyContent: 'center',
-    padding: '30px'
-  },
-  headerText: {
-    fontWeight: 500,
-    fontSize: 60,
-    fontFamily: 'consolas, monospace'
-  },
-  textBox: {
-    padding: '30px',
-    margin: '10px'
-  },
-  titleText: {
-    fontSize: 28,
-    fontWeight: 30,
-    fontFamily: 'Helvetica, sans-serif'
-  },
-  text: {
-    fontSize: 16,
-    fontWeight: 10,
-    fontFamily: 'Helvetica, sans-serif'
-  }
-}))
+// const useStyle = makeStyles((theme) => ({
+//   root: {
+//     display: 'flex',
+//     justifyContent: 'center',
+//   },
+//   container: {
+//     flexDirection: 'column',
+//     justifyContent: 'center',
+//   },
+//   headerBox: {
+//     display: 'flex',
+//     justifyContent: 'center',
+//     padding: '30px'
+//   },
+//   headerText: {
+//     fontWeight: 500,
+//     fontSize: 60,
+//     fontFamily: 'consolas, monospace'
+//   },
+//   textBox: {
+//     padding: '30px',
+//     margin: '10px'
+//   },
+//   titleText: {
+//     fontSize: 28,
+//     fontWeight: 30,
+//     fontFamily: 'Helvetica, sans-serif'
+//   },
+//   text: {
+//     fontSize: 18,
+//     fontWeight: 10,
+//     fontFamily: 'Helvetica, sans-serif'
+//   }
+// }))
 
 const Projects = () => {
 
-  const classes = useStyle();
+  // const classes = useStyle();
 
   return (
-    <Container className={classes.headerContainer}>
-      <Box className={classes.headerBox}>
-        <Typography className={classes.headerText}>
+    <Container sx={{
+      display: 'flex',
+      flexDirection: 'column',
+      justifyContent: 'center',
+    }}>
+      <Box sx={{
+        display: 'flex',
+        justifyContent: 'center',
+        padding: '30px'
+      }}>
+        <Typography sx={{
+          fontWeight: 500,
+          fontSize: 60,
+          fontFamily: 'consolas, monospace'
+        }}>
           Projects
         </Typography>
       </Box>
       
       {projects.map(({title, description}, index) => (
-        <Box key={index} className={classes.textBox} sx={{boxShadow:3}}>
-          <Typography className={classes.titleText}>{title}</Typography>
-          <Typography className={classes.text}>{description}</Typography>
+        <Box key={index} sx={{
+          padding: '30px',
+          margin: '10px',
+          boxShadow:3
+        }}>
+          <Typography sx={{
+            fontSize: 28,
+            fontWeight: 30,
+            fontFamily: 'Helvetica, sans-serif'
+          }}>{title}</Typography>
+          <Typography sx={{
+            fontSize: 18,
+            fontWeight: 10,
+            fontFamily: 'Helvetica, sans-serif'
+          }}>{description}</Typography>
         </Box>
       ))}
     </Container>

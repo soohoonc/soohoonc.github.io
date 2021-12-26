@@ -1,6 +1,8 @@
 import React from 'react';
+import TypeAnimation from 'react-type-animation';
 
 import { Box, Container, Typography } from '@mui/material';
+
 // import { makeStyles } from '@mui/styles';
 
 const welcomes = [
@@ -41,7 +43,6 @@ const welcomes = [
 
 
 const Homescreen = () => {
-
   return (
     <Container>
       <Box sx={{
@@ -55,7 +56,12 @@ const Homescreen = () => {
           fontSize: 72,
           fontweight: 100,
         }}>
-          {welcomes[Math.floor(Math.random() * welcomes.length)]}
+          <TypeAnimation
+            cursor={true}
+            sequence={[welcomes[Math.floor(Math.random() * welcomes.length)].props.children, 12000, '']}
+            repeat={Infinity}
+            wrapper='p'
+          />
         </Typography>
       </Box>
       <Container sx={{
