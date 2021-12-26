@@ -1,7 +1,8 @@
 import React from 'react';
 import { HashRouter as Router, Switch, Route } from 'react-router-dom';
 import { CssBaseline, Switch as Toggle } from '@mui/material';
-import { makeStyles } from '@mui/styles';
+// import { makeStyles } from '@mui/styles';
+
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 
 import { Homescreen, Projects, Blogs, NavBar, AboutMe, Contact } from '../';
@@ -11,7 +12,8 @@ const themeLight = createTheme({
     background: {
       default: "#e4f0e2"
     }
-  }
+  },
+  spacing: 4
 });
 
 const themeDark = createTheme({
@@ -21,35 +23,48 @@ const themeDark = createTheme({
     },
     text: {
       primary: "#ffffff"
-    }
+    },
+    spacing: 4
   }
 });
 
-const useStyles = makeStyles((theme) => ({
-  toggle: {
-    margin: 0,
-    right: theme.spacing(2),
-    bottom: theme.spacing(2),
-    position: 'fixed',
-  }
-}));
+// const useStyles = makeStyles((theme) => ({
+//   toggle: {
+//     margin: 0,
+//     top: 'auto',
+//     right: theme.spacing(2),
+//     bottom: theme.spacing(2),
+//     left: 'auto',
+//     position: 'fixed',
+//   }
+// }));
 
 const App = () => {
+
   const [dark, setDark] = React.useState(true);
 
   const handleToggle = (e) => {
     setDark(e.target.checked);
   }
 
-  const ToggleSwitch = () => {
-    const classes = useStyles();
-    return(
-      <Toggle checked={dark} onChange={handleToggle} className={classes.toggle} />
-    )
-  }
+  const theme = dark ? themeDark : themeLight;
+
+  // const ToggleSwitch = () => {
+  //   const classes = useStyles();
+  //   return(
+  //     <Toggle checked={dark} onChange={handleToggle} className={{
+  //       margin: 0,
+  //       top: 'auto',
+  //       right: theme.spacing(2),
+  //       bottom: theme.spacing(2),
+  //       left: 'auto',
+  //       position: 'fixed',
+  //     }} />
+  //   )
+  // }
 
   return (
-    <ThemeProvider theme={dark ? themeDark : themeLight}>
+    <ThemeProvider theme={theme}>
       <CssBaseline />
       <div>
         <Router>
@@ -74,7 +89,14 @@ const App = () => {
           <Contact />
         </div>
         <div>
-          <ToggleSwitch />
+        <Toggle checked={dark} onChange={handleToggle} sx={{
+          margin: 0,
+          top: 'auto',
+          right: theme.spacing(2),
+          bottom: theme.spacing(2),
+          left: 'auto',
+          position: 'fixed',
+        }} />
         </div>
       </Router>
     </div>

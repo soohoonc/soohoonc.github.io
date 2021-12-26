@@ -2,27 +2,27 @@ import React from 'react'
 
 import { AppBar, Box, Container, Link } from '@mui/material';
 import { LinkedIn, GitHub, Email } from '@mui/icons-material'
-import { makeStyles } from '@mui/styles';
+// import { makeStyles } from '@mui/styles';
 
-const useStyle = makeStyles((theme) => ({
-  appbar: {
-    position: 'static',
-    background: 'transparent',
-    boxShadow: 'none'
-  },
-  box: {
-    display: 'flex',
-    flexDirection:'row',
-    alignItems: 'center'
-  },
-  container: {
-    display: 'flex',
-    flexDirection: 'row',
-    justifyContent: 'center',
-    paddingTop: '50px',
-    paddingBotton: '100px'
-  }
-}));
+// const useStyle = makeStyles((theme) => ({
+//   appbar: {
+//     position: 'static',
+//     background: 'transparent',
+//     boxShadow: 'none'
+//   },
+//   box: {
+//     display: 'flex',
+//     flexDirection:'row',
+//     alignItems: 'center'
+//   },
+//   container: {
+//     display: 'flex',
+//     flexDirection: 'row',
+//     justifyContent: 'center',
+//     paddingTop: '50px',
+//     paddingBotton: '100px'
+//   }
+// }));
 
 const Item = (props) => {
   const { sx, ...other } = props;
@@ -42,29 +42,50 @@ const Item = (props) => {
   );
 }
 
-
 const Contact = () => {
 
-  const classes = useStyle();
+  // const classes = useStyle();
 
   return (
-    <AppBar className={classes.appbar}>
+    <AppBar sx={{
+      position: 'static',
+      background: 'transparent',
+      boxShadow: 'none'
+    }}>
       
-      <Container maxWidth="xl" className={classes.container}>
+      <Container maxWidth="xl" sx={{
+        display: 'flex',
+        flexDirection: 'row',
+        justifyContent: 'center',
+        paddingTop: '50px',
+        paddingBottom: '100px'
+      }}>
         <Link href="https://github.com/schoi98" target="blank" underline="none">
-          <Box className={classes.box}>
+          <Box sx={{
+            display: 'flex',
+            flexDirection:'row',
+            alignItems: 'center'
+          }}>
             <Item sx={{ m:0, pr:0 }}><GitHub/></Item>
             <Item>GitHub</Item>
           </Box>
         </Link>
         <Link href="https://www.linkedin.com/in/soohoonchoi/" target="blank" underline="none">
-          <Box className={classes.box}>
+          <Box sx={{
+            display: 'flex',
+            flexDirection:'row',
+            alignItems: 'center'
+          }}>
             <Item sx={{ m:0, pr:0 }}><LinkedIn/></Item>
             <Item>LinkedIn</Item>
           </Box>
         </Link>
         <Link href="mailto:soohoonchoi@gmail.com" underline="none">
-          <Box className={classes.box}>
+          <Box sx={{
+            display: 'flex',
+            flexDirection:'row',
+            alignItems: 'center'
+          }}>
             <Item sx={{ m:0, pr:0 }}><Email/></Item>
             <Item>Email</Item>
           </Box>

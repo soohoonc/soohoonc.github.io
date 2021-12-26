@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { Box, Container, Typography } from '@mui/material';
-import { makeStyles } from '@mui/styles';
+// import { makeStyles } from '@mui/styles';
 
 const welcomes = [
   <p>print("Welcome")</p>,
@@ -16,49 +16,68 @@ const welcomes = [
   <p>println("Welcome");</p>
 ];
 
-const useStyle = makeStyles((theme) => ({
-  box: {
-    display: 'flex',
-    justifyContent: 'center',
-    paddingTop: '40px',
-    paddingBottom: '50px'
-  },
-  container: {
-    padding: '40px',
-    textAlign: 'center',
-  },
-  welcomeText: {
-    fontFamily: 'consolas, monospace',
-    fontSize: 72,
-    fontweight: 100,
-  },
-  text: {
-    fontSize: 16,
-    fontWeight: 10,
-    fontFamily: 'Helvetica, sans-serif',
-  }
-}));
+// const useStyle = makeStyles((theme) => ({
+//   box: {
+//     display: 'flex',
+//     justifyContent: 'center',
+//     paddingTop: '40px',
+//     paddingBottom: '50px'
+//   },
+//   container: {
+//     padding: '40px',
+//     textAlign: 'center',
+//   },
+//   welcomeText: {
+//     fontFamily: 'consolas, monospace',
+//     fontSize: 72,
+//     fontweight: 100,
+//   },
+//   text: {
+//     fontSize: 16,
+//     fontWeight: 10,
+//     fontFamily: 'Helvetica, sans-serif',
+//   }
+// }));
 
 
 const Homescreen = () => {
 
-  const classes = useStyle();
-
   return (
     <Container>
-      <Box className={classes.box}>
-        <Typography className={classes.welcomeText}>
+      <Box sx={{
+        display: 'flex',
+        justifyContent: 'center',
+        paddingTop: '40px',
+        paddingBottom: '50px'
+      }}>
+        <Typography sx={{
+          fontFamily: 'consolas, monospace',
+          fontSize: 72,
+          fontweight: 100,
+        }}>
           {welcomes[Math.floor(Math.random() * welcomes.length)]}
         </Typography>
       </Box>
-      <Container className={classes.container} sx={{boxShadow:2}}>
+      <Container sx={{
+        padding: '40px',
+        textAlign: 'center',
+        boxShadow: 3
+      }}>
         <Box>
-          <Typography className={classes.text}>
+          <Typography sx={{
+            fontSize: 18,
+            fontWeight: 10,
+            fontFamily: 'Helvetica, sans-serif',
+          }}>
             Hello there, I am a 3rd year CS and math major @ GT :)
           </Typography>
         </Box>
         <Box>
-          <Typography className={classes.text}>
+          <Typography sx={{
+            fontSize: 18,
+            fontWeight: 10,
+            fontFamily: 'Helvetica, sans-serif',
+          }}>
             You can check out some of the projects I have done, my resume, and just more about me in general.<br />
           </Typography>
         </Box>
