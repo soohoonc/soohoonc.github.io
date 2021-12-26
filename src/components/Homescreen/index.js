@@ -3,46 +3,21 @@ import TypeAnimation from 'react-type-animation';
 
 import { Box, Container, Typography } from '@mui/material';
 
-// import { makeStyles } from '@mui/styles';
-
 const welcomes = [
-  <p>print("Welcome")</p>,
-  <p>std::cout&lt;&lt;"Welcome"&lt;&lt;"\n";</p>,
-  <p>printf("Welcome");</p>,
-  <p>System.out.println("Welcome");</p>,
-  <p>echo "Welcome" </p>,
-  <p>Console.WriteLine("Welcome");</p>,
-  <p>document.write("Welcome");</p>,
-  <p>SELECT "Welcome"</p>,
-  <p>putStrLn "Welcome"</p>,
-  <p>println("Welcome");</p>
+  'print("Welcome")', 5000,
+  'std::cout<<"Welcome"<<"\\n";', 5000,
+  'printf("Welcome");', 5000,
+  'System.out.println("Welcome");', 5000,
+  'echo "Welcome"', 5000,
+  'Console.WriteLine("Welcome");', 5000,
+  'document.write("Welcome");', 5000,
+  'SELECT "Welcome"', 5000,
+  'putStrLn "Welcome"', 5000,
+  'println("Welcome");', 5000, ''
 ];
 
-// const useStyle = makeStyles((theme) => ({
-//   box: {
-//     display: 'flex',
-//     justifyContent: 'center',
-//     paddingTop: '40px',
-//     paddingBottom: '50px'
-//   },
-//   container: {
-//     padding: '40px',
-//     textAlign: 'center',
-//   },
-//   welcomeText: {
-//     fontFamily: 'consolas, monospace',
-//     fontSize: 72,
-//     fontweight: 100,
-//   },
-//   text: {
-//     fontSize: 16,
-//     fontWeight: 10,
-//     fontFamily: 'Helvetica, sans-serif',
-//   }
-// }));
-
-
 const Homescreen = () => {
+
   return (
     <Container>
       <Box sx={{
@@ -58,9 +33,8 @@ const Homescreen = () => {
         }}>
           <TypeAnimation
             cursor={true}
-            sequence={[welcomes[Math.floor(Math.random() * welcomes.length)].props.children, 12000, '']}
+            sequence={welcomes}
             repeat={Infinity}
-            wrapper='p'
           />
         </Typography>
       </Box>

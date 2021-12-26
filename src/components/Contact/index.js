@@ -1,28 +1,7 @@
 import React from 'react'
 
 import { AppBar, Box, Container, Link } from '@mui/material';
-import { LinkedIn, GitHub, Email } from '@mui/icons-material'
-// import { makeStyles } from '@mui/styles';
-
-// const useStyle = makeStyles((theme) => ({
-//   appbar: {
-//     position: 'static',
-//     background: 'transparent',
-//     boxShadow: 'none'
-//   },
-//   box: {
-//     display: 'flex',
-//     flexDirection:'row',
-//     alignItems: 'center'
-//   },
-//   container: {
-//     display: 'flex',
-//     flexDirection: 'row',
-//     justifyContent: 'center',
-//     paddingTop: '50px',
-//     paddingBotton: '100px'
-//   }
-// }));
+import { LinkedIn, GitHub, Email } from '@mui/icons-material';
 
 const Item = (props) => {
   const { sx, ...other } = props;
@@ -43,8 +22,6 @@ const Item = (props) => {
 }
 
 const Contact = () => {
-
-  // const classes = useStyle();
 
   return (
     <AppBar sx={{
