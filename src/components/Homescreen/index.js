@@ -2,6 +2,24 @@ import React from 'react';
 import TypeAnimation from 'react-type-animation';
 
 import { Box, Container, Typography } from '@mui/material';
+import { createTheme, ThemeProvider } from '@mui/material/styles';
+
+const theme = createTheme();
+
+theme.typography.h1 = {
+  fontSize: '1.5rem',
+  '@media (min-width:480px)': {
+    fontSize: '1.8rem',
+  },
+  [theme.breakpoints.up('sm')]: {
+    fontSize: '2.2rem'
+  },
+  [theme.breakpoints.up('md')]: {
+    fontSize: '3rem',
+  },
+  fontFamily: 'consolas, monospace',
+  fontWeight: 100
+};
 
 const welcomes = [
   'print("Welcome")', 5000,
@@ -19,6 +37,7 @@ const welcomes = [
 const Homescreen = () => {
 
   return (
+    <ThemeProvider theme={theme}>
     <Container>
       <Box sx={{
         display: 'flex',
@@ -26,11 +45,7 @@ const Homescreen = () => {
         paddingTop: '40px',
         paddingBottom: '50px'
       }}>
-        <Typography sx={{
-          fontFamily: 'consolas, monospace',
-          fontSize: 72,
-          fontweight: 100,
-        }}>
+        <Typography variant="h1">
           <TypeAnimation
             cursor={true}
             sequence={welcomes}
@@ -44,26 +59,18 @@ const Homescreen = () => {
         boxShadow: 3
       }}>
         <Box>
-          <Typography sx={{
-            fontSize: 18,
-            fontWeight: 10,
-            fontFamily: 'Helvetica, sans-serif',
-          }}>
+          <Typography>
             Hello there, I am a 3rd year CS and math major @ GT :)
           </Typography>
         </Box>
         <Box>
-          <Typography sx={{
-            fontSize: 18,
-            fontWeight: 10,
-            fontFamily: 'Helvetica, sans-serif',
-          }}>
+          <Typography>
             You can check out some of the projects I have done, my resume, and just more about me in general.<br />
           </Typography>
         </Box>
       </Container>
-      
     </Container>
+    </ThemeProvider>
   )
 }
 

@@ -12,7 +12,6 @@ const themeLight = createTheme({
       default: "#e4f0e2"
     }
   },
-  spacing: 4
 });
 
 const themeDark = createTheme({
@@ -23,8 +22,22 @@ const themeDark = createTheme({
     text: {
       primary: "#ffffff"
     },
-    spacing: 4
-  }
+  },
+  typography: {
+    fontFamily: [
+      '-apple-system',
+      'BlinkMacSystemFont',
+      '"Segoe UI"',
+      'Roboto',
+      '"Helvetica Neue"',
+      'Arial',
+      'sans-serif',
+      '"Apple Color Emoji"',
+      '"Segoe UI Emoji"',
+      '"Segoe UI Symbol"',
+    ].join(','),
+    fontSize: 14,
+  },
 });
 
 const App = () => {

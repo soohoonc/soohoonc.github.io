@@ -1,12 +1,28 @@
 import React from 'react'
 
 import { Box, Container, Typography } from '@mui/material';
+import { createTheme, ThemeProvider } from '@mui/material/styles';
 
 import { projects } from './projects';
+
+const theme = createTheme();
+
+theme.typography.h3 = {
+  fontSize: '2rem',
+  '@media (min-width:200px)': {
+    fontSize: '2.5rem',
+  },
+  [theme.breakpoints.up('md')]: {
+    fontSize: '3rem',
+  },
+  fontFamily: 'consolas, monospace',
+  fontWeight: 500
+};
 
 const Projects = () => {
 
   return (
+    <ThemeProvider theme={theme}>
     <Container sx={{
       display: 'flex',
       flexDirection: 'column',
@@ -17,11 +33,12 @@ const Projects = () => {
         justifyContent: 'center',
         padding: '30px'
       }}>
-        <Typography sx={{
+        {/* <Typography sx={{
           fontWeight: 500,
           fontSize: 60,
           fontFamily: 'consolas, monospace'
-        }}>
+        }}> */}
+        <Typography variant='h3'>
           Projects
         </Typography>
       </Box>
@@ -34,17 +51,12 @@ const Projects = () => {
         }}>
           <Typography sx={{
             fontSize: 28,
-            fontWeight: 30,
-            fontFamily: 'Helvetica, sans-serif'
           }}>{title}</Typography>
-          <Typography sx={{
-            fontSize: 18,
-            fontWeight: 10,
-            fontFamily: 'Helvetica, sans-serif'
-          }}>{description}</Typography>
+          <Typography>{description}</Typography>
         </Box>
       ))}
     </Container>
+    </ThemeProvider>
   )
 }
 

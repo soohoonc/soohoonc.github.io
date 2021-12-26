@@ -1,10 +1,26 @@
 import React from 'react'
 
 import { Box, Container, Typography } from '@mui/material';
+import { createTheme, ThemeProvider } from '@mui/material/styles';
+
+const theme = createTheme();
+
+theme.typography.h3 = {
+  fontSize: '1.5rem',
+  '@media (min-width:360px)': {
+    fontSize: '2.5rem',
+  },
+  [theme.breakpoints.up('md')]: {
+    fontSize: '3rem',
+  },
+  fontFamily: 'consolas, monospace',
+  fontWeight: 500
+};
 
 export const AboutMe = () => {
 
   return (
+    <ThemeProvider theme={theme}>
     <Container sx={{
       flexDirection: 'column',
       justifyContent: 'center',
@@ -14,11 +30,7 @@ export const AboutMe = () => {
         justifyContent: 'center',
         padding: '30px'
       }}>
-        <Typography sx={{
-          fontWeight: 500,
-          fontSize: 60,
-          fontFamily: 'consolas, monospace'
-        }}>
+        <Typography variant="h3">
           SooHoon Choi
         </Typography>
       </Box>
@@ -26,11 +38,7 @@ export const AboutMe = () => {
         p: '30px',
         boxShadow:3
       }}>
-        <Typography sx={{
-          fontSize: 18,
-          fontWeight: 10,
-          fontFamily: 'Helvetica, sans-serif'
-        }}>
+        <Typography>
           I am a third year computer science and mathematics major at the Georgia Institute of Technology.
           I am a Korean Citizen who lived in the Philippines for 18 years in my childhood and am currently a United States permanent resident attending university in Georgia.
           The majority of my day is spent learning and practicing various computer science and programming principles, I enjoy learning more about the field.
@@ -40,6 +48,7 @@ export const AboutMe = () => {
       </Box>
       
     </Container>
+    </ThemeProvider>
   )
 }
 

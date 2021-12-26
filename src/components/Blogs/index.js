@@ -22,11 +22,12 @@ const Blogs = () => {
         margin: '10px',
         justifyContent: 'center',
       }}>
-        <Typography sx={{
+        {/* <Typography sx={{
           fontSize: 18,
           fontWeight: 10,
           fontFamily: 'Helvetica, sans-serif',
-        }}>
+        }}> */}
+        <Typography>
           Currently Under Construction (as is the rest of the website)
         </Typography>
       </Box>
