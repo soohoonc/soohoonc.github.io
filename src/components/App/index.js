@@ -2,67 +2,10 @@ import React from 'react';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import { CssBaseline, Switch as Toggle } from '@mui/material';
 
-import { ThemeProvider, createTheme } from '@mui/material/styles';
+import { ThemeProvider } from '@mui/material/styles';
 
 import { Homescreen, Projects, Blogs, NavBar, AboutMe, Contact } from '../';
-
-const themeLight = createTheme({
-  palette: {
-    background: {
-      default: "#e4f0e2"
-    }
-  },
-  components: {
-    MuiDrawer: {
-      styleOverrides: {
-        paper: {
-          backgroundColor: "#e4f0e2f1",
-        },
-      },
-    },
-  },
-});
-
-const themeDark = createTheme({
-  palette: {
-    background: {
-      default: "#222222"
-    },
-    text: {
-      primary: "#ffffff"
-    },
-    id: '1'
-  },
-  typography: {
-    fontFamily: [
-      '-apple-system',
-      'BlinkMacSystemFont',
-      '"Segoe UI"',
-      'Roboto',
-      '"Helvetica Neue"',
-      'Arial',
-      'sans-serif',
-      '"Apple Color Emoji"',
-      '"Segoe UI Emoji"',
-      '"Segoe UI Symbol"',
-    ].join(','),
-    fontSize: 14,
-  },
-  components: {
-    MuiDrawer: {
-      styleOverrides: {
-        paper: {
-          backgroundColor: '#151515f1',
-        },
-      },
-    },
-    MuiLink: {
-      styleOverrides: {
-        color: 'white'
-      }
-    }
-  },
-});
+import { themeLight, themeDark } from './theme'
 
 const App = () => {
 

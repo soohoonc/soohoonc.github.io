@@ -7,12 +7,12 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 const theme = createTheme();
 
 theme.typography.h1 = {
-  fontSize: '1.5rem',
+  fontSize: '1.3rem',
   '@media (min-width:480px)': {
-    fontSize: '1.8rem',
+    fontSize: '1.7rem',
   },
   [theme.breakpoints.up('sm')]: {
-    fontSize: '2.2rem'
+    fontSize: '2.5rem'
   },
   [theme.breakpoints.up('md')]: {
     fontSize: '3rem',

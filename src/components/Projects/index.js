@@ -33,11 +33,6 @@ const Projects = () => {
         justifyContent: 'center',
         padding: '30px'
       }}>
-        {/* <Typography sx={{
-          fontWeight: 500,
-          fontSize: 60,
-          fontFamily: 'consolas, monospace'
-        }}> */}
         <Typography variant='h3'>
           Projects
         </Typography>

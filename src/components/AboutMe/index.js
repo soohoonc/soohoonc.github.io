@@ -22,6 +22,7 @@ export const AboutMe = () => {
   return (
     <ThemeProvider theme={theme}>
     <Container sx={{
+      display: 'flex',
       flexDirection: 'column',
       justifyContent: 'center',
     }}>

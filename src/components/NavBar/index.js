@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { Link } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 import { AppBar, Button, Container, Drawer, IconButton, MenuItem, Toolbar } from '@mui/material';
 import { Menu } from '@mui/icons-material'
 
@@ -39,7 +39,6 @@ const NavBar = () => {
         {state.mobile ? displayMobile(state.drawer, setState) : displayDesktop()}
       </Toolbar>
     </AppBar>
-    
   )
 }
 
@@ -57,10 +56,10 @@ const displayDesktop = () => {
       justifyContent: 'center',
     }}>
         
-      <Button to='/' component={Link}> Home </Button>
-      <Button to='/projects' component={Link}> Projects </Button>
-      <Button to='/blogs' component={Link}> Blog </Button>
-      <Button to='/schoi98' component={Link}> About Me </Button>
+      <Button to='/' component={NavLink}> Home </Button>
+      <Button to='/projects' component={NavLink}> Projects </Button>
+      <Button to='/blogs' component={NavLink}> Blog </Button>
+      <Button to='/schoi98' component={NavLink}> About Me </Button>
       <Button onClick={resumeRedirect}> Resume </Button>
     </Container>
   )
@@ -86,18 +85,18 @@ const displayMobile = ( drawer, setState ) => {
       justifyContent: 'center',
       alignItems: 'center'
     }}>
-      <IconButton onClick={handleMenuOpen}>
-        <Menu />
+      <IconButton onClick={handleMenuOpen} color='primary' >
+        <Menu/>
       </IconButton>
       <Drawer open={drawer} onClose={handleMenuClose} anchor='top'>
 
-      <MenuItem component={Link} sx={{justifyContent: 'center'}} to='/' onClick={handleMenuClose}> Home </MenuItem>
+      <MenuItem component={NavLink} sx={{justifyContent: 'center'}} to='/' onClick={handleMenuClose}> Home </MenuItem>
 
-      <MenuItem component={Link} sx={{justifyContent: 'center'}} to='/projects' onClick={handleMenuClose}> Projects </MenuItem>
+      <MenuItem component={NavLink} sx={{justifyContent: 'center'}} to='/projects' onClick={handleMenuClose}> Projects </MenuItem>
 
-      <MenuItem component={Link} sx={{justifyContent: 'center'}} to='/blogs' onClick={handleMenuClose}> Blog </MenuItem>
+      <MenuItem component={NavLink} sx={{justifyContent: 'center'}} to='/blogs' onClick={handleMenuClose}> Blog </MenuItem>
 
-      <MenuItem component={Link} sx={{justifyContent: 'center'}} to='/schoi98' onClick={handleMenuClose}> About Me </MenuItem>
+      <MenuItem component={NavLink} sx={{justifyContent: 'center'}} to='/schoi98' onClick={handleMenuClose}> About Me </MenuItem>
 
       <MenuItem sx={{justifyContent: 'center'}} onClick={resumeRedirect}>Resume</MenuItem>
       </Drawer>
