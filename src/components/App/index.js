@@ -12,6 +12,15 @@ const themeLight = createTheme({
       default: "#e4f0e2"
     }
   },
+  components: {
+    MuiDrawer: {
+      styleOverrides: {
+        paper: {
+          backgroundColor: "#e4f0e2f1",
+        },
+      },
+    },
+  },
 });
 
 const themeDark = createTheme({
@@ -22,6 +31,7 @@ const themeDark = createTheme({
     text: {
       primary: "#ffffff"
     },
+    id: '1'
   },
   typography: {
     fontFamily: [
@@ -37,6 +47,20 @@ const themeDark = createTheme({
       '"Segoe UI Symbol"',
     ].join(','),
     fontSize: 14,
+  },
+  components: {
+    MuiDrawer: {
+      styleOverrides: {
+        paper: {
+          backgroundColor: '#151515f1',
+        },
+      },
+    },
+    MuiLink: {
+      styleOverrides: {
+        color: 'white'
+      }
+    }
   },
 });
 

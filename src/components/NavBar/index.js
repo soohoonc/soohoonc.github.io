@@ -26,8 +26,6 @@ const NavBar = () => {
     }
   }, []);
 
-  
-
   return (
     <AppBar sx={{
       background: 'transparent',
@@ -41,6 +39,7 @@ const NavBar = () => {
         {state.mobile ? displayMobile(state.drawer, setState) : displayDesktop()}
       </Toolbar>
     </AppBar>
+    
   )
 }
 
@@ -57,30 +56,11 @@ const displayDesktop = () => {
       flexDirection: 'row',
       justifyContent: 'center',
     }}>
-      <Link to='/' style={{
-        textDecoration: 'none'
-      }}>
-        <Button> Home </Button>
-      </Link>
-
-      <Link to='/projects' style={{
-        textDecoration: 'none'
-      }}>
-        <Button> Projects </Button>
-      </Link>
-
-      <Link to='/blogs' style={{
-        textDecoration: 'none'
-      }}>
-        <Button> Blog </Button>
-      </Link>
-
-      <Link to='/schoi98' style={{
-        textDecoration: 'none'
-      }}>
-        <Button> About Me </Button>
-      </Link>
-
+        
+      <Button to='/' component={Link}> Home </Button>
+      <Button to='/projects' component={Link}> Projects </Button>
+      <Button to='/blogs' component={Link}> Blog </Button>
+      <Button to='/schoi98' component={Link}> About Me </Button>
       <Button onClick={resumeRedirect}> Resume </Button>
     </Container>
   )
@@ -109,32 +89,15 @@ const displayMobile = ( drawer, setState ) => {
       <IconButton onClick={handleMenuOpen}>
         <Menu />
       </IconButton>
-      <Drawer open={drawer} onClose={handleMenuClose} anchor='top'
-      sx={{ '& .paper': { backgroundColor: '#222222'}}}>
+      <Drawer open={drawer} onClose={handleMenuClose} anchor='top'>
 
-      <Link to='/' onClick={handleMenuClose} style={{
-        textDecoration: 'none'
-      }}>
-        <MenuItem sx={{justifyContent: 'center'}}>  Home </MenuItem>
-      </Link>
+      <MenuItem component={Link} sx={{justifyContent: 'center'}} to='/' onClick={handleMenuClose}> Home </MenuItem>
 
-      <Link to='/projects' onClick={handleMenuClose} style={{
-        textDecoration: 'none'
-      }}>
-        <MenuItem sx={{justifyContent: 'center'}}> Projects </MenuItem>
-      </Link>
+      <MenuItem component={Link} sx={{justifyContent: 'center'}} to='/projects' onClick={handleMenuClose}> Projects </MenuItem>
 
-      <Link to='/blogs' onClick={handleMenuClose} style={{
-        textDecoration: 'none'
-      }}>
-        <MenuItem sx={{justifyContent: 'center'}}> Blog </MenuItem>
-      </Link>
+      <MenuItem component={Link} sx={{justifyContent: 'center'}} to='/blogs' onClick={handleMenuClose}> Blog </MenuItem>
 
-      <Link to='/schoi98' onClick={handleMenuClose} style={{
-        textDecoration: 'none'
-      }}>
-        <MenuItem sx={{justifyContent: 'center'}}>  About Me </MenuItem>
-      </Link>
+      <MenuItem component={Link} sx={{justifyContent: 'center'}} to='/schoi98' onClick={handleMenuClose}> About Me </MenuItem>
 
       <MenuItem sx={{justifyContent: 'center'}} onClick={resumeRedirect}>Resume</MenuItem>
       </Drawer>
