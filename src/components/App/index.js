@@ -4,7 +4,7 @@ import { CssBaseline, Switch as Toggle } from '@mui/material';
 
 import { ThemeProvider } from '@mui/material/styles';
 
-import { Homescreen, Projects, Blogs, NavBar, AboutMe, Contact } from '../';
+import { Homescreen, Projects, Blog, Blogs, NavBar, AboutMe, Contact } from '../';
 import { themeLight, themeDark } from './theme'
 
 const App = () => {
@@ -26,18 +26,13 @@ const App = () => {
           <NavBar />
         </div>
         <Switch>
-          <Route path="/projects">
-            <Projects />
-          </Route>
+          <Route path="/projects" component={Projects} />
           <Route exact path="/blogs">
-            <Blogs />
+            <Blogs theme={theme} />
           </Route>
-          <Route path="/schoi98">
-            <AboutMe />
-          </Route>
-          <Route exact path="/">
-            <Homescreen/>
-          </Route>
+          <Route path="/blogs/:id" component={Blog} />
+          <Route path="/schoi98" component={AboutMe} />
+          <Route exact path="/" component={Homescreen} />
         </Switch>
         <div>
           <Contact />

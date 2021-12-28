@@ -10,7 +10,9 @@ export const themeLight = createTheme({
     },
     primary: {
       main: "#505050f1",
+      link: "#4280eb",
     },
+    mode: "light",
   },
   typography: {
     fontFamily: [
@@ -48,7 +50,9 @@ export const themeDark = createTheme({
     },
     primary: {
       main: "#f0e2e2",
+      link: "#42afeb",
     },
+    mode: "dark",
   },
   typography: {
     fontFamily: [
