@@ -25,9 +25,7 @@ const App = () => {
         <NavBar />
         <Switch>
           <Route path="/projects" component={Projects} />
-          <Route exact path="/blogs">
-            <Blogs theme={theme} />
-          </Route>
+          <Route exact path="/blogs" component={Blogs} />
           <Route path="/blogs/:id" component={Blog} />
           <Route path="/schoi98" component={AboutMe} />
           <Route exact path="/" component={Homescreen} />

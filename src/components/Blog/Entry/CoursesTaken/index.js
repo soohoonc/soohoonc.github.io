@@ -12,9 +12,7 @@ import {
   Typography, 
   IconButton,
 } from '@mui/material';
-
 import { Close } from '@mui/icons-material';
-
 import { useTheme } from '@mui/material/styles';
 
 import { coursesCompleted } from './courses';
@@ -30,7 +28,7 @@ const CoursesTaken = () => {
       courseId: 'GT 9999',
       courseTitle: 'The Meaning of Life, the Universe, and Everything',
       professor: 'George Burdell',
-      courseSummary: <p>42</p>,
+      courseSummary: <>42</>,
       tags: [],
       semester: 'Winter 0',
     }
@@ -48,22 +46,18 @@ const CoursesTaken = () => {
       return 2;
     } else if (state.width < 1200) {
       return 3;
-    } else if (state.width < 2400) {
-      return 4;
     }
-    return 5;
+    return 4;
   }
 
   const handleClose = () => {
     setState((prev) => ({ ...prev, open: false}));
   }
 
-  
   useEffect(() => {
     const setResponsiveness = () => {
       return setState((prev) => ({ ...prev, width: window.innerWidth}));
     };
-
     setResponsiveness();
     window.addEventListener("resize", () => setResponsiveness());
     return () => {
@@ -97,7 +91,6 @@ const CoursesTaken = () => {
               />
               </CardActionArea>
             </Card>
-            
           )
         })
       }
@@ -154,7 +147,6 @@ const CourseDialog = (props) => {
             <Close />
           </IconButton>
         </Box>
-        
       </Box>
       <Box style={{ overflow: 'auto'}} sx={{
         pb:'12px', px: '24px'

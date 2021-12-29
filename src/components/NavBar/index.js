@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react'
 import { NavLink } from 'react-router-dom';
-import { AppBar, Box, Button, Container, Drawer, IconButton, MenuItem, Toolbar } from '@mui/material';
+import { AppBar, Button, Container, Drawer, IconButton, MenuItem, Toolbar } from '@mui/material';
 import { Menu } from '@mui/icons-material'
 
-import resume from '../../assets/documents/resume.pdf'
+const resumePath = window.location.origin + '/assets/documents/resume.pdf'
 
 const NavBar = () => {
 
@@ -27,11 +27,6 @@ const NavBar = () => {
   }, []);
 
   return (
-    <Container>
-      <Box sx={{
-        display: 'flex',
-        justifyContent: 'center'
-      }}>
     <AppBar sx={{
       background: 'transparent',
       boxShadow: 'none',
@@ -44,15 +39,13 @@ const NavBar = () => {
         {state.mobile ? displayMobile(state.drawer, setState) : displayDesktop()}
       </Toolbar>
     </AppBar>
-    </Box>
-    </Container>
   )
 }
 
 const displayDesktop = () => {
 
   const resumeRedirect = () => {
-    window.open(resume)
+    window.open(resumePath)
   }
 
   return (
@@ -62,11 +55,10 @@ const displayDesktop = () => {
       flexDirection: 'row',
       justifyContent: 'center',
     }}>
-        
       <Button to='/' component={NavLink}> Home </Button>
       <Button to='/projects' component={NavLink}> Projects </Button>
       <Button to='/blogs' component={NavLink}> Blog </Button>
-      <Button to='/schoi98' component={NavLink}> About Me </Button>
+      <Button to='/schoi98' component={NavLink}> About </Button>
       <Button onClick={resumeRedirect}> Resume </Button>
     </Container>
   )
@@ -75,7 +67,7 @@ const displayDesktop = () => {
 const displayMobile = ( drawer, setState ) => {
 
   const resumeRedirect = () => {
-    window.open(resume)
+    window.open(resumePath)
   }
 
   const handleMenuOpen = () =>
@@ -96,16 +88,11 @@ const displayMobile = ( drawer, setState ) => {
         <Menu/>
       </IconButton>
       <Drawer open={drawer} onClose={handleMenuClose} anchor='top'>
-
-      <MenuItem component={NavLink} sx={{justifyContent: 'center'}} to='/' onClick={handleMenuClose}> Home </MenuItem>
-
-      <MenuItem component={NavLink} sx={{justifyContent: 'center'}} to='/projects' onClick={handleMenuClose}> Projects </MenuItem>
-
-      <MenuItem component={NavLink} sx={{justifyContent: 'center'}} to='/blogs' onClick={handleMenuClose}> Blog </MenuItem>
-
-      <MenuItem component={NavLink} sx={{justifyContent: 'center'}} to='/schoi98' onClick={handleMenuClose}> About Me </MenuItem>
-
-      <MenuItem sx={{justifyContent: 'center'}} onClick={resumeRedirect}>Resume</MenuItem>
+        <MenuItem component={NavLink} sx={{justifyContent: 'center'}} to='/' onClick={handleMenuClose}> Home </MenuItem>
+        <MenuItem component={NavLink} sx={{justifyContent: 'center'}} to='/projects' onClick={handleMenuClose}> Projects </MenuItem>
+        <MenuItem component={NavLink} sx={{justifyContent: 'center'}} to='/blogs' onClick={handleMenuClose}> Blog </MenuItem>
+        <MenuItem component={NavLink} sx={{justifyContent: 'center'}} to='/schoi98' onClick={handleMenuClose}> About Me </MenuItem>
+        <MenuItem sx={{justifyContent: 'center'}} onClick={resumeRedirect}>Resume</MenuItem>
       </Drawer>
   </Container>
   )
