@@ -13,7 +13,7 @@ const Blog = () => {
 
   return (
     <Container>
-      <BlogComponent />
+      <BlogComponent id={id}/>
     </Container>
   )
 };

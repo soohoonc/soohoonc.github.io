@@ -1,7 +1,7 @@
 import React from 'react';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
-import { CssBaseline, Switch as Toggle } from '@mui/material';
 
+import { Box, CssBaseline, Switch as Toggle } from '@mui/material';
 import { ThemeProvider } from '@mui/material/styles';
 
 import { Homescreen, Projects, Blog, Blogs, NavBar, AboutMe, Contact } from '../';
@@ -22,9 +22,7 @@ const App = () => {
       <CssBaseline />
       <div>
         <Router>
-        <div>
-          <NavBar />
-        </div>
+        <NavBar />
         <Switch>
           <Route path="/projects" component={Projects} />
           <Route exact path="/blogs">
@@ -34,9 +32,9 @@ const App = () => {
           <Route path="/schoi98" component={AboutMe} />
           <Route exact path="/" component={Homescreen} />
         </Switch>
-        <div>
+        <Box>
           <Contact />
-        </div>
+        </Box>
         <div>
         <Toggle checked={dark} onChange={handleToggle} sx={{
           margin: 0,

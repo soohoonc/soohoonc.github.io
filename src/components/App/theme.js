@@ -3,10 +3,11 @@ import { createTheme } from '@mui/material/styles';
 export const themeLight = createTheme({
   palette: {
     background: {
-      default: "#f0e2e2"
+      default: "#faf9f6"
     },
     text: {
-      primary: "#222222"
+      primary: "#222222",
+      subheader: "#00000099",
     },
     primary: {
       main: "#505050f1",
@@ -33,7 +34,7 @@ export const themeLight = createTheme({
     MuiDrawer: {
       styleOverrides: {
         paper: {
-          backgroundColor: "#f0e2e2f1",
+          backgroundColor: "#faf9f6f1",
         },
       },
     },
@@ -46,10 +47,11 @@ export const themeDark = createTheme({
       default: "#222222"
     },
     text: {
-      primary: "#ffffff"
+      primary: "#ffffff",
+      subheader: "#ffffffb3",
     },
     primary: {
-      main: "#f0e2e2",
+      main: "#faf9f6",
       link: "#42afeb",
     },
     mode: "dark",

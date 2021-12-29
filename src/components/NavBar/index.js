@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { NavLink } from 'react-router-dom';
-import { AppBar, Button, Container, Drawer, IconButton, MenuItem, Toolbar } from '@mui/material';
+import { AppBar, Box, Button, Container, Drawer, IconButton, MenuItem, Toolbar } from '@mui/material';
 import { Menu } from '@mui/icons-material'
 
 import resume from '../../assets/documents/resume.pdf'
@@ -27,6 +27,11 @@ const NavBar = () => {
   }, []);
 
   return (
+    <Container>
+      <Box sx={{
+        display: 'flex',
+        justifyContent: 'center'
+      }}>
     <AppBar sx={{
       background: 'transparent',
       boxShadow: 'none',
@@ -39,6 +44,8 @@ const NavBar = () => {
         {state.mobile ? displayMobile(state.drawer, setState) : displayDesktop()}
       </Toolbar>
     </AppBar>
+    </Box>
+    </Container>
   )
 }
 
