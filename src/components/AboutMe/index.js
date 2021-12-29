@@ -1,26 +1,10 @@
 import React from 'react'
 
 import { Box, Container, Typography } from '@mui/material';
-import { createTheme, ThemeProvider } from '@mui/material/styles';
-
-const theme = createTheme();
-
-theme.typography.h3 = {
-  fontSize: '1.5rem',
-  '@media (min-width:360px)': {
-    fontSize: '2.5rem',
-  },
-  [theme.breakpoints.up('md')]: {
-    fontSize: '3rem',
-  },
-  fontFamily: 'consolas, monospace',
-  fontWeight: 500
-};
 
 export const AboutMe = () => {
 
   return (
-    <ThemeProvider theme={theme}>
     <Container sx={{
       display: 'flex',
       flexDirection: 'column',
@@ -47,9 +31,7 @@ export const AboutMe = () => {
           If time permits I like to read up on philosophy, history, and art.
         </Typography>
       </Box>
-      
     </Container>
-    </ThemeProvider>
   )
 }
 

@@ -2,29 +2,14 @@ import React from 'react'
 import { NavLink } from 'react-router-dom';
 
 import { Box, Container, Grid, Typography } from '@mui/material';
-import { useTheme, ThemeProvider } from '@mui/material/styles';
+import { useTheme } from '@mui/material/styles';
 
 import NavBarBlog from '../NavBarBlog';
 
 
 const Blogs = () => {
 
-  const theme = useTheme();
-
-  theme.typography.h3 = {
-    fontSize: '1.5rem',
-    '@media (min-width:360px)': {
-      fontSize: '2.5rem',
-    },
-    [theme.breakpoints.up('md')]: {
-      fontSize: '3rem',
-    },
-    fontFamily: 'consolas, monospace',
-    fontWeight: 500
-  };
-
   return (
-    <ThemeProvider theme={theme}>
     <Container sx={{
       display: 'flex',
       flexDirection: 'column',
@@ -47,7 +32,7 @@ const Blogs = () => {
             flexDirection: 'column',
             justifyContent: 'center',
           }}>         
-            {welcomeArticle(theme)}
+            <WelcomeArticle />
           </Container>
         </Grid>
         <Grid item xs={4} md={4}>
@@ -55,11 +40,13 @@ const Blogs = () => {
         </Grid>
       </Grid>
     </Container>
-    </ThemeProvider>
   )
 }
 
-const welcomeArticle = (theme) => {
+const WelcomeArticle = () => {
+
+  const theme = useTheme();
+
   return (
     <Box boxShadow={3} sx={{
       px: '30px',
@@ -90,7 +77,6 @@ const welcomeArticle = (theme) => {
       </Typography>
     </NavLink>
     </Box>
-    
   )
 }
 

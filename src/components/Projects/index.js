@@ -20,20 +20,6 @@ import { projects } from './projects';
 
 const Projects = () => {
 
-  const theme = useTheme();
-
-  theme.typography.h3 = {
-    fontSize: '2rem',
-    '@media (min-width:200px)': {
-      fontSize: '2.5rem',
-    },
-    [theme.breakpoints.up('md')]: {
-      fontSize: '3rem',
-    },
-    fontFamily: 'consolas, monospace',
-    fontWeight: 500
-  };
-
   const [state, setState] = useState({
     open: false,
     width: window.innerWidth,

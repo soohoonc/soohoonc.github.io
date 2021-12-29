@@ -2,24 +2,6 @@ import React from 'react';
 import TypeAnimation from 'react-type-animation';
 
 import { Box, Container, Typography } from '@mui/material';
-import { createTheme, ThemeProvider } from '@mui/material/styles';
-
-const theme = createTheme();
-
-theme.typography.h1 = {
-  fontSize: '1.3rem',
-  '@media (min-width:480px)': {
-    fontSize: '1.7rem',
-  },
-  [theme.breakpoints.up('sm')]: {
-    fontSize: '2.5rem'
-  },
-  [theme.breakpoints.up('md')]: {
-    fontSize: '3rem',
-  },
-  fontFamily: 'consolas, monospace',
-  fontWeight: 100
-};
 
 const welcomes = [
   'print("Welcome")', 5000,
@@ -37,7 +19,6 @@ const welcomes = [
 const Homescreen = () => {
 
   return (
-    <ThemeProvider theme={theme}>
     <Container>
       <Box sx={{
         display: 'flex',
@@ -70,7 +51,6 @@ const Homescreen = () => {
         </Box>
       </Container>
     </Container>
-    </ThemeProvider>
   )
 }
 

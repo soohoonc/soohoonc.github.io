@@ -12,15 +12,14 @@ import {
   Typography, 
   IconButton,
 } from '@mui/material';
+
 import { Close } from '@mui/icons-material';
 import { useTheme } from '@mui/material/styles';
 
 import { coursesCompleted } from './courses';
 
 const CoursesTaken = () => {
-
-  const theme = useTheme();
-
+  
   const [state, setState] = useState({
     width: window.innerWidth,
     open: false,
@@ -33,11 +32,6 @@ const CoursesTaken = () => {
       semester: 'Winter 0',
     }
   })
-  
-  theme.typography.h5 = {
-    fontFamily: 'consolas, monospace',
-    fontSize: 30
-  }
 
   const getImageListCol = () => {
     if (state.width < 550) {

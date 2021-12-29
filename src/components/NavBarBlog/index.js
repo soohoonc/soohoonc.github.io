@@ -9,6 +9,7 @@ import { dir } from './dir'
 const NavBarBlog = () => {
   
   const match = useRouteMatch();
+  
   const theme = useTheme();
 
   return (
