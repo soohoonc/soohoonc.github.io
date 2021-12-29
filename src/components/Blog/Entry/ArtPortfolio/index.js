@@ -5,8 +5,11 @@ import {
   Container,
   ImageList,
   ImageListItem,
+  ImageListItemBar,
   Typography, 
 } from '@mui/material';
+
+import { createTheme, ThemeProvider } from '@mui/material/styles';
 
 import { artwork } from './artwork';
 
@@ -16,6 +19,7 @@ const ArtPortfolio = () => {
 
   const [state, setState] = useState({
     width: window.innerWidth,
+    select: null,
   });
 
   const getImageListCol = () => {
@@ -24,6 +28,23 @@ const ArtPortfolio = () => {
     }
     return 2;
   }
+
+  const imageListItemTheme = createTheme({
+    components: {
+      MuiImageListItem: {
+        styleOverrides: {
+          root: {
+            '& .hidden-bar': {
+              display: 'none',
+            },
+            '&:hover .hidden-bar': {
+            display: 'flex',
+            },
+          },
+        },
+      },
+    },
+  })
 
   useEffect(() => {
     const setResponsiveness = () => {
@@ -48,21 +69,28 @@ const ArtPortfolio = () => {
         </Typography>
       </Box>
       <Box>
+        <ThemeProvider theme={imageListItemTheme}>
         <ImageList cols={getImageListCol()}>
           {
             artwork.map((work, index) => {
               return (
-                <ImageListItem key={index}>
+                <ImageListItem key={index} id="imglistitem">
                   <img
                     src={artPath + work.path}
                     alt={work.path}
                     loading="lazy"
+                  />
+                  <ImageListItemBar
+                    title={work.title}
+                    subtitle={work.description}
+                    className='hidden-bar'
                   />
                 </ImageListItem>
               )
             })
           }
         </ImageList>
+        </ThemeProvider>
       </Box>
     </Container>
   )
