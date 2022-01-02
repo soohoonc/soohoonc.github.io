@@ -61,15 +61,6 @@ const CoursesTaken = () => {
 
   return (
     <Container>
-      <Box sx={{
-        display: 'flex',
-        justifyContent: 'center',
-        py: '20px'
-      }}>
-        <Typography variant="h5">
-          Courses Taken
-        </Typography>
-      </Box>
       <ImageList cols={getImageListCol()} gap={2}>
       {
         coursesCompleted.map((course) => {

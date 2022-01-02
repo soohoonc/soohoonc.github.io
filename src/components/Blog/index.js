@@ -1,21 +1,31 @@
-import React from 'react'
+import React from 'react';
 import { useParams } from 'react-router-dom';
 
-import { Container } from '@mui/material'
-import * as Entry from './Entry';
+import { Container, Box, Typography } from '@mui/material';
 
+import { default as entries } from './Entry';
 
-const Blog = () => {
+const Blog= () => {
 
   const { id } = useParams();
-  
-  const BlogComponent = Entry.default[id];
+  const entry = entries.get(parseInt(id));
 
   return (
     <Container>
-      <BlogComponent id={id}/>
+      <Box sx={{
+        display: 'flex',
+        justifyContent: 'center',
+        py: '20px'
+      }}>
+        <Typography variant="h5">
+          {entry.title}
+        </Typography>
+      </Box>
+      <Box>
+        {entry.body}
+      </Box>
     </Container>
   )
-};
+}
 
 export default Blog

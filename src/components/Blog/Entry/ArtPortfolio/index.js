@@ -6,7 +6,6 @@ import {
   ImageList,
   ImageListItem,
   ImageListItemBar,
-  Typography, 
 } from '@mui/material';
 
 import { createTheme, ThemeProvider } from '@mui/material/styles';
@@ -59,15 +58,6 @@ const ArtPortfolio = () => {
 
   return (
     <Container>
-      <Box sx={{
-        display: 'flex',
-        justifyContent: 'center',
-        py: '20px'
-      }}>
-        <Typography variant="h5">
-          Art Portfolio
-        </Typography>
-      </Box>
       <Box>
         <ThemeProvider theme={imageListItemTheme}>
         <ImageList cols={getImageListCol()}>

@@ -4,6 +4,8 @@ import { Box, Container, Typography } from '@mui/material';
 
 export const AboutMe = () => {
 
+const path = window.location.origin
+
   return (
     <Container sx={{
       display: 'flex',
@@ -30,6 +32,18 @@ export const AboutMe = () => {
           I am interested in all things math and science, but the same could be said for almost any other subject.
           If time permits I like to read up on philosophy, history, and art.
         </Typography>
+        
+      </Box>
+      <Box sx={{
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        pt: '50px'
+      }}>
+        <Typography>
+          Built with
+        </Typography>
+        <img src={path + '/assets/images/react_icon.svg'} alt={'react_icon.svg'} style={{width:'45px'}}/>
       </Box>
     </Container>
   )
