@@ -21,7 +21,7 @@ const ChildrensBook = () => {
         justifyContent: 'center',
         p:'20px'
       }}>
-        <img src={path+'/assets/images/children_book/img1.jpg'} alt={'welp I guess not'} style={{width: '480px'}}/>
+        <img src={path+'/assets/images/children_book/img1.JPG'} alt={'welp I guess not'} style={{width: '480px'}}/>
       </Box>
     </Box>
   )

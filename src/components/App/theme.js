@@ -19,12 +19,15 @@ const theme = {
     ].join(','),
     fontSize: 14,
     h1: {
-      fontSize: '1.2rem',
+      fontSize: '1rem',
+      '@media (min-width:360px)': {
+        fontSize: '1.2rem',
+      },
       '@media (min-width:480px)': {
-        fontSize: '1.7rem',
+        fontSize: '1.5rem',
       },
       [themeBreakpoints.breakpoints.up('sm')]: {
-        fontSize: '2.5rem'
+        fontSize: '2rem'
       },
       [themeBreakpoints.breakpoints.up('md')]: {
         fontSize: '3rem',
@@ -33,8 +36,11 @@ const theme = {
       fontWeight: 100
     },
     h3: {
-      fontSize: '1.3rem',
-      '@media (min-width:200px)': {
+      fontSize: '1.5rem',
+      '@media (min-width:360px)': {
+        fontSize: '2rem',
+      },
+      '@media (min-width:480px)': {
         fontSize: '2.5rem',
       },
       [themeBreakpoints.breakpoints.up('md')]: {

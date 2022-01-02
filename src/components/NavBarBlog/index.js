@@ -1,5 +1,5 @@
 import React from 'react'
-import { NavLink, useRouteMatch } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 
 import { Container, Typography, Box } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
@@ -7,8 +7,6 @@ import { useTheme } from '@mui/material/styles';
 import { dir } from './dir'
 
 const NavBarBlog = () => {
-  
-  const match = useRouteMatch();
   
   const theme = useTheme();
 
@@ -20,7 +18,8 @@ const NavBarBlog = () => {
     }}>
       <Box boxShadow={3} sx={{
         px: '30px',
-        py: '10px'
+        py: '10px',
+        mx: '-24px',
       }}>
       <Box sx={{
         display: 'flex',
@@ -36,10 +35,17 @@ const NavBarBlog = () => {
         display: 'flex',
         flexDirection: 'column',
       }}>
+        <NavLink to={`/blogs`} key={'home'} style={{
+              textDecoration: 'none', color: theme.palette.primary.link
+        }}>
+          <Typography>
+            Blogs Home Page
+          </Typography>
+        </NavLink>
         {
           dir.map(({ id, name }) => {
             return (
-            <NavLink to={`${match.url}/${id}`} key={id} style={{
+            <NavLink to={`/blogs/${id}`} key={id} style={{
               textDecoration: 'none', color: theme.palette.primary.link
             }}>
               <Typography>

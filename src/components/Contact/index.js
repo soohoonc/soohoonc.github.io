@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 
 import { AppBar, Box, Container, Link } from '@mui/material';
 import { LinkedIn, GitHub, Email } from '@mui/icons-material';
@@ -23,6 +23,24 @@ const Item = (props) => {
 
 const Contact = () => {
 
+  const [state, setState] = useState({
+    mobile: false,
+  })
+
+  useEffect(() => {
+    const setResponsiveness = () => {
+      return window.innerWidth < 480
+      ? setState((prev) => ({...prev, mobile: true}))
+      : setState((prev) => ({...prev, mobile: false}));
+    };
+    window.scrollTo(0,0)
+    setResponsiveness();
+    window.addEventListener("resize", () => setResponsiveness());
+    return () => {
+      window.removeEventListener("resize", () => setResponsiveness())
+    }
+  }, []);
+
   return (
     <AppBar sx={{
       position: 'static',
@@ -44,7 +62,7 @@ const Contact = () => {
             alignItems: 'center'
           }}>
             <Item sx={{ m:0, pr:0 }}><GitHub/></Item>
-            <Item>GitHub</Item>
+            {state.mobile ? <Box sx={{px:'10px'}}/> : <Item>GitHub</Item>}
           </Box>
         </Link>
         <Link href="https://www.linkedin.com/in/soohoonchoi/" target="blank" underline="none">
@@ -54,7 +72,7 @@ const Contact = () => {
             alignItems: 'center'
           }}>
             <Item sx={{ m:0, pr:0 }}><LinkedIn/></Item>
-            <Item>LinkedIn</Item>
+            {state.mobile ? <Box sx={{px:'10px'}}/> : <Item>LinkedIn</Item>}
           </Box>
         </Link>
         <Link href="mailto:soohoonchoi@gmail.com" underline="none">
@@ -64,7 +82,7 @@ const Contact = () => {
             alignItems: 'center'
           }}>
             <Item sx={{ m:0, pr:0 }}><Email/></Item>
-            <Item>Email</Item>
+            {state.mobile ? <Box sx={{px:'10px'}}/> : <Item>Email</Item>}
           </Box>
         </Link>
       </Container>
