@@ -4,7 +4,7 @@ import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import { Box, CssBaseline, Switch as Toggle } from '@mui/material';
 import { ThemeProvider } from '@mui/material/styles';
 
-import { Homescreen, Projects, Blog, Blogs, NavBar, AboutMe, Contact } from '../';
+import { Homescreen, Projects, Blog, Blogs, NavBar, AboutMe, Contact, WorkExperience } from '../';
 import { themeLight, themeDark } from './theme'
 
 const App = () => {
@@ -24,6 +24,7 @@ const App = () => {
         <Router>
         <NavBar />
         <Switch>
+          <Route path="/experience" component={WorkExperience} />
           <Route path="/projects" component={Projects} />
           <Route exact path="/blogs" component={Blogs} />
           <Route path="/blogs/:id" component={Blog} />

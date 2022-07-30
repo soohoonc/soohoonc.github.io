@@ -34,7 +34,7 @@ const Blog = () => {
       ? setState((prev) => ({...prev, mobile: true}))
       : setState((prev) => ({...prev, mobile: false}));
     };
-    window.scrollTo(0,0)
+    window.scrollTo(0,0);
     setResponsiveness();
     window.addEventListener("resize", () => setResponsiveness());
     return () => {
@@ -85,10 +85,8 @@ const Blog = () => {
     <Drawer 
       open={state.drawer}
       onClose={handleClose}
+      onClick={handleClose}
       anchor={'right'}
-      sx={{
-        p:'0px'
-      }}
     >
       <NavBarBlog />
     </Drawer></Box>}

@@ -1,6 +1,6 @@
 # Blog Structure Documentation
 
-The Blog folder is a bit complicated, here is how it works for future reference
+The Blog folder is a bit convoluted, here is how it works for future reference
 
 ### Important files
 ./NavbarBlog/dir.js : has list of id's and directories which is used for the directory nav bar

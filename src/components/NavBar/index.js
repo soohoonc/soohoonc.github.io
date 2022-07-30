@@ -56,6 +56,7 @@ const displayDesktop = () => {
       justifyContent: 'center',
     }}>
       <Button to='/' component={NavLink}> Home </Button>
+      <Button to='/experience' component={NavLink}> Experience </Button>
       <Button to='/projects' component={NavLink}> Projects </Button>
       <Button to='/blogs' component={NavLink}> Blog </Button>
       <Button to='/schoi98' component={NavLink}> About </Button>

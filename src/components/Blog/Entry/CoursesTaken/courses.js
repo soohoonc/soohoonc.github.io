@@ -137,6 +137,15 @@ export const coursesCompleted = [
     semester: 'Fall 2021',
   },
   {
+    courseId: 'CS 4476',
+    courseTitle: 'Computer Vision',
+    professor: 'James Hays',
+    courseSummary: <>Classical computer vision techiques to modern deep learning approaches to computer vision.
+    Focused on various topics such as image filtering, feature matching, multiple views, recognition and more.</>,
+    tags: ['Fourier Transform', 'Harris Corner Detection', 'SIFT', 'RANSAC', 'Stereo', 'Optical Flow', 'CNN', 'Transformers'],
+    semester: 'Spring 2022',
+  },
+  {
     courseId: 'CS 4510',
     courseTitle: 'Automata and Complexity',
     professor: 'Zvi Galil',
@@ -157,7 +166,8 @@ export const coursesCompleted = [
     courseId: 'CS 4883',
     courseTitle: 'Create X Junior Design',
     professor: 'Craig Forest',
-    courseSummary: <>The Junior design capstone course focused on building start ups and encouraging entrepreneurship. </>,
+    courseSummary: <>The Junior design capstone course focused on building start ups and encouraging entrepreneurship.
+    Went on to start a company from this class! </>,
     tags: ['Start up', 'Entrepreneurship', 'Bad Ideas', 'Failures', 'Great Ideas'],
     semester: 'Fall 2021',
   },
@@ -226,6 +236,14 @@ export const coursesCompleted = [
     semester: 'Spring 2021',
   },
   {
+    courseId: 'MATH 3235',
+    courseTitle: 'Probability Theory',
+    professor: 'Naga Manasa Vempati',
+    courseSummary: <>An introductory course to probability theory.</>,
+    tags: ['Conditional Probability', 'Joint Probability', 'Generating Functions', 'Density Function', 'Distribution Function', 'Mass Function', 'Central Limit Theorem'],
+    semester: 'Spring 2022',
+  },
+  {
     courseId: 'MATH 3406',
     courseTitle: 'Second Course in Linear Algebra',
     professor: 'Micheal Loss',
@@ -241,47 +259,55 @@ export const coursesCompleted = [
     tags: ['Probability', 'Conditional Probability', 'Joint Probability', 'Central Limit Theorem', 'Confidence Intervals', 'p-Values', 'Correlation', 'Expectation'],
     semester: 'Fall 2020',
   },
-]
-
-export const coursesCurrent = [
-  {
-    courseId: 'CS 4476',
-    courseTitle: 'Intro to Computer Vision',
-    professor: '',
-    courseSummary: <></>,
-    
-    
-    tags: [],
-    semester: 'Spring 2022',
-  },
-  {
-    courseId: 'MATH 3235',
-    courseTitle: 'Probability Theory',
-    professor: '',
-    courseSummary: <></>,
-    
-    
-    tags: [],
-    semester: 'Spring 2022',
-  },
   {
     courseId: 'MATH 4317',
     courseTitle: 'Analysis I',
-    professor: '',
-    courseSummary: <></>,
-    
-    
-    tags: [],
+    professor: 'Alex Blumenthal',
+    courseSummary: <>A introductory course to real analysis.</>,
+    tags: ['Real Numbers', 'Sequences', 'Limits', 'Continuity', 'Series', 'Convergence'],
     semester: 'Spring 2022',
   },
   {
     courseId: 'MATH 4320',
     courseTitle: 'Complex Analysis',
-    professor: '',
-    courseSummary: <></>,
-    
-    
-    tags: [],
+    professor: 'Hannah Choi',
+    courseSummary: <>A course on analysis on the complex plane.</>,
+    tags: ['Complex Numbers', 'Analytic Functions', 'Integration', 'Series', 'Cauchy-Integral', 'Cauchy Goursat', 'Residues'],
     semester: 'Spring 2022',
+  },
+]
+
+export const coursesCurrent = [
+  {
+    courseId: 'CS 4235',
+    courseTitle: 'Intro to Information Security',
+    professor: 'Wenke Lee',
+    courseSummary: <></>,
+    tags: [],
+    semester: 'Fall 2022',
+  },
+  {
+    courseId: 'MATH 4107',
+    courseTitle: 'Abstract Algebra I',
+    professor: 'Miriam Kuzbary',
+    courseSummary: <></>,
+    tags: [],
+    semester: 'Fall 2022',
+  },
+  {
+    courseId: 'MATH 4441',
+    courseTitle: 'Differential Geometry',
+    professor: 'Austin Christian',
+    courseSummary: <></>,
+    tags: [],
+    semester: 'Fall 2022',
+  },
+  {
+    courseId: 'MATH 4782',
+    courseTitle: 'Quantum Information and Computing',
+    professor: 'Micheal Loss',
+    courseSummary: <></>,
+    tags: [],
+    semester: 'Fall 2022',
   },
 ]

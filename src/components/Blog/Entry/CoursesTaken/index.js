@@ -16,7 +16,7 @@ import {
 import { Close } from '@mui/icons-material';
 import { useTheme } from '@mui/material/styles';
 
-import { coursesCompleted } from './courses';
+import { coursesCompleted, coursesCurrent } from './courses';
 
 const CoursesTaken = () => {
   
@@ -64,6 +64,39 @@ const CoursesTaken = () => {
       <ImageList cols={getImageListCol()} gap={2}>
       {
         coursesCompleted.map((course) => {
+          return (
+            <Card  key={course.courseId}>
+              <CardActionArea sx={{width: 1, height: 1}} onClick={() => {
+                  setState((prev) => ({ ...prev, open: true, course: course }))
+                }}>
+              <CardHeader
+                title={`${course.courseId}: ${course.courseTitle}`}
+                subheader={`${course.professor}, ${course.semester}`}
+                titleTypographyProps={{variant: 'h6'}}
+              />
+              </CardActionArea>
+            </Card>
+          )
+        })
+      }
+      <CourseDialog 
+        course={state.course}
+        open={state.open}
+        onClose={handleClose}
+      />
+      </ImageList>
+      <Container sx={{
+          display: 'flex',
+          justifyContent: 'center',
+          py: '20px'
+        }}>
+        <Typography variant="h5">
+          Currently Taking
+        </Typography>
+      </Container>
+      <ImageList cols={getImageListCol()} gap={2}>
+      {
+        coursesCurrent.map((course) => {
           return (
             <Card  key={course.courseId}>
               <CardActionArea sx={{width: 1, height: 1}} onClick={() => {

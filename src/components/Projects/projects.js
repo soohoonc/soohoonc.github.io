@@ -9,7 +9,7 @@ export const projects = [
   <>
     A product created to address the problem of sparse reviews, co-founded the company for my capstone class (CS 4883 X).
     Created a backend server in flask to scrape reviews from different websites.
-    In the process of deploying to AWS and integrating a database solution for review caching.
+    Launched to project into our company Tabnam.
   </>},
   {title: 'Style Transfer Visualization',
   summary: <>Neural Style Transfer Process Implementation and Visualization</>,
