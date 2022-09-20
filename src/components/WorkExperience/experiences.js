@@ -23,7 +23,7 @@ export const experiences =
     company: 'Georgia Tech',
     date: 'August 2022 - December 2022',
     location: 'Atlanta, GA',
-    description: <>Incoming teaching assistant for the computer vision/deep learnings class for graduate and undergraduate students.</>,
+    description: <>Teaching assistant for the computer vision class for graduate and undergraduate students.</>,
     skills: ['Python', 'Deep Learning'],
     media: '/assets/images/experiences/gt.png',
   },
