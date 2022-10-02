@@ -73,7 +73,7 @@ const WelcomeArticle = () => {
       textDecoration: 'none', color: theme.palette.primary.link
     }}>
       <Typography>
-        Courses Taken: Summary of courses during my undergraduate years
+        Coursework: Summary of courses during my undergraduate years
       </Typography>
     </NavLink>
     </Box>

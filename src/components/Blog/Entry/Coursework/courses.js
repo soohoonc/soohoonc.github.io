@@ -281,7 +281,7 @@ export const coursesCurrent = [
   {
     courseId: 'CS 4235',
     courseTitle: 'Intro to Information Security',
-    professor: 'Wenke Lee',
+    professor: 'Wenke Lee, Daniel Genkin',
     courseSummary: <>An introductory course into computer security.</>,
     tags: ['Stack Overflow', 'Authentication', 'Authorization', 'Side Channels', 'Encryption', 'Web Security'],
     semester: 'Fall 2022',

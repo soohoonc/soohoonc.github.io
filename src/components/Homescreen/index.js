@@ -26,7 +26,7 @@ const Homescreen = () => {
         paddingTop: '40px',
         paddingBottom: '50px'
       }}>
-        <Typography variant="h1">
+        <Typography variant="h1" fontFamily="consolas">
           <TypeAnimation
             cursor={true}
             sequence={welcomes}
@@ -46,7 +46,7 @@ const Homescreen = () => {
         </Box>
         <Box>
           <Typography>
-            You can check out some of the projects I have done, my resume, and just more about me in general.<br />
+            You can check out my work experience, projects completed, my resume, and just more about me in general.<br />
           </Typography>
         </Box>
       </Container>

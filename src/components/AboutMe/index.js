@@ -28,9 +28,8 @@ const path = window.location.origin
         <Typography>
           I am a fourth year computer science and mathematics major at the Georgia Institute of Technology.
           I am a Korean Citizen who lived in the Philippines for 18 years in my childhood and am currently a United States permanent resident attending university in Atlanta, Georgia.
-          The majority of my day is spent learning and practicing various computer science and programming principles, I enjoy learning more about the field.
-          I am interested in all things math and science, but the same could be said for most other subjects.
-          If time permits I like to read up on philosophy, history, and art.
+          As a nerd at heart, I love to learn more about any field of study.
+          Currently I am running Tabnam, scrambling to complete math homeworks, and learning about more computer science and software engineering principles outside of the classroom.
           I haven't been able to paint too often in the past few years because life has become so busy :(.
         </Typography>
         

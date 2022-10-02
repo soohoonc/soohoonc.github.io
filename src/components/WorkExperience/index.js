@@ -35,11 +35,11 @@ const WorkExperience = () => {
                 </Grid>
                 <Grid item>
                   <Typography variant="h4" component="div">
-                    <b>{experiences.company}</b>
+                    {experiences.company}
                   </Typography>
                 </Grid>
                 <Grid item>
-                  <Typography variant="h4" component="div">
+                  <Typography variant="h4" fontWeight="10" component="div">
                     {experiences.title}
                   </Typography>
                 </Grid>
