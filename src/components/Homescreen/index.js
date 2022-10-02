@@ -4,16 +4,16 @@ import TypeAnimation from 'react-type-animation';
 import { Box, Container, Typography } from '@mui/material';
 
 const welcomes = [
-  'print("Welcome")', 5000,
-  'std::cout<<"Welcome"<<"\\n";', 5000,
-  'printf("Welcome");', 5000,
-  'System.out.println("Welcome");', 5000,
-  'echo "Welcome"', 5000,
-  'Console.WriteLine("Welcome");', 5000,
-  'document.write("Welcome");', 5000,
-  'SELECT "Welcome"', 5000,
-  'putStrLn "Welcome"', 5000,
-  'println("Welcome");', 5000, ''
+  'print("Welcome")', 5000,               // Python
+  'std::cout<<"Welcome"<<"\\n";', 5000,   // C++
+  'printf("Welcome");', 5000,             // C
+  'System.out.println("Welcome");', 5000, // Java
+  'echo "Welcome"', 5000,                 // Shell
+  'Console.WriteLine("Welcome");', 5000,  // C#
+  'document.write("Welcome");', 5000,     // Javascript
+  'SELECT "Welcome"', 5000,               // SQL
+  'putStrLn "Welcome"', 5000,             // Haskell
+  'println("Welcome");', 5000, ''         // Lots of languages tbh
 ];
 
 const Homescreen = () => {
@@ -26,7 +26,20 @@ const Homescreen = () => {
         paddingTop: '40px',
         paddingBottom: '50px'
       }}>
-        <Typography variant="h1" fontFamily="consolas">
+        <Typography variant="h1" sx={{fontFamily: [
+      'consolas',
+      'monospace',
+      '-apple-system',
+      'BlinkMacSystemFont',
+      '"Segoe UI"',
+      'Roboto',
+      '"Helvetica Neue"',
+      'Arial',
+      'sans-serif',
+      '"Apple Color Emoji"',
+      '"Segoe UI Emoji"',
+      '"Segoe UI Symbol"',
+    ].join(',')}}>
           <TypeAnimation
             cursor={true}
             sequence={welcomes}
