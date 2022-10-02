@@ -32,8 +32,6 @@ const theme = {
       [themeBreakpoints.breakpoints.up('md')]: {
         fontSize: '3rem',
       },
-      fontFamily: 'consolas, monospace',
-      fontWeight: 100
     },
     h3: {
       fontSize: '1.5rem',

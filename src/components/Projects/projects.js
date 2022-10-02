@@ -11,9 +11,19 @@ export const projects = [
     Created a backend server in flask to scrape reviews from different websites.
     Launched to project into our company Tabnam.
   </>},
+  {title: 'Lox Interpreter',
+  summary: <>An interpreter from 'Crafting Interpreters' by Robert Nystrom</>,
+  date: 'October 2021 - January 2022',
+  media: '/assets/images/projects/lox.jpg',
+  link: '',
+  description:
+  <>
+    A Hackathon project for Hack-a-lang 2021 (hosted by Georgia Tech's programming languages club, Dependently Typed).
+    Implemented the Lox interpreter in Robert Nystrom's book in Python and added additional features such as support for arrays and indexing.
+  </>},
   {title: 'Style Transfer Visualization',
   summary: <>Neural Style Transfer Process Implementation and Visualization</>,
-  date: 'November 2021 - Present',
+  date: 'November 2021 - January 2022',
   media: '/assets/images/projects/styletransfer.jpg',
   link: '',
   description:

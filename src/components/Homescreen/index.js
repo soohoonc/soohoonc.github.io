@@ -41,7 +41,7 @@ const Homescreen = () => {
       }}>
         <Box>
           <Typography>
-            Hello there, I am a 4rd year CS and math major @ GT :)
+            Hello there, I am a 4th year computer science and math major @ Georgia Tech :)
           </Typography>
         </Box>
         <Box>
