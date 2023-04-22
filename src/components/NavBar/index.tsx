@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from 'react'
+import * as React from 'react';
+import { useState, useEffect } from 'react'
 import { NavLink } from 'react-router-dom';
 import { AppBar, Button, Container, Drawer, IconButton, MenuItem, Toolbar } from '@mui/material';
 import { Menu } from '@mui/icons-material'
@@ -56,9 +57,9 @@ const displayDesktop = () => {
       justifyContent: 'center',
     }}>
       <Button to='/' component={NavLink}> Home </Button>
-      <Button to='/experience' component={NavLink}> Experience </Button>
+      <Button to='/experience' component={NavLink}> Experiences </Button>
       <Button to='/projects' component={NavLink}> Projects </Button>
-      <Button to='/blogs' component={NavLink}> Blog </Button>
+      <Button to='/blogs' component={NavLink}> Blogs </Button>
       <Button to='/schoi98' component={NavLink}> About </Button>
       <Button onClick={resumeRedirect}> Resume </Button>
     </Container>
@@ -90,9 +91,10 @@ const displayMobile = ( drawer, setState ) => {
       </IconButton>
       <Drawer open={drawer} onClose={handleMenuClose} anchor='top'>
         <MenuItem component={NavLink} sx={{justifyContent: 'center'}} to='/' onClick={handleMenuClose}> Home </MenuItem>
+        <MenuItem component={NavLink} sx={{justifyContent: 'center'}} to='/experience' onClick={handleMenuClose}> Experiences </MenuItem>
         <MenuItem component={NavLink} sx={{justifyContent: 'center'}} to='/projects' onClick={handleMenuClose}> Projects </MenuItem>
-        <MenuItem component={NavLink} sx={{justifyContent: 'center'}} to='/blogs' onClick={handleMenuClose}> Blog </MenuItem>
-        <MenuItem component={NavLink} sx={{justifyContent: 'center'}} to='/schoi98' onClick={handleMenuClose}> About Me </MenuItem>
+        <MenuItem component={NavLink} sx={{justifyContent: 'center'}} to='/blogs' onClick={handleMenuClose}> Blogs </MenuItem>
+        <MenuItem component={NavLink} sx={{justifyContent: 'center'}} to='/schoi98' onClick={handleMenuClose}> About </MenuItem>
         <MenuItem sx={{justifyContent: 'center'}} onClick={resumeRedirect}>Resume</MenuItem>
       </Drawer>
   </Container>

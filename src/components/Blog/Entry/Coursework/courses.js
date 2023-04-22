@@ -1,3 +1,5 @@
+import React from 'react'
+
 export const coursesCompleted = [
   {
     courseId: 'CS 1100',
@@ -116,6 +118,14 @@ export const coursesCompleted = [
     courseSummary: <>A course that surveys that various topics within the field of cognitive science, an interdisciplinary field consisting of artificial intelligence, neuroscience, philosophy, and more.</>,
     tags: ['Computational Model of the Mind', 'Cognition', 'Neuroscience', 'Philosophy', 'Language'],
     semester: 'Summer 2021',
+  },
+  {
+    courseId: 'CS 4235',
+    courseTitle: 'Intro to Information Security',
+    professor: 'Wenke Lee, Daniel Genkin',
+    courseSummary: <>An introductory course into computer security.</>,
+    tags: ['Stack Overflow', 'Authentication', 'Authorization', 'Side Channels', 'Encryption', 'Web Security'],
+    semester: 'Fall 2022',
   },
   {
     courseId: 'CS 4400',
@@ -260,6 +270,14 @@ export const coursesCompleted = [
     semester: 'Fall 2020',
   },
   {
+    courseId: 'MATH 4107',
+    courseTitle: 'Abstract Algebra I',
+    professor: 'Miriam Kuzbary',
+    courseSummary: <>An introductory course in abstract algebra.</>,
+    tags: ['Algebraic Structures', 'Groups', 'Rings'],
+    semester: 'Fall 2022',
+  },
+  {
     courseId: 'MATH 4317',
     courseTitle: 'Analysis I',
     professor: 'Alex Blumenthal',
@@ -274,25 +292,6 @@ export const coursesCompleted = [
     courseSummary: <>A course on analysis on the complex plane.</>,
     tags: ['Complex Numbers', 'Analytic Functions', 'Integration', 'Series', 'Cauchy-Integral', 'Cauchy Goursat', 'Residues'],
     semester: 'Spring 2022',
-  },
-]
-
-export const coursesCurrent = [
-  {
-    courseId: 'CS 4235',
-    courseTitle: 'Intro to Information Security',
-    professor: 'Wenke Lee, Daniel Genkin',
-    courseSummary: <>An introductory course into computer security.</>,
-    tags: ['Stack Overflow', 'Authentication', 'Authorization', 'Side Channels', 'Encryption', 'Web Security'],
-    semester: 'Fall 2022',
-  },
-  {
-    courseId: 'MATH 4107',
-    courseTitle: 'Abstract Algebra I',
-    professor: 'Miriam Kuzbary',
-    courseSummary: <>An introductory course in abstract algebra.</>,
-    tags: ['Algebraic Structures', 'Groups', 'Rings'],
-    semester: 'Fall 2022',
   },
   {
     courseId: 'MATH 4441',
@@ -310,4 +309,41 @@ export const coursesCurrent = [
     tags: ['Quantum Algorithms', 'Quantum Gates', 'Quantum Information'],
     semester: 'Fall 2022',
   },
+]
+
+export const coursesCurrent = [
+  
+  {
+    courseId: 'CS 3210',
+    courseTitle: 'Design of Operating Systems',
+    professor: 'Ketan Bhardwaj',
+    courseSummary: <>An deeper dive into operating systems.</>,
+    tags: [],
+    semester: 'Spring 2023',
+  },
+  {
+    courseId: 'MATH 4032',
+    courseTitle: 'Combinatorial Analysis',
+    professor: 'Zhiyi Wang',
+    courseSummary: <>Combinatorics continued.</>,
+    tags: [],
+    semester: 'Spring 2023',
+  },
+  {
+    courseId: 'MATH 4150',
+    courseTitle: 'Number Theory',
+    professor: 'Josephine Yu',
+    courseSummary: <>The theory of numbers!</>,
+    tags: [],
+    semester: 'Spring 2023',
+  },
+  {
+    courseId: 'MATH 4432',
+    courseTitle: 'Algebraic Topology',
+    professor: 'Abdoul Karim Sane',
+    courseSummary: <>Algebra + Topology .</>,
+    tags: [],
+    semester: 'Spring 2023',
+  },
+
 ]

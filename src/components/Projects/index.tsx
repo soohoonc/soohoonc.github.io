@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from 'react'
+import * as React from 'react'
+import { useState, useEffect } from 'react'
 
 import { 
   Box,
@@ -14,7 +15,7 @@ import {
   Typography, 
 } from '@mui/material';
 import { Close } from '@mui/icons-material';
-import { useTheme } from '@mui/material/styles';
+// import { useTheme } from '@mui/material/styles';
 
 import { projects } from './projects';
 
@@ -112,7 +113,7 @@ const Projects = () => {
 
 const ProjectDialog = (props) => {
 
-  const theme = useTheme();
+  // const theme = useTheme();
 
   const { project, open, onClose } = props;
 
@@ -140,14 +141,10 @@ const ProjectDialog = (props) => {
           <Typography variant='h6'>
             {project.title}
           </Typography>
-          <Typography sx={{
-            color: theme.palette.text.subheader
-          }}>
+          <Typography>
             {project.summary}
           </Typography>
-          <Typography sx={{
-            color: theme.palette.text.subheader
-          }}>
+          <Typography>
             {project.date}
           </Typography>
         </Box>

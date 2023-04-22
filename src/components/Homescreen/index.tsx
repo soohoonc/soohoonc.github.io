@@ -1,20 +1,19 @@
-import React from 'react';
-import TypeAnimation from 'react-type-animation';
+import * as React from 'react';
 
 import { Box, Container, Typography } from '@mui/material';
 
-const welcomes = [
-  'print("Welcome")', 5000,               // Python
-  'std::cout<<"Welcome"<<"\\n";', 5000,   // C++
-  'printf("Welcome");', 5000,             // C
-  'System.out.println("Welcome");', 5000, // Java
-  'echo "Welcome"', 5000,                 // Shell
-  'Console.WriteLine("Welcome");', 5000,  // C#
-  'document.write("Welcome");', 5000,     // Javascript
-  'SELECT "Welcome"', 5000,               // SQL
-  'putStrLn "Welcome"', 5000,             // Haskell
-  'println("Welcome");', 5000, ''         // Lots of languages tbh
-];
+// const welcomes = [
+//   'print("Welcome")', 5000,               // Python
+//   'std::cout<<"Welcome"<<"\\n";', 5000,   // C++
+//   'printf("Welcome");', 5000,             // C
+//   'System.out.println("Welcome");', 5000, // Java
+//   'echo "Welcome"', 5000,                 // Shell
+//   'Console.WriteLine("Welcome");', 5000,  // C#
+//   'document.write("Welcome");', 5000,     // Javascript
+//   'SELECT "Welcome"', 5000,               // SQL
+//   'putStrLn "Welcome"', 5000,             // Haskell
+//   'println("Welcome");', 5000, ''         // Lots of languages tbh
+// ];
 
 const Homescreen = () => {
 
@@ -40,11 +39,14 @@ const Homescreen = () => {
       '"Segoe UI Emoji"',
       '"Segoe UI Symbol"',
     ].join(',')}}>
-          <TypeAnimation
+      
+      {/* </Typography> */}
+          {/* <TypeAnimation
             cursor={true}
             sequence={welcomes}
             repeat={Infinity}
-          />
+          /> */}
+          Welcome
         </Typography>
       </Box>
       <Container sx={{

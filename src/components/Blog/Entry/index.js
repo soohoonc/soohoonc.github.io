@@ -1,3 +1,5 @@
+import React from 'react';
+
 import { default as ArtPortfolio } from './ArtPortfolio'
 import { default as Coursework } from './Coursework'
 import { default as ChildrensBook } from './ChildrensBook'
