@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from 'react'
+import * as React from 'react'
+import { useEffect, useState } from 'react'
 
 import { 
   Box,
@@ -14,20 +15,19 @@ import {
 } from '@mui/material';
 
 import { Close } from '@mui/icons-material';
-import { useTheme } from '@mui/material/styles';
 
 import { coursesCompleted, coursesCurrent } from './courses';
 
 const Coursework = () => {
   
-  const [state, setState] = useState({
+  const [state, setState] = useState<CourseState>({
     width: window.innerWidth,
     open: false,
     course: {
       courseId: 'GT 9999',
       courseTitle: 'The Meaning of Life, the Universe, and Everything',
       professor: 'George Burdell',
-      courseSummary: <>42</>,
+      courseSummary:<p>42</p>,
       tags: [],
       semester: 'Winter 0',
     }
@@ -138,8 +138,6 @@ const CourseDialog = (props) => {
 
   const { course, open, onClose } = props;
 
-  const theme = useTheme();
-
   const handleClose = () => {
     onClose();
   }
@@ -163,9 +161,7 @@ const CourseDialog = (props) => {
           <Typography variant='h6'>
             {`${course.courseId}: ${course.courseTitle}`}
           </Typography>
-          <Typography sx={{
-            color: theme.palette.text.subheader
-          }}>
+          <Typography>
             {`${course.professor}, ${course.semester}`}
           </Typography>
         </Box>

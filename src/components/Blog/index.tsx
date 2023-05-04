@@ -15,7 +15,7 @@ const Blog = () => {
   const theme = useTheme();
 
   const { id } = useParams();
-  const entry = entries.get(id);
+  const entry = entries.get(id!);
   const [state, setState] = useState({
     drawer: false,
     mobile: false,

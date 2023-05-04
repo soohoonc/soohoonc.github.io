@@ -4,8 +4,11 @@ import { NavLink } from 'react-router-dom';
 import { Container, Typography, Box } from '@mui/material';
 
 import { dir } from './dir'
+import { useTheme } from '@mui/material/styles';
 
 const NavBarBlog = () => {
+
+  const theme = useTheme();
 
   return (
     <Container sx={{
@@ -33,7 +36,7 @@ const NavBarBlog = () => {
         flexDirection: 'column',
       }}>
         <NavLink to={`/blogs`} key={'home'} style={{
-              textDecoration: 'none' //, color: theme.palette.primary.link
+              textDecoration: 'none', color: theme.palette.primary.link
         }}>
           <Typography>
             Blogs Home Page
@@ -43,7 +46,7 @@ const NavBarBlog = () => {
           dir.map(({ id, name }) => {
             return (
             <NavLink to={`/blogs/${id}`} key={id} style={{
-              textDecoration: 'none' //, color: theme.palette.primary.link
+              textDecoration: 'none', color: theme.palette.primary.link
             }}>
               <Typography>
                 {name}

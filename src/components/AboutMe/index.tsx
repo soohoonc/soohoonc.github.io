@@ -1,10 +1,13 @@
 import * as React from 'react'
 
 import { Box, Container, Typography } from '@mui/material';
+import { useTheme } from '@mui/material/styles';
 
 export const AboutMe = () => {
 
 const path = window.location.origin
+
+const theme = useTheme()
 
   return (
     <Container sx={{
@@ -26,11 +29,12 @@ const path = window.location.origin
         boxShadow:3
       }}>
         <Typography>
-          I am a fourth year computer science and mathematics major at the Georgia Institute of Technology.
-          I am a Korean Citizen who lived in the Philippines for 18 years in my childhood and am currently a United States permanent resident attending university in Atlanta, Georgia.
-          As a nerd at heart, I love to learn more about any field of study.
-          Currently I am running Tabnam, scrambling to complete math homeworks, and learning about more computer science and software engineering principles outside of the classroom.
-          I haven't been able to paint too often in the past few years because life has become so busy :(.
+          I recently graduated from Georgia Tech with a B.S. in Computer Science and Mathematics.
+          I am currently working on <a style={{
+            textDecoration: 'none' , color: theme.palette.primary.link
+          }}href="https://tabnam.com/">Tabnam</a>.
+          As a nerd at heart, I love to learn more about any field of study. Some selected topics that I am interested in right now is algebraic topology, category theory, type theory, and  artificial intelligence.
+          Feel free to reach out to me if you wanna chat about anything!
         </Typography>
         
       </Box>

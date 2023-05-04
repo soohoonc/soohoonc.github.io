@@ -1,4 +1,4 @@
-import React from 'react';
+import * as React from 'react';
 
 import { default as ArtPortfolio } from './ArtPortfolio'
 import { default as Coursework } from './Coursework'
@@ -23,7 +23,7 @@ const entries = new Map([
     title: <Typography variant="h3">Working as Children's Book Illustrator</Typography>,
     body: <ChildrensBook />,
     date: 'January 2, 2021',
-    tags: ['Illustrator', 'Art', 'Free Lance'],
+    tags: ['Illustrator', 'Art', 'Freelance'],
   }],
   ["3", {
     title: '',

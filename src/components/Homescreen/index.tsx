@@ -1,6 +1,7 @@
 import * as React from 'react';
 
 import { Box, Container, Typography } from '@mui/material';
+import { useTheme } from '@mui/material/styles';
 
 // const welcomes = [
 //   'print("Welcome")', 5000,               // Python
@@ -16,6 +17,8 @@ import { Box, Container, Typography } from '@mui/material';
 // ];
 
 const Homescreen = () => {
+
+  const theme = useTheme();
 
   return (
     <Container>
@@ -56,12 +59,14 @@ const Homescreen = () => {
       }}>
         <Box>
           <Typography>
-            Hello there, I am a 4th year computer science and math major @ Georgia Tech :)
+            I am currently building <a style={{
+            textDecoration: 'none' , color: theme.palette.primary.link
+          }}href="https://tabnam.com/">Tabnam</a>
           </Typography>
         </Box>
         <Box>
           <Typography>
-            You can check out my work experience, projects completed, my resume, and just more about me in general.<br />
+            This website is currently under construction<br />
           </Typography>
         </Box>
       </Container>

@@ -100,6 +100,5 @@ const dark = {
   },
 };
 
-export const themeLight = deepmerge(theme, light);
-
-export const themeDark = deepmerge(theme, dark);
+export const lightTheme = createTheme(deepmerge(theme, light));
+export const darkTheme = createTheme(deepmerge(theme, dark));
