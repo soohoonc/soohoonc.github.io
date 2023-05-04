@@ -1,13 +1,13 @@
-import React from 'react'
+import * as React from 'react'
 import { NavLink } from 'react-router-dom';
 
 import { Container, Typography, Box } from '@mui/material';
-import { useTheme } from '@mui/material/styles';
 
 import { dir } from './dir'
+import { useTheme } from '@mui/material/styles';
 
 const NavBarBlog = () => {
-  
+
   const theme = useTheme();
 
   return (

@@ -1,11 +1,10 @@
-export const experiences = 
-[
+export const experiences = [
   {
     title: 'Co-Founder',
     company: 'Tabnam',
     date: 'March 2022 - Present',
     location: 'Atlanta, GA',
-    description: <>Tabnam is an AI powered shopping assistant that helps you filter through online reviews to make faster and better decisions on you purchases.</>,
+    description: "Tabnam is an AI powered shopping assistant that helps you filter through online reviews to make faster and better decisions on you purchases.",
     skills: ['Python', 'JavaScript', 'React', 'AWS', 'Terraform'],
     media: '/assets/images/experiences/tabnam.png',
   },
@@ -14,7 +13,7 @@ export const experiences =
     company: 'Microsoft',
     date: 'May 2022 - July 2022',
     location: 'Redmond, WA',
-    description: <>Built a machine learning powered service to predict virtual machine usage to improve provisioning rates and save costs.</>,
+    description: "Built a machine learning powered service to predict virtual machine usage to improve provisioning rates and save costs.",
     skills: ['C#', 'SQL', 'Kusto QL (KQL)', 'Azure', 'Python', 'Machine Learning'],
     media: '/assets/images/experiences/microsoft.png',
   },
@@ -23,7 +22,7 @@ export const experiences =
     company: 'Georgia Tech',
     date: 'August 2022 - December 2022',
     location: 'Atlanta, GA',
-    description: <>Teaching assistant for the computer vision class for graduate and undergraduate students.</>,
+    description: "Teaching assistant for the computer vision class for graduate and undergraduate students.",
     skills: ['Python', 'Deep Learning'],
     media: '/assets/images/experiences/gt.png',
   },

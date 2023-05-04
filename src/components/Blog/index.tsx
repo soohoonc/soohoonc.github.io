@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from 'react';
+import * as React from 'react';
+import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 
 import { Container, Box, Drawer, Fab, Typography } from '@mui/material';
@@ -14,7 +15,7 @@ const Blog = () => {
   const theme = useTheme();
 
   const { id } = useParams();
-  const entry = entries.get(id);
+  const entry = entries.get(id!);
   const [state, setState] = useState({
     drawer: false,
     mobile: false,

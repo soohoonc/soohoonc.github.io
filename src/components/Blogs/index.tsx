@@ -1,4 +1,4 @@
-import React from 'react'
+import * as React from 'react'
 import { NavLink } from 'react-router-dom';
 
 import { Box, Container, Grid, Typography } from '@mui/material';
@@ -70,7 +70,7 @@ const WelcomeArticle = () => {
       Latest Entries
     </Typography>
     <NavLink to='/blogs/0'  style={{
-      textDecoration: 'none', color: theme.palette.primary.link
+      textDecoration: 'none' , color: theme.palette.primary.link
     }}>
       <Typography>
         Coursework: Summary of courses during my undergraduate years
