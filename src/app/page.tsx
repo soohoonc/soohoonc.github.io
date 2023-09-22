@@ -2,9 +2,8 @@ import { Card } from '@/components/ui/card'
 
 export default function Home() {
   return (
-    <main>
       <div className="flex w-screen h-screen justify-center items-center">
-        <Card className="max-w-lg text-sm border-none text-justify leading-relaxed">
+        <Card className="max-w-lg text-sm border-none text-justify leading-relaxed p-4">
           Hi there, I'm <a className="text-purple-400" href="https://bento.me/soohoonchoi">Soohoon Choi</a>.
           I am currently a cofounder at <a className="text-purple-400" href="https://getonboard.dev/">Onboard AI</a>, exploring the application of LLMs for devs.
           Outside of work I like to create <a className='text-cyan-400' href="">visual art</a>, <a className='text-sky-400' href="">read</a>, and (trying) to <a className='text-blue-400'href="">write</a>.
@@ -13,6 +12,5 @@ export default function Home() {
           <p className="text-right text-lg">■</p>
         </Card>
       </div>
-    </main>
   )
 }
