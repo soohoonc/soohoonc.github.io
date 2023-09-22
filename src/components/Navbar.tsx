@@ -16,40 +16,30 @@ import Link from "next/link"
 export default function Navbar() {
   return (
     <NavigationMenu>
-      <NavigationMenuList className="w-screen flex flex-row justify-center gap-4">
+      <NavigationMenuList className="w-screen flex flex-row justify-center gap-4 my-2">
         <NavigationMenuItem>
           <Link href="/">
-            <div>
-              Soohoon Choi
-            </div>
+              Home
           </Link>
         </NavigationMenuItem>
         <NavigationMenuItem>
           <Link href="/experience">
-            <div>
               Experience
-            </div>
           </Link>
         </NavigationMenuItem>
         <NavigationMenuItem>
           <Link href="/blogs">
-            <div>
               Blogs
-            </div>
           </Link>
         </NavigationMenuItem>
         <NavigationMenuItem>
           <Link href="/projects">
-            <div>
               Projects
-            </div>
           </Link>
         </NavigationMenuItem>
         <NavigationMenuItem>
           <Link href="/about">
-            <div>
               About
-            </div>
           </Link>
         </NavigationMenuItem>
       </NavigationMenuList>
