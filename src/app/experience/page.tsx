@@ -1,33 +1,34 @@
-import React from 'react'
+import React from 'react';
 
-import { experiences } from './experiences'
+import { experiences } from './experiences';
 
-import { Card } from '@/components/ui/card'
+import { Card } from '@/components/ui/card';
 
 const Experience = () => {
   return (
-      <div className="flex w-screen h-screen justify-center items-center">
-        <Card className="flex flex-col gap-4 max-w-lg text-sm border-none text-justify leading-relaxed p-4 ">
-        {
-        experiences.map((experience) => {
+    <div className='flex w-screen h-screen justify-center items-center'>
+      <Card className='flex flex-col gap-4 max-w-lg text-sm border-none text-justify leading-relaxed p-4 '>
+        {experiences.map((experience) => {
           return (
-            <div>
-              <div className="flex flex-row justify-between">
-                <p>{experience.title} @ <a className={`text-${experience.color}`} href={experience.link}>{experience.company}</a></p>
+            <div key={experience.title}>
+              <div className='flex flex-row justify-between'>
+                <p>
+                  {experience.title} @{' '}
+                  <a className={`text-${experience.color}`} href={experience.link}>
+                    {experience.company}
+                  </a>
+                </p>
                 <p>
                   {experience.date} | {experience.location}
                 </p>
               </div>
-              <p>
-                {experience.description}
-              </p>
+              <p>{experience.description}</p>
             </div>
-          )
-        })
-      }
-        </Card>
-      </div>
-  )
-}
+          );
+        })}
+      </Card>
+    </div>
+  );
+};
 
-export default Experience
+export default Experience;
