@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "next build",
+    "build": "next build && touch ./build/.nojekyll && echo 'soohoonchoi.com' > ./build/CNAME",
     "start": "next start",
     "lint": "next lint"
   },
