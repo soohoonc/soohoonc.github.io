@@ -267,7 +267,7 @@ const Projects = ()=>{
 var __webpack_require__ = require("../../webpack-runtime.js");
 __webpack_require__.C(exports);
 var __webpack_exec__ = (moduleId) => (__webpack_require__(__webpack_require__.s = moduleId))
-var __webpack_exports__ = __webpack_require__.X(0, [894,831,184,718], () => (__webpack_exec__(2765)));
+var __webpack_exports__ = __webpack_require__.X(0, [894,831,858,718], () => (__webpack_exec__(2765)));
 module.exports = __webpack_exports__;
 
 })();

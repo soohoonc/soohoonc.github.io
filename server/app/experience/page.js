@@ -340,7 +340,8 @@ const Experience = ()=>{
                                 /*#__PURE__*/ (0,jsx_runtime_.jsxs)("p", {
                                     children: [
                                         experience.title,
-                                        " @ ",
+                                        " @",
+                                        " ",
                                         /*#__PURE__*/ jsx_runtime_.jsx("a", {
                                             className: `text-${experience.color}`,
                                             href: experience.link,
@@ -378,7 +379,7 @@ const Experience = ()=>{
 var __webpack_require__ = require("../../webpack-runtime.js");
 __webpack_require__.C(exports);
 var __webpack_exec__ = (moduleId) => (__webpack_require__(__webpack_require__.s = moduleId))
-var __webpack_exports__ = __webpack_require__.X(0, [894,831,184,718], () => (__webpack_exec__(4956)));
+var __webpack_exports__ = __webpack_require__.X(0, [894,831,858,718], () => (__webpack_exec__(4956)));
 module.exports = __webpack_exports__;
 
 })();

@@ -241,49 +241,58 @@ function Home() {
         children: /*#__PURE__*/ (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)(_components_ui_card__WEBPACK_IMPORTED_MODULE_1__/* .Card */ .Zb, {
             className: "max-w-lg text-sm border-none text-justify leading-relaxed p-4",
             children: [
-                "Hi there, I'm ",
+                "Hi there, I'm",
+                " ",
                 /*#__PURE__*/ react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx("a", {
                     className: "text-purple-400",
                     href: "https://bento.me/soohoonchoi",
                     children: "Soohoon Choi"
                 }),
-                ". I am currently a cofounder at ",
+                ". I am currently a cofounder at",
+                " ",
                 /*#__PURE__*/ react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx("a", {
                     className: "text-purple-400",
                     href: "https://getonboard.dev/",
                     children: "Onboard AI"
                 }),
-                ", exploring the application of LLMs for devs. Outside of work I like to create ",
+                ", exploring the application of LLMs for devs. Outside of work I like to create",
+                " ",
                 /*#__PURE__*/ react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx("a", {
                     className: "text-cyan-400",
                     href: "",
                     children: "visual art"
                 }),
-                ", ",
+                ",",
+                " ",
                 /*#__PURE__*/ react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx("a", {
                     className: "text-sky-400",
                     href: "",
                     children: "read"
                 }),
-                ", and (trying) to ",
+                ", and (trying) to",
+                " ",
                 /*#__PURE__*/ react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx("a", {
                     className: "text-blue-400",
                     href: "",
                     children: "write"
                 }),
-                ". I am currently based in ",
+                ". I am currently based in",
+                " ",
                 /*#__PURE__*/ react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx("a", {
                     className: "text-red-500",
                     href: "https://www.google.com/maps/place/San+Francisco",
                     children: "San Francisco"
                 }),
-                " and am always down to grab a coffee. I recently graduated ",
+                " ",
+                "and am always down to grab a coffee. I recently graduated",
+                " ",
                 /*#__PURE__*/ react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx("a", {
                     className: "text-yellow-400",
                     href: "https://www.gatech.edu/",
                     children: "Georgia Tech"
                 }),
-                " with a degree in Computer Science and Mathematics.",
+                " ",
+                "with a degree in computer science and mathematics.",
                 /*#__PURE__*/ react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx("p", {
                     className: "text-right text-lg",
                     children: "■"
@@ -303,7 +312,7 @@ function Home() {
 var __webpack_require__ = require("../webpack-runtime.js");
 __webpack_require__.C(exports);
 var __webpack_exec__ = (moduleId) => (__webpack_require__(__webpack_require__.s = moduleId))
-var __webpack_exports__ = __webpack_require__.X(0, [894,831,184,718], () => (__webpack_exec__(9149)));
+var __webpack_exports__ = __webpack_require__.X(0, [894,831,858,718], () => (__webpack_exec__(9149)));
 module.exports = __webpack_exports__;
 
 })();
