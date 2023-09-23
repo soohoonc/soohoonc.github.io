@@ -54,6 +54,9 @@ export default function Navbar() {
             <NavigationMenuItem>
               <Link href='/misc'>Misc</Link>
             </NavigationMenuItem>
+            {/* <NavigationMenuItem>
+              <Link href='/resume'>Resume</Link>
+            </NavigationMenuItem> */}
           </>
         ) : (
           <Button

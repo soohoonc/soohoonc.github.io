@@ -10,18 +10,16 @@ export interface Project {
 export const projects = [
   {
     title: 'Simulartcra',
-    summary: 'A Review Aggregation Product to Address Sparse Reviews',
-    date: 'August 2023',
+    summary: 'Agents that Collaborate on Art',
+    date: '08/2023',
     media: '/assets/images/projects/reviewr.jpg',
     link: '',
-    description: `A product created to address the problem of sparse reviews, co-founded the company for my capstone class (CS 4883 X).
-      Created a backend server in flask to scrape reviews from different websites.
-      Launched to project into our company Tabnam.`,
+    description: `Created agents from the interactive simulacra of human behavior paper using Langchain and the Stability API to create agents that iteratively create art.`,
   },
   {
     title: 'Reviewr',
     summary: 'A Review Aggregation Product to Address Sparse Reviews',
-    date: 'October 2021 - March 2022',
+    date: '10/2021 - 03/2022',
     media: '/assets/images/projects/reviewr.jpg',
     link: '',
     description: `A product created to address the problem of sparse reviews, co-founded the company for my capstone class (CS 4883 X).
@@ -31,7 +29,7 @@ export const projects = [
   {
     title: 'Lox Interpreter',
     summary: "An interpreter from 'Crafting Interpreters' by Robert Nystrom",
-    date: 'October 2021 - January 2022',
+    date: '10/2021 - 10/2022',
     media: '/assets/images/projects/lox.jpg',
     link: '',
     description: `A Hackathon project for Hack-a-lang 2021 (hosted by Georgia Tech's programming languages club, Dependently Typed).
@@ -40,7 +38,7 @@ export const projects = [
   {
     title: 'Style Transfer Visualization',
     summary: `Neural Style Transfer Process Implementation and Visualization`,
-    date: 'November 2021 - January 2022',
+    date: '11/2021 - 01/2022',
     media: '/assets/images/projects/styletransfer.jpg',
     link: '',
     description: `Implemented the Neural Style Transfer network as described in the 2015 paper by Gatsby et al.
@@ -51,7 +49,7 @@ export const projects = [
   {
     title: 'EVA-Feature Matching',
     summary: `Feature Extraction and Matching for the EVA database`,
-    date: 'October 2021 - December 2021',
+    date: '10/2021 - 12/2021',
     media: '/assets/images/projects/eva.jpg',
     link: '',
     description: `Exploratory Visual Analytics Database is a visual data focused DBMS maintained by Georgia Tech.
@@ -61,7 +59,7 @@ export const projects = [
   {
     title: 'Stock Movement Prediction with Transformers',
     summary: `Transformers and LSTM Performance Comparison for Time Series Data`,
-    date: 'November 2021 - Present',
+    date: '11/2021 - 12/2021',
     media: '/assets/images/projects/stocktransformer.jpg',
     link: '',
     description: `Used a Transformer encoder network (similar to BERT) in PyTorch to predict stock movement using historical pricing data from Yahoo Finance.
@@ -71,7 +69,7 @@ export const projects = [
   {
     title: 'Hurricane Prediction',
     summary: `Comparing Machine Learning Methods in Hurricane Prediction`,
-    date: 'June 2021 - August 2021',
+    date: '06/2021 - 08/2021',
     media: '/assets/images/projects/hurricane.jpg',
     link: '',
     description: `Created a hurricane prediction model for the graduate machine learning course (CS 7641).
@@ -81,7 +79,7 @@ export const projects = [
   {
     title: 'Grocery Delivery',
     summary: `Full Stack Application for Grocery Delivery`,
-    date: 'March 2021 - May 2021',
+    date: '03/2021 - 05/2021',
     media: '/assets/images/projects/grocerydrone.jpg',
     link: '',
     description: `Created a full stack application for my Database class (CS 4400) as an optional final assignment.
@@ -90,7 +88,7 @@ export const projects = [
   {
     title: 'Farming Game',
     summary: `Team Project for Developing a Farming Game`,
-    date: 'August 2020 - December 2020',
+    date: '08/2020 - 12/2020',
     media: '/assets/images/projects/farmgame.jpg',
     link: '',
     description: `Created a farming game with a team of 5 for my Objects and Design class (CS 2340).
@@ -100,7 +98,7 @@ export const projects = [
   {
     title: '8-bit Computer',
     summary: `Building a Physical 8-Bit Computer`,
-    date: 'January 2020 - May 2020',
+    date: '01/2020 - 05/2020',
     media: '/assets/images/projects/8bit.jpg',
     link: '',
     description: `Built a 8-bit computer with various integrated

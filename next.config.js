@@ -1,8 +1,8 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  // distDir: 'out',
+  distDir: 'out',
   output: 'export',
-  basePath: '/github-pages',
+  // basePath: '/github-pages',
 };
 
 module.exports = nextConfig;
