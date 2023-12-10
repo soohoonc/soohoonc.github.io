@@ -6,7 +6,7 @@ echo "Installing wasm-pack..."
 curl https://rustwasm.github.io/wasm-pack/installer/init.sh -sSf | sh -s -- -y
 
 echo "wasm-pack build..."
-wasm-pack build --target web
+wasm-pack build src/wasm --target web
 
 echo "start next build"
 next build
