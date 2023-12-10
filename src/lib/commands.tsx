@@ -5,7 +5,7 @@ import { getFormattedDate } from './utils';
 export const initialMessage = 
 <p>
   soohoonchoi (master, {getFormattedDate()} [dunno 0.0.1] on soohoonix<br/>
-  Type "help", "copyright", "credits" or "license" for more information.
+  Type &quot;help&quot;, &quot;copyright&quot;, &quot;credits&quot; or &quot;license&quot; for more information.
 </p>
 
 const commands: { [key: string] : string} = {
