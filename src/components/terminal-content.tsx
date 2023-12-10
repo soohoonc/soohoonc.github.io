@@ -9,10 +9,10 @@ export const TerminalContent = ({
   messages
 }: TerminalContentProps) => {
   return (
-    <>
+    <div suppressHydrationWarning>
     {messages.map((message, index) => (
-      <p key={index}>{message}</p>
+      <span className="bg-transparent outline-none resize-none break-all" key={index}>{message}</span>
     ))}
-    </>
+    </div>
   )
 }
