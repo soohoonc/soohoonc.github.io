@@ -17,7 +17,6 @@ export function FileSystemProvider({
   React.useEffect(() => {
     async function init() {
       const fs = await createFileSystem();
-      console.log(fs);
       setInitialFileSystem(fs);
     }
     init()

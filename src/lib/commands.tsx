@@ -1,16 +1,18 @@
 "use client"
 
+import { redirect } from 'next/navigation';
 import { getFormattedDate } from './utils';
 
 export const initialMessage = 
 <p>
-  soohoonchoi (master, {getFormattedDate()} [dunno 0.0.1] on soohoonix<br/>
+  soohoonchoi (master, {getFormattedDate()}) on soohoonix<br/>
   Type &quot;help&quot;, &quot;copyright&quot;, &quot;credits&quot; or &quot;license&quot; for more information.
 </p>
 
 const commands: { [key: string] : string} = {
   'about': 'about me',
   'resume': 'view my resume',
+  'source': 'view the source code',
   'clear': 'clear the terminal screen',
   'others': 'try messing around, still in the works',
 };
@@ -72,6 +74,8 @@ export const handleCommand = (command: string) => {
       return about();
     case 'resume':
       return <a className='text-indigo-400' target="_blank" href="https://www.dropbox.com/scl/fi/8zasyts7ohnhqqxddoxt1/SooHoon_Choi_Resume.pdf?rlkey=4bbgzq53nuyzvw1u4h7llwgxk&dl=0">see my resume</a>
+    case 'source': 
+      return <a className='text-indigo-400' target="_blank" href='https://github.com/soohoonc/soohoonc.github.io'>github</a>
     case '':
       return <p> </p>
     default:

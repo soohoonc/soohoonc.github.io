@@ -57,7 +57,7 @@ export const TerminalInput = React.forwardRef(({
         onInput={handleChange}
         onKeyDown={handleKeyDown}
         content={input}
-        className='bg-transparent outline-none'
+        className='bg-transparent outline-none caret-white'
         autoFocus
       />
     </div>
