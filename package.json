@@ -38,8 +38,7 @@
     "tailwind-merge": "^1.14.0",
     "tailwindcss": "3.3.3",
     "tailwindcss-animate": "^1.0.6",
-    "typescript": "5.1.6",
-    "wasm-pack": "^0.12.1"
+    "typescript": "5.1.6"
   },
   "module": "index.ts"
 }
