@@ -33,7 +33,7 @@ export const TerminalInput = React.forwardRef(({
     if (e.key === 'Enter' && !e.shiftKey) {
       e.preventDefault();
       const output = handleCommand(input)
-      setMessages(output ? [...messages, (<p>{`${prompt} ${input}`}</p>), output] : [])
+      setMessages(output ? [...messages, (<p key={messages.length}>{`${prompt} ${input}`}</p>), output] : [])
       setInput('')
     }
   }
@@ -63,3 +63,4 @@ export const TerminalInput = React.forwardRef(({
     </div>
   )
 })
+TerminalInput.displayName = 'TerminalInput'
