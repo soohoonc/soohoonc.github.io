@@ -28,4 +28,8 @@ impl FileSystem {
         }
         result
     }
+
+    pub fn remove_file(&mut self, name: String) {
+        self.files.retain(|file| file.name != name);
+    }
 }
