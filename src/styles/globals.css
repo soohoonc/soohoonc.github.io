@@ -68,6 +68,10 @@
 
     --radius: 0.5rem;
   }
+
+  .link {
+    color: rgb(129 140 248);
+  }
 }
 
 @layer base {
