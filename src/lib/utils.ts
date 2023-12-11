@@ -22,5 +22,3 @@ export function getFormattedDate() {
 
   return `${formattedDate}, ${formattedTime}`;
 }
-
-console.log(getFormattedDate());

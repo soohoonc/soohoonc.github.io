@@ -1,20 +1,22 @@
 "use client"
 
-import { redirect } from 'next/navigation';
 import { getFormattedDate } from './utils';
 
-export const initialMessage = 
-<p>
-  soohoonchoi (master, {getFormattedDate()}) on soohoonix<br/>
-  Type &quot;help&quot;, &quot;copyright&quot;, &quot;credits&quot; or &quot;license&quot; for more information.
-</p>
+export const getWelcomeMessage = () => {
+  return (
+    <p suppressHydrationWarning>
+      soohoonchoi ({getFormattedDate()})<br/>
+      Type &quot;help&quot;, &quot;credits&quot; or &quot;license&quot; for more.
+    </p>
+  )
+};
 
 const commands: { [key: string] : string} = {
   'about': 'about me',
   'resume': 'view my resume',
   'source': 'view the source code',
   'clear': 'clear the terminal screen',
-  'others': 'try messing around, still in the works',
+  '(+ more)': 'try messing around, still in the works',
 };
 
 const about = () => {
@@ -32,7 +34,7 @@ export const handleCommand = (command: string) => {
   // still better than yandere dev
   switch(command.split(' ')[0]) {
     case 'pwd':
-      return (<p>/users/guest</p>)
+      return <p>/users/guest</p>
     case 'ls':
     case 'cd':
     case 'touch':
@@ -40,45 +42,54 @@ export const handleCommand = (command: string) => {
     case 'rm':
     case 'mv':
     case 'cp':
-      return (<p>nope, not yet</p>)
+      return <p>nope, not yet</p>
     case 'cat':
-      return (<p>🐱🐱🐱 meow 🐱🐱🐱</p>)
+      return <p>🐱🐱🐱 meow 🐱🐱🐱</p>
     case 'whoami':
       return <p>guest</p>
     case 'echo':
-      return (<p>{command.split(' ').slice(1).join(' ')}</p>)
+      return <p>{command.split(' ').slice(1).join(' ')}</p>
     case 'exit':
       window.close();
       return null;
     case 'sudo':
-      return (<p>no!</p>)
+      return <p>no!</p>
     case 'clear':
       return null;
     case 'help':
       return (
         <ul>
+          <li>[command]: [description]</li>
           {Object.keys(commands).map((key, index) => (
-            <li key={index}>{`${key}: ${commands[key]}`}</li>
+            <li key={index} className="flex flex-row">
+              <span className="ml-[1ch] w-[8ch]">
+                {key}
+              </span>
+              <span>
+                {': '}
+              </span>
+              <span className="ml-[2ch]">
+                {commands[key]}
+              </span>
+            </li>
           ))}
         </ul>
-      ) as Message
+      )
     case 'license':
       return (<p><a className='text-indigo-400' target="_blank" href="https://opensource.org/license/mit/">MIT</a></p>)
     case 'credits':
       return (<p>
           <a className="text-indigo-400" target="_blank" href="https://bento.me/soohoonchoi">soohoonchoi</a>
         </p>)
-    case 'copyright':
-      return (<p>Fuck copyright</p>);
     case 'about':
       return about();
     case 'resume':
-      return <a className='text-indigo-400' target="_blank" href="https://www.dropbox.com/scl/fi/8zasyts7ohnhqqxddoxt1/SooHoon_Choi_Resume.pdf?rlkey=4bbgzq53nuyzvw1u4h7llwgxk&dl=0">see my resume</a>
+      return <p><a className='text-indigo-400' target="_blank" href="https://www.dropbox.com/scl/fi/8zasyts7ohnhqqxddoxt1/SooHoon_Choi_Resume.pdf?rlkey=4bbgzq53nuyzvw1u4h7llwgxk&dl=0">see my resume</a></p>
     case 'source': 
-      return <a className='text-indigo-400' target="_blank" href='https://github.com/soohoonc/soohoonc.github.io'>github</a>
+      return <p><a className='text-indigo-400' target="_blank" href='https://github.com/soohoonc/soohoonc.github.io'>github</a></p>
     case '':
       return <p> </p>
     default:
-      return (<p>{`${command.split(' ')[0]}: command not found`}</p>)
+      return <p>{`${command.split(' ')[0]}: command not found`}</p>
   }
 }

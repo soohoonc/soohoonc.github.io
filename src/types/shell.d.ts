@@ -1,3 +1,1 @@
-
-type Message =
-  (React.ReactElement | string)
+type Message = (React.ReactElement | string);
