@@ -11,13 +11,13 @@ export function getFormattedDate() {
   const formattedDate = date.toLocaleDateString('en-US', {
     year: 'numeric',
     month: 'short',
-    day: 'numeric' 
+    day: 'numeric',
   });
   const formattedTime = date.toLocaleTimeString('en-US', {
     hour: '2-digit',
     minute: '2-digit',
     second: '2-digit',
-    hour12: false
+    hour12: false,
   });
 
   return `${formattedDate}, ${formattedTime}`;

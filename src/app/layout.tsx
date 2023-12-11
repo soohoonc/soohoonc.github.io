@@ -17,9 +17,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <main className={inter.className}>
           <ThemeProvider attribute='class' defaultTheme='system' enableSystem>
             <FileSystemProvider>
-              <TerminalStateProvider>
-                {children}
-              </TerminalStateProvider>
+              <TerminalStateProvider>{children}</TerminalStateProvider>
             </FileSystemProvider>
           </ThemeProvider>
         </main>

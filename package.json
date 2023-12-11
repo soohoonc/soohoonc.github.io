@@ -7,6 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
+    "format": "bunx prettier --write .",
     "deploy": "gh-pages -d out"
   },
   "dependencies": {
