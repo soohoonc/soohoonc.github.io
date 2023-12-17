@@ -1,65 +1,96 @@
 use wasm_bindgen::prelude::*;
 
-// #[wasm_bindgen]
-// pub enum FileSystemNode {
-//     Directory(Directory),
-//     File(File),
-//     SymLink(SymLink),
-// }
-// #[wasm_bindgen]
-// pub trait File {
-//     name: String,
-//     permission: Integer,
-// }
+mod directory;
+mod file;
 
-// #[wasm_bindgen]
-// pub struct Directory {
-//     name: String,
-//     parent: String,
-//     children: Vec<FileSystemNode>,
-// }
+use directory::Directory;
+use file::File;
 
-// #[wasm_bindgen]
-// pub struct Symlink {
-//     name: String,
-//     link: String,
-// }
+pub trait FileSystemNodeTrait {
+    fn get_name(&self) -> &String;
+    fn parent_name(&self) -> Option<&String>;
+}
 
-// #[wasm_bindgen]
-// pub struct FileSystem {
-//     root: Directory
-// }
+pub enum FileSystemNode {
+    File(File),
+    Directory(Directory),
+}
 
-// #[wasm_bindgen]
-// impl FileSystem {
-//     pub fn new() -> FileSystem {
-//         FileSystem { root: Directory::new('', '') }
-//     }
-// }
+impl FileSystemNodeTrait for FileSystemNode {
+    fn get_name(&self) -> &String {
+        match self {
+            FileSystemNode::File(file) => &file.get_name(),
+            FileSystemNode::Directory(directory) => &directory.get_name(),
+        }
+    }
+
+    fn parent_name(&self) -> Option<&String> {
+        match self {
+            FileSystemNode::File(file) => Some(file.parent_name()),
+            FileSystemNode::Directory(directory) => directory.parent_name(),
+        }
+    }
+}
+
+#[wasm_bindgen]
+pub struct FileSystem {
+    root: Directory,
+}
+
+#[wasm_bindgen]
+impl FileSystem {
+    #[wasm_bindgen(constructor)]
+    pub fn new() -> FileSystem {
+        let root = Directory::new("root".to_string(), None);
+        // let user = Directory::new("user".to_string(), Some(Box::new(root)));
+        // let guest = Directory::new("guest".to_string(), Some(Box::new(user)));
+        FileSystem {
+            root,
+            // current: root,
+        }
+    }
+
+    #[wasm_bindgen]
+    pub fn hello(&self) -> JsValue {
+       JsValue::from_str("Hello, World!")
+    }
+
+    // // Method to change the current directory
+    // pub fn change_dir(&mut self, new_path: &str) {
+        
+    // }
+}
 
 // #[wasm_bindgen]
 // impl Directory {
-//     pub fn new(dir_name pa) -> Directory {
-//         Directory {
-//             name: dir_name,
-//             parent: parent_directory,
-//             children: Vec<FileSystemNode>::new()
-//         }
+//     pub fn create(name: &str) {
+        
 //     }
 
-//     pub fn add_file(&mut self, name: String, size: u32) {
-//         self.files.push(File { name, size });
+//     pub fn delete() {
+
 //     }
 
-//     pub fn get_files(&self) -> String {
-//         let mut result = String::new();
-//         for file in &self.files {
-//             result.push_str(&format!("{}: {}\n", file.name, file.permission));
-//         }
-//         result
+//     pub fn update(name: &str) {
+
+//     }
+// }
+
+// #[wasm_bindgen]
+// impl File {
+//     pub fn create_file(name: &str, permission: u8, data: &str) {
+        
 //     }
 
-//     pub fn remove_file(&mut self, name: String) {
-//         self.files.retain(|file| file.name != name);
+//     pub fn read_file() -> String {
+//         "Hello, World!".to_string()
+//     }
+
+//     pub fn write_file(data: &str) {
+        
+//     }
+
+//     pub fn delete_file() {
+        
 //     }
 // }

@@ -6,8 +6,8 @@ import { FileSystemProvider, TerminalStateProvider, ThemeProvider } from './prov
 const inter = Inter({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
-  title: 'Soohoon Choi',
-  description: "Soohoon's personal website",
+  title: 'soohoonchoi',
+  description: "soohoonchoi",
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
