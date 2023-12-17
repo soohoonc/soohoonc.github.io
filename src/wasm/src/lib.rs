@@ -66,7 +66,15 @@ impl FileSystem {
        JsValue::from_str("Hello from WASM!")
     }
 
-    pub fn get_current(&self) -> String {
+    pub fn ls(&self) -> String {
+        let mut children = Vec::<String>::new();
+        for child in self.current.borrow().get_children() {
+            children.push(child.borrow().get_name());
+        }
+        serde_json::to_string(&children).unwrap()
+    }
+
+    pub fn pwd(&self) -> String {
         // build path from root to current
         let mut path = Vec::<String>::new();
         let mut temp_dir = Rc::clone(&self.current);
@@ -89,7 +97,7 @@ impl FileSystem {
     }
 
     // Method to change the current directory
-    pub fn change_dir(&mut self, new_path: &str) -> Result<(), JsValue> {
+    pub fn cd(&mut self, new_path: &str) -> Result<JsValue, JsValue> {
         // find the directory
         // if it exists, change the current directory
         // else, return an error
@@ -138,7 +146,7 @@ impl FileSystem {
             }
         }
         self.current = temp_dir;
-        Ok(())
+        Ok(JsValue::from_str("Success"))
     }
 }
 

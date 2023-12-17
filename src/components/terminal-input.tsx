@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { handleCommand } from '@/lib/commands';
-import { useTerminalState } from '@/app/providers';
+import { useTerminalState, useFileSystem } from '@/app/providers';
 
 export const TerminalInput = React.forwardRef(({}, ref) => {
   const {
@@ -16,6 +16,7 @@ export const TerminalInput = React.forwardRef(({}, ref) => {
   } = useTerminalState();
   const [input, setInput] = React.useState<string>('');
   const inputRef = React.useRef<HTMLInputElement>(null);
+  const fs = useFileSystem();
 
   React.useImperativeHandle(ref, () => ({
     focus: () => {
@@ -29,7 +30,7 @@ export const TerminalInput = React.forwardRef(({}, ref) => {
     const inputsLength = inputs.length;
     if (e.key === 'Enter' && !e.shiftKey) {
       e.preventDefault();
-      const output = handleCommand(input.trim());
+      const output = handleCommand(input.trim(), fs);
       if (!output) setShowWelcome(false);
       setInputs(output ? [...inputs, input] : []);
       setOutputs(output ? [...outputs, output] : []);

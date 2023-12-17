@@ -8,24 +8,36 @@ import { createFileSystem, type FileSystem } from '@/lib/fs';
 export function ThemeProvider({ children, ...props }: ThemeProviderProps) {
   return <NextThemesProvider {...props}>{children}</NextThemesProvider>;
 }
-const FileSystemContext = React.createContext<FileSystem | null>(null);
+
+const initialFileSystem = {
+  hello: () => 'hello',
+} as FileSystem;
+
+const FileSystemContext = React.createContext<FileSystem>(initialFileSystem)
+
+export function useFileSystem() {
+  const context = React.useContext(FileSystemContext);
+  if (!context) {
+    throw new Error('useFileSystem must be used within a FileSystemProvider');
+  }
+  return context;
+}
 
 export function FileSystemProvider({ children }: { children: React.ReactNode }) {
-  const [initialFileSystem, setInitialFileSystem] = React.useState<FileSystem | null>(null);
+  const [fs, setFs] = React.useState<FileSystem>(initialFileSystem);
   const [path, setPath] = React.useState<string>('');
   React.useEffect(() => {
     async function init() {
       const fs = await createFileSystem();
       console.log(fs.hello())
-      fs.change_dir('/users/guest')
-      console.log('changed dir')
-      console.log(fs.get_current())
-      setInitialFileSystem(fs);
+      fs.cd('/users/guest')
+      setPath(fs.pwd())
+      setFs(fs);
     }
     init();
   }, []);
   return (
-    <FileSystemContext.Provider value={initialFileSystem}>{children}</FileSystemContext.Provider>
+    <FileSystemContext.Provider value={fs}>{children}</FileSystemContext.Provider>
   );
 }
 

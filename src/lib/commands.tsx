@@ -1,6 +1,8 @@
 'use client';
 
-export const handleCommand = (command: string) => {
+import { type FileSystem } from '@/lib/fs';
+
+export const handleCommand = (command: string, fs: FileSystem) => {
   // still better than yandere dev
   const parsedCommand = command
     .split(' ')
@@ -8,9 +10,24 @@ export const handleCommand = (command: string) => {
     .filter((item) => item !== ' ');
   switch (parsedCommand[0]) {
     case 'pwd':
-      return <p>/users/guest</p>;
+      const curr_path = JSON.parse(fs.pwd());
+      return <p>{curr_path}</p>;
     case 'ls':
+      const curr_ls: string[] = JSON.parse(fs.ls());
+      return (
+        <ul>
+          {curr_ls.map((item, index) => (
+            <li key={index}>{item}</li>
+          ))}
+        </ul>
+      );
     case 'cd':
+      try {
+        fs.cd(parsedCommand[1]);
+        return <p></p>
+      } catch {
+        return <p>cd: no such file or directory: {parsedCommand[1]}</p>;
+      }
     case 'touch':
     case 'mkdir':
     case 'rm':
