@@ -4,7 +4,7 @@ import { useTerminalState } from '@/app/providers';
 import { getFormattedDate } from '@/lib/utils';
 
 export const TerminalContent = () => {
-  const { showWelcome, inputs, outputs, prompt } = useTerminalState();
+  const { showWelcome, inputs, outputs } = useTerminalState();
   return (
     <div className='bg-transparent outline-none resize-none break-all' suppressHydrationWarning>
       {showWelcome && (
@@ -17,7 +17,7 @@ export const TerminalContent = () => {
       )}
       {inputs.map((input, index) => (
         <React.Fragment key={index}>
-          <span>{`${prompt} ${input}`}</span>
+          <span>{`${input}`}</span>
           <span>{outputs[index]}</span>
         </React.Fragment>
       ))}

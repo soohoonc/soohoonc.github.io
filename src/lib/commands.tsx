@@ -2,7 +2,7 @@
 
 import { type FileSystem } from '@/lib/fs';
 
-export const handleCommand = (command: string, fs: FileSystem) => {
+export const handleCommand = (command: string, fs: FileSystem, setPath: (path: string) => void) => {
   // still better than yandere dev
   const parsedCommand = command
     .split(' ')
@@ -23,7 +23,20 @@ export const handleCommand = (command: string, fs: FileSystem) => {
       );
     case 'cd':
       try {
+        if(parsedCommand.length === 1) {
+          fs.cd('/users/guest');
+          setPath('~');
+          return <p></p>
+        }
         fs.cd(parsedCommand[1]);
+        const newPath = JSON.parse(fs.pwd());
+        if (newPath === '/users/guest') {
+          setPath('~');
+        } else if (newPath === "") {
+          setPath('/');
+        } else {
+          setPath(newPath.split('/').slice(-1)[0]);
+        }
         return <p></p>
       } catch {
         return <p>cd: no such file or directory: {parsedCommand[1]}</p>;

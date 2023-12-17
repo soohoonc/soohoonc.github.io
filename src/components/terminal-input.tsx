@@ -6,17 +6,18 @@ import { useTerminalState, useFileSystem } from '@/app/providers';
 export const TerminalInput = React.forwardRef(({}, ref) => {
   const {
     setShowWelcome,
+    user,
+    host,
     inputs,
     setInputs,
     outputs,
     setOutputs,
-    prompt,
     inputIndex,
     setInputIndex,
   } = useTerminalState();
   const [input, setInput] = React.useState<string>('');
   const inputRef = React.useRef<HTMLInputElement>(null);
-  const fs = useFileSystem();
+  const { fs, path, setPath } = useFileSystem();
 
   React.useImperativeHandle(ref, () => ({
     focus: () => {
@@ -30,9 +31,9 @@ export const TerminalInput = React.forwardRef(({}, ref) => {
     const inputsLength = inputs.length;
     if (e.key === 'Enter' && !e.shiftKey) {
       e.preventDefault();
-      const output = handleCommand(input.trim(), fs);
+      const output = handleCommand(input.trim(), fs, setPath);
       if (!output) setShowWelcome(false);
-      setInputs(output ? [...inputs, input] : []);
+      setInputs(output ? [...inputs, `${user}@${host} ${path} $ ${input}`] : []);
       setOutputs(output ? [...outputs, output] : []);
       setInputIndex(inputsLength);
       setInput('');
@@ -71,7 +72,7 @@ export const TerminalInput = React.forwardRef(({}, ref) => {
 
   return (
     <div className='bg-transparent outline-none resize-none break-all'>
-      <span className='mr-[1ch]'>{prompt}</span>
+      <span className='mr-[1ch]'>{`${user}@${host} ${path} $`}</span>
       <span
         contentEditable
         ref={inputRef}
