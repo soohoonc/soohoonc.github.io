@@ -15,8 +15,8 @@ export function FileSystemProvider({ children }: { children: React.ReactNode }) 
   React.useEffect(() => {
     async function init() {
       const fs = await createFileSystem();
-      console.log('fs', fs);
-      console.log(fs.hello());
+      console.log(fs.hello())
+      fs.change_dir('/user/guest')
       setInitialFileSystem(fs);
     }
     init();

@@ -8,10 +8,12 @@ export const TerminalContent = () => {
   return (
     <div className='bg-transparent outline-none resize-none break-all' suppressHydrationWarning>
       {showWelcome && (
+        <>
         <p suppressHydrationWarning>
-          soohoonchoi ({getFormattedDate()})<br />
+          <a href="https://soohoonchoi.com" className="link">soohoonchoi</a> ({getFormattedDate()})<br />
           Type &quot;help&quot;, &quot;credits&quot; or &quot;license&quot; for more.
         </p>
+        </>
       )}
       {inputs.map((input, index) => (
         <React.Fragment key={index}>

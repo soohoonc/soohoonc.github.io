@@ -1,10 +1,9 @@
-
 use crate::directory::Directory;
 
 pub struct File {
     name: String,
     data: String,
-    parent: Box<Directory>,
+    parent: Box<Directory>
 }
 
 impl File {
@@ -20,8 +19,8 @@ impl File {
         &self.name
     }
 
-    pub fn parent_name(&self) -> &String {
-        &self.parent.get_name()
+    pub fn parent_name(&self) -> String {
+       self.parent.get_name()
     }
 
     pub fn read(&self) -> String {
