@@ -49,7 +49,7 @@ pub struct FileSystem {
 impl FileSystem {
     #[wasm_bindgen(constructor)]
     pub fn new() -> FileSystem {
-        let root = Rc::new(RefCell::new(Directory::new("root".to_string(), None)));
+        let root = Rc::new(RefCell::new(Directory::new("".to_string(), None)));
         let users = Rc::new(RefCell::new(Directory::new("users".to_string(), Some(Rc::clone(&root)))));
         let users_node = FileSystemNode::Directory(Rc::clone(&users));
         root.borrow_mut().add_child(Rc::new(RefCell::new(users_node)));
@@ -66,12 +66,26 @@ impl FileSystem {
        JsValue::from_str("Hello from WASM!")
     }
 
-    pub fn get_root(&self) -> String {
-        serde_json::to_string(&self.root.borrow().get_name()).unwrap()
-    }
-
     pub fn get_current(&self) -> String {
-        serde_json::to_string(&self.current.borrow().get_name()).unwrap()
+        // build path from root to current
+        let mut path = Vec::<String>::new();
+        let mut temp_dir = Rc::clone(&self.current);
+        loop {
+            path.push(temp_dir.borrow().get_name());
+            let temp_parent = temp_dir.borrow().get_parent();
+            match temp_parent {
+                Some(parent) => temp_dir = Rc::clone(&parent),
+                None => break,
+            }
+        }
+        path.reverse();
+        let mut path_string = String::new();
+        for path_part in path {
+            path_string.push_str(path_part.as_str());
+            path_string.push_str("/");
+        }
+        path_string.pop();
+        serde_json::to_string(&path_string).unwrap()
     }
 
     // Method to change the current directory
@@ -79,19 +93,19 @@ impl FileSystem {
         // find the directory
         // if it exists, change the current directory
         // else, return an error
-        console::log_1(&JsValue::from_str(new_path));
+        // console::log_1(&JsValue::from_str(new_path));
         let mut temp_dir = if new_path.starts_with("/") {
             Rc::clone(&self.root)
         } else {
             Rc::clone(&self.current)
         };
         for path in new_path.split("/").filter(|&x| !x.is_empty()) {
-            console::log_1(&JsValue::from_str(path));
+            // console::log_1(&JsValue::from_str(path));
             if path == "." {
-                console::log_1(&JsValue::from_str("Continuing"));
+                // console::log_1(&JsValue::from_str("Continuing"));
                 continue;
             } else if path == ".." {
-                console::log_1(&JsValue::from_str("Going up"));
+                // console::log_1(&JsValue::from_str("Going up"));
                 let temp_parent = temp_dir.borrow().get_parent();
                 match temp_parent {
                     Some(parent) => temp_dir = Rc::clone(&parent),

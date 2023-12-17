@@ -12,11 +12,14 @@ const FileSystemContext = React.createContext<FileSystem | null>(null);
 
 export function FileSystemProvider({ children }: { children: React.ReactNode }) {
   const [initialFileSystem, setInitialFileSystem] = React.useState<FileSystem | null>(null);
+  const [path, setPath] = React.useState<string>('');
   React.useEffect(() => {
     async function init() {
       const fs = await createFileSystem();
       console.log(fs.hello())
-      fs.change_dir('/user/guest')
+      fs.change_dir('/users/guest')
+      console.log('changed dir')
+      console.log(fs.get_current())
       setInitialFileSystem(fs);
     }
     init();
