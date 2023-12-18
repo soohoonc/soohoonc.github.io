@@ -39,6 +39,21 @@ impl FileSystemNodeTrait for FileSystemNode {
     }
 }
 
+pub fn construct_fs() -> (Rc<RefCell<Directory>>, Rc<RefCell<Directory>>){
+    console::log_1(&JsValue::from_str("Constructing filesystem"));
+    let root = Rc::new(RefCell::new(Directory::new("".to_string(), None)));
+    let users = Rc::new(RefCell::new(Directory::new("users".to_string(), Some(Rc::clone(&root)))));
+    let users_node = FileSystemNode::Directory(Rc::clone(&users));
+    root.borrow_mut().add_child(Rc::new(RefCell::new(users_node)));
+    let soohoon = Rc::new(RefCell::new(Directory::new("soohoon".to_string(), Some(Rc::clone(&users)))));
+    let guest = Rc::new(RefCell::new(Directory::new("guest".to_string(), Some(Rc::clone(&users)))));
+    let soohoon_node = FileSystemNode::Directory(Rc::clone(&soohoon));
+    let guest_node = FileSystemNode::Directory(Rc::clone(&guest));
+    users.borrow_mut().add_child(Rc::new(RefCell::new(guest_node)));
+    users.borrow_mut().add_child(Rc::new(RefCell::new(soohoon_node)));
+    return (Rc::clone(&root), Rc::clone(&guest));
+}
+
 #[wasm_bindgen]
 pub struct FileSystem {
     root: Rc<RefCell<Directory>>,
@@ -49,16 +64,10 @@ pub struct FileSystem {
 impl FileSystem {
     #[wasm_bindgen(constructor)]
     pub fn new() -> FileSystem {
-        let root = Rc::new(RefCell::new(Directory::new("".to_string(), None)));
-        let users = Rc::new(RefCell::new(Directory::new("users".to_string(), Some(Rc::clone(&root)))));
-        let users_node = FileSystemNode::Directory(Rc::clone(&users));
-        root.borrow_mut().add_child(Rc::new(RefCell::new(users_node)));
-        let guest = Rc::new(RefCell::new(Directory::new("guest".to_string(), Some(Rc::clone(&users)))));
-        let guest_node = FileSystemNode::Directory(Rc::clone(&guest));
-        users.borrow_mut().add_child(Rc::new(RefCell::new(guest_node)));
+        let (root, current) = construct_fs();
         FileSystem {
-            root: Rc::clone(&root),
-            current: Rc::clone(&guest),
+            root,
+            current,
         }
     }
 
@@ -149,37 +158,3 @@ impl FileSystem {
         Ok(JsValue::from_str("Success"))
     }
 }
-
-// #[wasm_bindgen]
-// impl Directory {
-//     pub fn create(name: &str) {
-        
-//     }
-
-//     pub fn delete() {
-
-//     }
-
-//     pub fn update(name: &str) {
-
-//     }
-// }
-
-// #[wasm_bindgen]
-// impl File {
-//     pub fn create_file(name: &str, permission: u8, data: &str) {
-        
-//     }
-
-//     pub fn read_file() -> String {
-//         "Hello, World!".to_string()
-//     }
-
-//     pub fn write_file(data: &str) {
-        
-//     }
-
-//     pub fn delete_file() {
-        
-//     }
-// }

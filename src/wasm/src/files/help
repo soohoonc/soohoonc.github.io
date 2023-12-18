@@ -1,0 +1,33 @@
+<ul>
+  <li>[command]: [description]</li>
+  <li key={0} className='flex flex-row'>
+    <span className='ml-[1ch] w-[8ch]'>about</span>
+    <span>{': '}</span>
+    <span className='ml-[2ch]'>about me</span>
+  </li>
+  <li key={1} className='flex flex-row'>
+    <span className='ml-[1ch] w-[8ch]'>resume</span>
+    <span>{': '}</span>
+    <span className='ml-[2ch]'>view my resume</span>
+  </li>
+  <li key={2} className='flex flex-row'>
+    <span className='ml-[1ch] w-[8ch]'>timeline</span>
+    <span>{': '}</span>
+    <span className='ml-[2ch]'>some of my notable moments</span>
+  </li>
+  <li key={3} className='flex flex-row'>
+    <span className='ml-[1ch] w-[8ch]'>source</span>
+    <span>{': '}</span>
+    <span className='ml-[2ch]'>view the source code</span>
+  </li>
+  <li key={4} className='flex flex-row'>
+    <span className='ml-[1ch] w-[8ch]'>clear</span>
+    <span>{': '}</span>
+    <span className='ml-[2ch]'>clear the terminal</span>
+  </li>
+  <li key={5} className='flex flex-row'>
+    <span className='ml-[1ch] w-[8ch]'>(+ more)</span>
+    <span>{': '}</span>
+    <span className='ml-[2ch]'>try stuff, in the works</span>
+  </li>
+</ul>
