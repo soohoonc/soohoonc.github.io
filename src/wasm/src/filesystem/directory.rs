@@ -1,12 +1,11 @@
 use std::cell::RefCell;
 use std::rc::Rc;
-
-use crate::FileSystemNode;
+use crate::filesystem::node::Node;
 
 pub struct Directory {
     name: String,
     parent: Option<Rc<RefCell<Directory>>>,
-    children: Vec<Rc<RefCell<FileSystemNode>>>,
+    children: Vec<Rc<RefCell<Node>>>,
 }
 
 impl Directory {
@@ -14,7 +13,7 @@ impl Directory {
         Directory {
             name,
             parent,
-            children: Vec::<Rc<RefCell<FileSystemNode>>>::new(),
+            children: Vec::<Rc<RefCell<Node>>>::new(),
         }
     }
 
@@ -36,11 +35,11 @@ impl Directory {
         }
     }
 
-    pub fn get_children(&self) -> Vec<Rc<RefCell<FileSystemNode>>> {
+    pub fn get_children(&self) -> Vec<Rc<RefCell<Node>>> {
         self.children.clone()
     }
 
-    pub fn add_child(&mut self, child: Rc<RefCell<FileSystemNode>>) {
+    pub fn add_child(&mut self, child: Rc<RefCell<Node>>) {
         self.children.push(Rc::clone(&child));
     }
 }

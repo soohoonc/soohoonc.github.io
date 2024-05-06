@@ -1,4 +1,4 @@
-use crate::directory::Directory;
+use crate::Directory;
 
 pub struct File {
     name: String,
