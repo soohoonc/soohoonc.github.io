@@ -8,22 +8,20 @@ import { getShell, type Shell } from '@/lib/fs';
 export function ThemeProvider({ children, ...props }: ThemeProviderProps) {
   return <NextThemesProvider {...props}>{children}</NextThemesProvider>;
 }
-type FSContext = {
-  shell: Shell;
-  path: string;
-  setPath: (path: string) => void;
+type ShellContext = {
+  execute: (command: string) => string | null;
+  prompt: string;
 };
 
 const initialShell = {
 } as Shell;
 
 const initialShellContext = {
-    shell: initialShell,
-    path: '',
-    setPath: (path: string) => {},
+  execute: (command: string) => null,
+  prompt: '',
 };
 
-const ShellContext = React.createContext<FSContext>(initialShellContext);
+const ShellContext = React.createContext<ShellContext>(initialShellContext);
 
 export function useShell() {
   const context = React.useContext(ShellContext);
@@ -35,21 +33,32 @@ export function useShell() {
 
 export function ShellProvider({ children }: { children: React.ReactNode }) {
   const [shell, setShell] = React.useState<Shell>(initialShell);
-  const [path, setPath] = React.useState<string>('~');
+  const [prompt, setPrompt] = React.useState<string>('');
+  const execute = (command: string) => {
+    if (!shell) {
+      console.error('Shell not initialized');
+      return;
+    }
+    const result = JSON.parse(shell.run(command));
+    console.log(result)
+    setPrompt(`${result.user}@${result.host} ${result.path} $`);
+    return result.result;
+  }
   React.useEffect(() => {
     async function init() {
       const shell = await getShell();
-      // console.log(fs.hello())
-      // fs.cd('/users/guest')
+      const result = JSON.parse(shell.run('hello'))
+      console.log(result.result);
+      setPrompt(`${result.user}@${result.host} ${result.path} $`);
       setShell(shell);
     }
     init();
   }, []);
+
   return (
     <ShellContext.Provider value={{
-      shell,
-      path,
-      setPath
+      prompt,
+      execute
     }}>{children}</ShellContext.Provider>
   );
 }
@@ -57,10 +66,6 @@ export function ShellProvider({ children }: { children: React.ReactNode }) {
 type TerminalState = {
   showWelcome: boolean;
   setShowWelcome: (showWelcome: boolean) => void;
-  user: string;
-  setUser: (user: string) => void;
-  host: string;
-  setHost: (host: string) => void;
   inputs: string[];
   setInputs: (inputs: string[]) => void;
   outputs: Message[];
@@ -80,10 +85,7 @@ export function useTerminalState() {
 }
 
 export function TerminalStateProvider({ children }: { children: React.ReactNode }) {
-  const { path } = useShell();
   const [showWelcome, setShowWelcome] = React.useState(true);
-  const [user, setUser] = React.useState('guest');
-  const [host, setHost] = React.useState('soohoonchoi.com');
   const [inputs, setInputs] = React.useState<string[]>([]);
   const [outputs, setOutputs] = React.useState<Message[]>([]);
   const [inputIndex, setInputIndex] = React.useState(0);
@@ -93,10 +95,6 @@ export function TerminalStateProvider({ children }: { children: React.ReactNode 
       value={{
         showWelcome,
         setShowWelcome,
-        user,
-        setUser,
-        host,
-        setHost,
         inputs,
         setInputs,
         outputs,

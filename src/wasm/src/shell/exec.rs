@@ -2,19 +2,22 @@
 use std::rc::Rc;
 use std::cell::RefCell;
 use wasm_bindgen::prelude::*;
+use web_sys::console;
 
 use crate::filesystem::node::Node;
 use crate::filesystem::directory::Directory;
 use crate::shell::lexer::Statement;
 
 pub struct Exec {
+    root: Rc<RefCell<Directory>>,
     current: Rc<RefCell<Directory>>,
 }
 
 impl Exec {
-  pub fn new(directory: Rc<RefCell<Directory>>) -> Exec {
+  pub fn new(root: Rc<RefCell<Directory>>, current: Rc<RefCell<Directory>>) -> Exec {
       Exec {
-          current: directory,
+        root,
+        current,
       }
   }
 
@@ -22,13 +25,12 @@ impl Exec {
     "Hello from WASM!".to_string()
   }
 
-  fn ls(options: Vec<String>) -> String {
-    // let mut children = Vec::<String>::new();
-    // for child in self::current.borrow().get_children() {
+  fn ls(&mut self, options: Vec<String>) -> String {
+    let mut children = Vec::<String>::new();
+    // for child in self.current.borrow().get_children() {
     //     children.push(child.borrow().get_name());
     // }
-    // serde_json::to_string(&children).unwrap()
-    "ls command".to_string()
+    serde_json::to_string(&children).unwrap()
   }
 
   fn pwd() -> String {
@@ -55,6 +57,7 @@ impl Exec {
   }
 
   fn cd(new_path: String) -> String {
+    console::log_1(&JsValue::from_str(&new_path));
     // find the directory
     // if it exists, change the current directory
     // else, return an error
@@ -110,10 +113,51 @@ impl Exec {
     pub fn execute(&mut self, input: Statement) -> String {
         match &input.command[..] {
           "hello" => Self::hello(),
-          "ls" => Self::ls(input.options),
+          "ls" => Self::ls(self, input.options),
           "pwd" => Self::pwd(),
-          "cd" => Self::cd(input.arguments[0].clone()),
-          _ => "Command not found".to_owned(),
+          "cd" => Self::cd("".into()),
+          "whoami" => "root".to_owned(),
+          "exit" => "Goodbye!".to_owned(),
+          "clear" => "".to_owned(),
+          "echo" => "echo command".to_owned(),
+          "cat" => "cat command".to_owned(),
+          "touch" => "touch command".to_owned(),
+          "mkdir" => "mkdir command".to_owned(),
+          "rm" => "rm command".to_owned(),
+          "rmdir" => "rmdir command".to_owned(),
+          "mv" => "mv command".to_owned(),
+          "cp" => "cp command".to_owned(),
+          "help" => "help command".to_owned(),
+          "license" => "license command".to_owned(),
+          "alias" => "alias command".to_owned(),
+          "env" => "env command".to_owned(),
+          "grep" => "grep command".to_owned(),
+          "find" => "find command".to_owned(),
+          "export" => "export command".to_owned(),
+          "wc" => "wc command".to_owned(),
+          "nano" => "nano command".to_owned(),
+          "vi" => "vi command".to_owned(),
+          "vim" => "vim command".to_owned(),
+          "emacs" => "emacs command".to_owned(),
+          "sed" => "sed command".to_owned(),
+          "chmod" => "chmod command".to_owned(),
+          "chown" => "chown command".to_owned(),
+          "chgrp" => "chgrp command".to_owned(),
+          "useradd" => "useradd command".to_owned(),
+          "userdel" => "userdel command".to_owned(),
+          "passwd" => "passwd command".to_owned(),
+          "su" => "su command".to_owned(),
+          "sudo" => "sudo command".to_owned(),
+          "ln" => "ln command".to_owned(),
+          "who" => "who command".to_owned(),
+          "whatis" => "whatis command".to_owned(),
+          "whereis" => "whereis command".to_owned(),
+          "top" => "top command".to_owned(),
+          "which" => "which command".to_owned(),
+          "ps" => "ps command".to_owned(),
+          "man" => "man command".to_owned(),
+          "" => " ".to_owned(),
+          command => (command.to_owned() + ": command not found").to_owned(),
         }
     }
 }

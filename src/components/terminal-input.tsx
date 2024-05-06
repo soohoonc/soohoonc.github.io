@@ -1,13 +1,10 @@
 import React from 'react';
 
-import { handleCommand } from '@/lib/commands';
 import { useTerminalState, useShell } from '@/app/providers';
 
 export const TerminalInput = React.forwardRef(({}, ref) => {
   const {
     setShowWelcome,
-    user,
-    host,
     inputs,
     setInputs,
     outputs,
@@ -17,7 +14,7 @@ export const TerminalInput = React.forwardRef(({}, ref) => {
   } = useTerminalState();
   const [input, setInput] = React.useState<string>('');
   const inputRef = React.useRef<HTMLInputElement>(null);
-  const { shell, path, setPath } = useShell();
+  const { execute, prompt } = useShell();
 
   React.useImperativeHandle(ref, () => ({
     focus: () => {
@@ -31,9 +28,9 @@ export const TerminalInput = React.forwardRef(({}, ref) => {
     const inputsLength = inputs.length;
     if (e.key === 'Enter' && !e.shiftKey) {
       e.preventDefault();
-      const output = handleCommand(input.trim(), shell, setPath);
+      const output = execute(input);
       if (!output) setShowWelcome(false);
-      setInputs(output ? [...inputs, `${user}@${host} ${path} $ ${input}`] : []);
+      setInputs(output ? [...inputs, `${prompt} ${input}`] : []);
       setOutputs(output ? [...outputs, output] : []);
       setInputIndex(inputsLength);
       setInput('');
@@ -72,7 +69,7 @@ export const TerminalInput = React.forwardRef(({}, ref) => {
 
   return (
     <div className='bg-transparent outline-none resize-none break-all'>
-      <span className='mr-[1ch]'>{`${user}@${host} ${path} $`}</span>
+      {prompt ? (<span className='mr-[1ch]'>{prompt}</span>) : null}
       <span
         contentEditable
         ref={inputRef}
