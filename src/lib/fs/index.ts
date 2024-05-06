@@ -1,10 +1,10 @@
-import init, { FileSystem as WASMFileSystem } from '@/wasm/pkg';
+import init, { Shell as WASMShell } from '@/wasm/pkg';
 
-export async function createFileSystem() {
+export async function getShell() {
   await init();
   // https://github.com/rustwasm/wasm-bindgen/issues/166
-  const fs = new WASMFileSystem();
-  return fs;
+  const shell = new WASMShell();
+  return shell
 }
 
-export type FileSystem = WASMFileSystem;
+export type Shell = WASMShell;

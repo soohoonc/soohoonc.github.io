@@ -1,18 +1,43 @@
-import React from 'react';
-
+import React, { useState, useEffect } from 'react';
 import { useTerminalState } from '@/app/providers';
-import { getFormattedDate } from '@/lib/utils';
 
 export const TerminalContent = () => {
   const { showWelcome, inputs, outputs } = useTerminalState();
+  const getTime = () => {
+    const date = new Date();
+    const formattedDate = date.toLocaleDateString('en-US', {
+      year: 'numeric',
+      month: 'short',
+      day: 'numeric',
+    });
+    const formattedTime = date.toLocaleTimeString('en-US', {
+      hour: '2-digit',
+      minute: '2-digit',
+      second: '2-digit',
+      hour12: false,
+    });
+    return `${formattedDate}, ${formattedTime}`;
+  }
+  const [currentTime, setCurrentTime] = useState(getTime());
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setCurrentTime(getTime());
+    }, 1000);
+
+    return () => {
+      clearInterval(timer);
+    };
+  }, []);
+
   return (
-    <div className='bg-transparent outline-none resize-none break-all' suppressHydrationWarning>
+    <>
       {showWelcome && (
         <>
-        <p suppressHydrationWarning>
-          <a href="https://soohoonchoi.com" className="link">soohoonchoi</a> ({getFormattedDate()})<br />
-          Type &quot;help&quot;, &quot;credits&quot; or &quot;license&quot; for more.
-        </p>
+          <p suppressHydrationWarning>
+            <a href="https://soohoonchoi.com" className="link">soohoonchoi</a> ({currentTime})<br />
+            Type &quot;help&quot;, &quot;credits&quot; or &quot;license&quot; for more.
+          </p>
         </>
       )}
       {inputs.map((input, index) => (
@@ -21,6 +46,6 @@ export const TerminalContent = () => {
           <span>{outputs[index]}</span>
         </React.Fragment>
       ))}
-    </div>
+    </>
   );
 };

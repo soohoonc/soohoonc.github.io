@@ -3,55 +3,54 @@
 import * as React from 'react';
 import { ThemeProvider as NextThemesProvider } from 'next-themes';
 import { type ThemeProviderProps } from 'next-themes/dist/types';
-import { createFileSystem, type FileSystem } from '@/lib/fs';
+import { getShell, type Shell } from '@/lib/fs';
 
 export function ThemeProvider({ children, ...props }: ThemeProviderProps) {
   return <NextThemesProvider {...props}>{children}</NextThemesProvider>;
 }
 type FSContext = {
-  fs: FileSystem;
+  shell: Shell;
   path: string;
   setPath: (path: string) => void;
 };
 
-const initialFileSystem = {
-  hello: () => 'hello'
-} as FileSystem;
+const initialShell = {
+} as Shell;
 
-const initialFileSystemContext = {
-    fs: initialFileSystem,
+const initialShellContext = {
+    shell: initialShell,
     path: '',
     setPath: (path: string) => {},
 };
 
-const FileSystemContext = React.createContext<FSContext>(initialFileSystemContext);
+const ShellContext = React.createContext<FSContext>(initialShellContext);
 
-export function useFileSystem() {
-  const context = React.useContext(FileSystemContext);
+export function useShell() {
+  const context = React.useContext(ShellContext);
   if (!context) {
-    throw new Error('useFileSystem must be used within a FileSystemProvider');
+    throw new Error('useShell must be used within a ShellProvider');
   }
   return context;
 }
 
-export function FileSystemProvider({ children }: { children: React.ReactNode }) {
-  const [fs, setFs] = React.useState<FileSystem>(initialFileSystem);
+export function ShellProvider({ children }: { children: React.ReactNode }) {
+  const [shell, setShell] = React.useState<Shell>(initialShell);
   const [path, setPath] = React.useState<string>('~');
   React.useEffect(() => {
     async function init() {
-      const fs = await createFileSystem();
-      console.log(fs.hello())
-      fs.cd('/users/guest')
-      setFs(fs);
+      const shell = await getShell();
+      // console.log(fs.hello())
+      // fs.cd('/users/guest')
+      setShell(shell);
     }
     init();
   }, []);
   return (
-    <FileSystemContext.Provider value={{
-      fs,
+    <ShellContext.Provider value={{
+      shell,
       path,
       setPath
-    }}>{children}</FileSystemContext.Provider>
+    }}>{children}</ShellContext.Provider>
   );
 }
 
@@ -81,7 +80,7 @@ export function useTerminalState() {
 }
 
 export function TerminalStateProvider({ children }: { children: React.ReactNode }) {
-  const { path } = useFileSystem();
+  const { path } = useShell();
   const [showWelcome, setShowWelcome] = React.useState(true);
   const [user, setUser] = React.useState('guest');
   const [host, setHost] = React.useState('soohoonchoi.com');

@@ -16,9 +16,9 @@ use filesystem::pipe::Pipe;
 pub struct Shell {
     lexer: Lexer,
     exec: Exec,
-    root: Rc<RefCell<Directory>>,
-    current: Rc<RefCell<Directory>>,
-    pipe: Pipe,
+    // root: Rc<RefCell<Directory>>,
+    // current: Rc<RefCell<Directory>>,
+    // pipe: Pipe,
 }
 
 /**
@@ -34,9 +34,9 @@ impl Shell {
         Shell {
             lexer: Lexer::new(),
             exec: Exec::new(root),
-            root,
-            current: root,
-            pipe: Pipe::new(""),
+            // root,
+            // current: root,
+            // pipe: Pipe::new(""),
         }
     }
     

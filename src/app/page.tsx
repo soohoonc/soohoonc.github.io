@@ -1,14 +1,14 @@
 import { Terminal } from '@/components/terminal';
-import { FileSystemProvider, TerminalStateProvider } from './providers';
+import { ShellProvider, TerminalStateProvider } from './providers';
 
 export default function Home() {
   return (
     <div className='w-screen h-screen justify-center items-center'>
-      <FileSystemProvider>
+      <ShellProvider>
         <TerminalStateProvider>
           <Terminal />
         </TerminalStateProvider>
-      </FileSystemProvider>
+      </ShellProvider>
     </div>
   );
 }
