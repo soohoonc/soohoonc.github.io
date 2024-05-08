@@ -4,16 +4,14 @@ use crate::filesystem::node::Node;
 
 pub struct Directory {
     name: String,
-    parent: Option<Rc<RefCell<Directory>>>,
-    children: Vec<Rc<RefCell<Node>>>,
+    node: Rc<RefCell<Node>>,
 }
 
 impl Directory {
-    pub fn new(name: String, parent: Option<Rc<RefCell<Directory>>>) -> Directory {
+    pub fn new(name: String, node: Rc<RefCell<Node>>) -> Directory {
         Directory {
             name,
-            parent,
-            children: Vec::<Rc<RefCell<Node>>>::new(),
+            node,
         }
     }
 
@@ -22,24 +20,24 @@ impl Directory {
     }
 
     pub fn parent_name(&self) -> Option<String> {
-        match &self.parent {
+        match &self.node.borrow().get_parent() {
             Some(parent) => Some(parent.borrow().get_name()),
             None => None,
         }
     }
 
-    pub fn get_parent(&self) -> Option<Rc<RefCell<Directory>>> {
-        match &self.parent {
+    pub fn get_parent(&self) -> Option<Rc<RefCell<Node>>> {
+        match &self.node.borrow().get_parent() {
             Some(parent) => Some(Rc::clone(parent)),
             None => None,
         }
     }
 
     pub fn get_children(&self) -> Vec<Rc<RefCell<Node>>> {
-        self.children.clone()
+        self.node.borrow().get_children().clone()
     }
 
     pub fn add_child(&mut self, child: Rc<RefCell<Node>>) {
-        self.children.push(Rc::clone(&child));
+        self.node.borrow_mut().get_children().push(Rc::clone(&child));
     }
 }

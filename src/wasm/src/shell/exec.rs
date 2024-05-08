@@ -9,12 +9,12 @@ use crate::filesystem::directory::Directory;
 use crate::shell::lexer::Statement;
 
 pub struct Exec {
-    root: Rc<RefCell<Directory>>,
-    current: Rc<RefCell<Directory>>,
+    root: Rc<RefCell<Node>>,
+    current: Rc<RefCell<Node>>,
 }
 
 impl Exec {
-  pub fn new(root: Rc<RefCell<Directory>>, current: Rc<RefCell<Directory>>) -> Exec {
+  pub fn new(root: Rc<RefCell<Node>>, current: Rc<RefCell<Node>>) -> Exec {
       Exec {
         root,
         current,
