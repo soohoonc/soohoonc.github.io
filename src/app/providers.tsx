@@ -3,13 +3,14 @@
 import * as React from 'react';
 import { ThemeProvider as NextThemesProvider } from 'next-themes';
 import { type ThemeProviderProps } from 'next-themes/dist/types';
+import parse from 'html-react-parser';
 import { getShell, type Shell } from '@/lib/fs';
 
 export function ThemeProvider({ children, ...props }: ThemeProviderProps) {
   return <NextThemesProvider {...props}>{children}</NextThemesProvider>;
 }
 type ShellContext = {
-  execute: (command: string) => string | null;
+  execute: (command: string) => React.ReactNode | null;
   prompt: string;
 };
 
@@ -32,6 +33,7 @@ export function useShell() {
 }
 
 export function ShellProvider({ children }: { children: React.ReactNode }) {
+  console.log('Welcome to my website!')
   const [shell, setShell] = React.useState<Shell>(initialShell);
   const [prompt, setPrompt] = React.useState<string>('');
   const execute = (command: string) => {
@@ -40,9 +42,8 @@ export function ShellProvider({ children }: { children: React.ReactNode }) {
       return;
     }
     const result = JSON.parse(shell.run(command));
-    console.log(result)
     setPrompt(`${result.user}@${result.host} ${result.path} $`);
-    return result.result;
+    return parse(result.result) as React.ReactNode | null; 
   }
   React.useEffect(() => {
     async function init() {
@@ -65,7 +66,7 @@ export function ShellProvider({ children }: { children: React.ReactNode }) {
 
 type TerminalState = {
   showWelcome: boolean;
-  setShowWelcome: (showWelcome: boolean) => void;
+  setShowWelcome: React.Dispatch<React.SetStateAction<boolean>>;
   inputs: string[];
   setInputs: (inputs: string[]) => void;
   outputs: Message[];

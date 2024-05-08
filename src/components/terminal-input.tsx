@@ -29,9 +29,10 @@ export const TerminalInput = React.forwardRef(({}, ref) => {
     if (e.key === 'Enter' && !e.shiftKey) {
       e.preventDefault();
       const output = execute(input);
-      if (!output) setShowWelcome(false);
-      setInputs(output ? [...inputs, `${prompt} ${input}`] : []);
-      setOutputs(output ? [...outputs, output] : []);
+      const shouldClear = Array.isArray(output) && output.length === 0;
+      setShowWelcome((prev) => prev && !shouldClear);
+      setInputs(!shouldClear ? [...inputs, `${prompt} ${input}`] : []);
+      setOutputs(!shouldClear ? [...outputs, output] : []);
       setInputIndex(inputsLength);
       setInput('');
       setInputText('');
