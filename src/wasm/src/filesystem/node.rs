@@ -1,13 +1,13 @@
 use std::rc::Rc;
 use std::cell::RefCell;
 
-#[derive(Clone)]
+#[derive(Clone, Send)]
 pub enum NodeType {
     Directory,
     File,
 }
 
-
+#[derive(Clone, Send)]
 pub struct Node {
     name: String,
     node_type: NodeType,

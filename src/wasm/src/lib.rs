@@ -2,7 +2,7 @@ use std::rc::Rc;
 use std::cell::RefCell;
 
 use wasm_bindgen::prelude::*;
-// use web_sys::console;
+use web_sys::console;
 use serde_json;
 
 mod shell;
@@ -13,6 +13,7 @@ use shell::exec::Exec;
 use filesystem::node::Node;
 use filesystem::create::create_fs;
 // use filesystem::pipe::Pipe;
+
 
 #[wasm_bindgen]
 pub struct Shell {
@@ -30,7 +31,8 @@ impl Shell {
     #[wasm_bindgen(constructor)]
     pub fn new(user: String, hostname: String) -> Shell {
         // hardcoded for now
-        let root = create_fs(std::path::Path::new("."));
+        console::log_1(&"Creating filesystem".into());
+        let root = get_root_node();
         // let current = root.borrow().get("/user/guest").unwrap();
         Shell {
             lexer: Lexer::new(),
