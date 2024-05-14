@@ -1,20 +1,21 @@
 
-use std::rc::Rc;
-use std::cell::RefCell;
+// use std::rc::Rc;
+// use std::cell::RefCell;
+use std::sync::{Arc, Mutex};
 use wasm_bindgen::prelude::*;
 use web_sys::console;
 
 use crate::filesystem::node::Node;
-use crate::filesystem::directory::Directory;
+// use crate::filesystem::directory::Directory;
 use crate::shell::lexer::Statement;
 
 pub struct Exec {
-    root: Rc<RefCell<Node>>,
-    current: Rc<RefCell<Node>>,
+    root: Arc<Mutex<Node>>,
+    current: Arc<Mutex<Node>>,
 }
 
 impl Exec {
-  pub fn new(root: Rc<RefCell<Node>>, current: Rc<RefCell<Node>>) -> Exec {
+  pub fn new(root: Arc<Mutex<Node>>, current: Arc<Mutex<Node>>) -> Exec {
       Exec {
         root,
         current,

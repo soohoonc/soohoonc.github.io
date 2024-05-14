@@ -1,27 +1,28 @@
-use std::rc::Rc;
-use std::cell::RefCell;
+// use std::rc::Rc;
+// use std::cell::RefCell;
+use std::sync::{Arc, Mutex};
 
-#[derive(Clone, Send)]
+#[derive(Clone)]
 pub enum NodeType {
     Directory,
     File,
 }
 
-#[derive(Clone, Send)]
+#[derive(Clone)]
 pub struct Node {
     name: String,
     node_type: NodeType,
-    parent: Option<Rc<RefCell<Node>>>,
-    children: Vec<Rc<RefCell<Node>>>,
+    parent: Option<Arc<Mutex<Node>>>,
+    children: Vec<Arc<Mutex<Node>>>,
 }
 
 impl Node {
-    pub fn new(name: String, node_type: NodeType, parent: Option<Rc<RefCell<Node>>>) -> Node {
+    pub fn new(name: String, node_type: NodeType, parent: Option<Arc<Mutex<Node>>>) -> Node {
         Node {
             name,
             node_type,
             parent,
-            children: Vec::<Rc<RefCell<Node>>>::new(),
+            children: Vec::<Arc<Mutex<Node>>>::new(),
         }
     }
 
@@ -33,18 +34,18 @@ impl Node {
         self.name.clone()
     }
 
-    pub fn get_parent(&self) -> Option<Rc<RefCell<Node>>> {
+    pub fn get_parent(&self) -> Option<Arc<Mutex<Node>>> {
         match &self.parent {
-            Some(parent) => Some(Rc::clone(parent)),
+            Some(parent) => Some(Arc::clone(parent)),
             None => None,
         }
     }
 
-    pub fn add_child(&mut self, child: Rc<RefCell<Node>>) {
+    pub fn add_child(&mut self, child: Arc<Mutex<Node>>) {
         self.children.push(child);
     }
 
-    pub fn get_children(&self) -> Vec<Rc<RefCell<Node>>> {
+    pub fn get_children(&self) -> Vec<Arc<Mutex<Node>>> {
         self.children.clone()
     }
 }

@@ -1,5 +1,6 @@
 use std::rc::Rc;
-use std::cell::RefCell;
+// use std::cell::RefCell;
+use std::sync::{Arc, Mutex};
 
 use wasm_bindgen::prelude::*;
 use web_sys::console;
@@ -11,7 +12,7 @@ mod filesystem;
 use shell::lexer::Lexer;
 use shell::exec::Exec;
 use filesystem::node::Node;
-use filesystem::create::create_fs;
+use filesystem::create::get_root_node;
 // use filesystem::pipe::Pipe;
 
 
@@ -19,8 +20,8 @@ use filesystem::create::create_fs;
 pub struct Shell {
     lexer: Lexer,
     exec: Exec,
-    root: Rc<RefCell<Node>>,
-    current: Rc<RefCell<Node>>,
+    root: Arc<Mutex<Node>>,
+    current: Arc<Mutex<Node>>,
     // pipe: Pipe,
     user: String,
     hostname: String,
@@ -36,9 +37,9 @@ impl Shell {
         // let current = root.borrow().get("/user/guest").unwrap();
         Shell {
             lexer: Lexer::new(),
-            exec: Exec::new(Rc::clone(&root), Rc::clone(&root)),
+            exec: Exec::new(Arc::clone(&root), Arc::clone(&root)),
             // current,
-            current: Rc::clone(&root),
+            current: Arc::clone(&root),
             root,
             // pipe: Pipe::new(""),
             user,
@@ -55,7 +56,7 @@ impl Shell {
                 "result": result,
                 "user": self.user,
                 "host": self.hostname,
-                "path": self.current.borrow().get_name(),
+                "path": self.current.lock().unwrap().get_name(),
             });
 
             let output_str = serde_json::to_string(&output).unwrap();

@@ -1,4 +1,5 @@
-use std::{cell::RefCell, rc::Rc};
+// use std::{cell::RefCell, rc::Rc};
+use std::sync::{Arc, Mutex};
 
 use crate::filesystem::node::Node;
 
@@ -6,11 +7,11 @@ use crate::filesystem::node::Node;
 pub struct File {
     name: String,
     data: String,
-    node: Rc<RefCell<Node>>
+    node: Arc<Mutex<Node>>
 }
 
 impl File {
-    pub fn new(name: String, data: String, node: Rc<RefCell<Node>>) -> File {
+    pub fn new(name: String, data: String, node: Arc<Mutex<Node>>) -> File {
         File {
             name,
             data,
