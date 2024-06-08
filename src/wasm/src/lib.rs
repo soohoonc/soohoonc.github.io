@@ -1,6 +1,5 @@
 use std::rc::Rc;
-// use std::cell::RefCell;
-use std::sync::{Arc, Mutex};
+use std::cell::RefCell;
 
 use wasm_bindgen::prelude::*;
 use web_sys::console;
@@ -12,7 +11,6 @@ mod filesystem;
 use shell::lexer::Lexer;
 use shell::exec::Exec;
 use filesystem::node::Node;
-use filesystem::create::get_root_node;
 // use filesystem::pipe::Pipe;
 
 
@@ -20,8 +18,8 @@ use filesystem::create::get_root_node;
 pub struct Shell {
     lexer: Lexer,
     exec: Exec,
-    root: Arc<Mutex<Node>>,
-    current: Arc<Mutex<Node>>,
+    root: Rc<RefCell<Node>>,
+    current: Rc<RefCell<Node>>,
     // pipe: Pipe,
     user: String,
     hostname: String,
@@ -31,15 +29,15 @@ pub struct Shell {
 impl Shell {
     #[wasm_bindgen(constructor)]
     pub fn new(user: String, hostname: String) -> Shell {
-        // hardcoded for now
-        console::log_1(&"Creating filesystem".into());
-        let root = get_root_node();
-        // let current = root.borrow().get("/user/guest").unwrap();
+        let root = Rc::new(RefCell::new(
+            Node::new("/".to_string(), filesystem::node::NodeType::Directory, None)
+        ));
+
         Shell {
             lexer: Lexer::new(),
-            exec: Exec::new(Arc::clone(&root), Arc::clone(&root)),
+            exec: Exec::new(Rc::clone(&root), Rc::clone(&root)),
             // current,
-            current: Arc::clone(&root),
+            current: Rc::clone(&root),
             root,
             // pipe: Pipe::new(""),
             user,
@@ -56,7 +54,7 @@ impl Shell {
                 "result": result,
                 "user": self.user,
                 "host": self.hostname,
-                "path": self.current.lock().unwrap().get_name(),
+                "path": self.current.borrow().get_name(),
             });
 
             let output_str = serde_json::to_string(&output).unwrap();

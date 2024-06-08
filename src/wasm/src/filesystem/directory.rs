@@ -1,11 +1,11 @@
-// use std::cell::RefCell;
-// use std::rc::Rc;
-use std::sync::{Arc, Mutex};
+use std::cell::RefCell;
+use std::rc::Rc;
+// use std::sync::{Arc, Mutex};
 use crate::filesystem::node::Node;
 
 pub struct Directory {
     name: String,
-    node: Arc<Mutex<Node>>,
+    node: Rc<RefCell<Node>>,
 }
 
 impl Directory {

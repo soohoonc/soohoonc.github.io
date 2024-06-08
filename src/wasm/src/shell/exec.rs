@@ -1,7 +1,6 @@
 
-// use std::rc::Rc;
-// use std::cell::RefCell;
-use std::sync::{Arc, Mutex};
+use std::rc::Rc;
+use std::cell::RefCell;
 use wasm_bindgen::prelude::*;
 use web_sys::console;
 
@@ -10,12 +9,12 @@ use crate::filesystem::node::Node;
 use crate::shell::lexer::Statement;
 
 pub struct Exec {
-    root: Arc<Mutex<Node>>,
-    current: Arc<Mutex<Node>>,
+    root: Rc<RefCell<Node>>,
+    current: Rc<RefCell<Node>>,
 }
 
 impl Exec {
-  pub fn new(root: Arc<Mutex<Node>>, current: Arc<Mutex<Node>>) -> Exec {
+  pub fn new(root: Rc<RefCell<Node>>, current: Rc<RefCell<Node>>) -> Exec {
       Exec {
         root,
         current,
@@ -109,6 +108,13 @@ impl Exec {
     // self.current = temp_dir;
     // Ok(JsValue::from_str("Success"))
     "cd command".to_string()
+  }
+
+  fn mkdir(&mut self, new_dir: String) -> String {
+    // let new_node = Rc::new(RefCell::new(Node::new(new_dir, NodeType::Directory, Some(Rc::clone(&self.current))));
+    // self.current.borrow_mut().add_child(Rc::clone(&new_node));
+    // Ok(JsValue::from_str("Success"))
+    "mkdir command".to_string()
   }
 
     pub fn execute(&mut self, input: Statement) -> String {

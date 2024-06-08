@@ -17,7 +17,7 @@ export const TerminalContent = () => {
       hour12: false,
     });
     return `${formattedDate}, ${formattedTime}`;
-  }
+  };
   const [currentTime, setCurrentTime] = useState(getTime());
 
   useEffect(() => {
@@ -35,7 +35,10 @@ export const TerminalContent = () => {
       {showWelcome && (
         <>
           <p suppressHydrationWarning>
-            <a href="https://soohoonchoi.com" className="link">soohoonchoi</a> ({currentTime})<br />
+            <a href='https://soohoonchoi.com' className='link'>
+              soohoonchoi
+            </a>{' '}
+            ({currentTime})<br />
             Type &quot;help&quot;, &quot;credits&quot; or &quot;license&quot; for more.
           </p>
         </>

@@ -14,8 +14,7 @@ type ShellContext = {
   prompt: string;
 };
 
-const initialShell = {
-} as Shell;
+const initialShell = {} as Shell;
 
 const initialShellContext = {
   execute: (command: string) => null,
@@ -33,7 +32,7 @@ export function useShell() {
 }
 
 export function ShellProvider({ children }: { children: React.ReactNode }) {
-  console.log('Welcome to my website!')
+  console.log('Welcome to my website!');
   const [shell, setShell] = React.useState<Shell>(initialShell);
   const [prompt, setPrompt] = React.useState<string>('');
   const execute = (command: string) => {
@@ -42,13 +41,14 @@ export function ShellProvider({ children }: { children: React.ReactNode }) {
       return;
     }
     const result = JSON.parse(shell.run(command));
+    console.log('execute', result);
     setPrompt(`${result.user}@${result.host} ${result.path} $`);
-    return parse(result.result) as React.ReactNode | null; 
-  }
+    return parse(result.result) as React.ReactNode | null;
+  };
   React.useEffect(() => {
     async function init() {
       const shell = await getShell();
-      const result = JSON.parse(shell.run('hello'))
+      const result = JSON.parse(shell.run('hello'));
       console.log(result.result);
       setPrompt(`${result.user}@${result.host} ${result.path} $`);
       setShell(shell);
@@ -57,10 +57,14 @@ export function ShellProvider({ children }: { children: React.ReactNode }) {
   }, []);
 
   return (
-    <ShellContext.Provider value={{
-      prompt,
-      execute
-    }}>{children}</ShellContext.Provider>
+    <ShellContext.Provider
+      value={{
+        prompt,
+        execute,
+      }}
+    >
+      {children}
+    </ShellContext.Provider>
   );
 }
 

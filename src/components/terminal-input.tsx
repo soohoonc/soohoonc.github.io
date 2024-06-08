@@ -3,15 +3,8 @@ import React from 'react';
 import { useTerminalState, useShell } from '@/app/providers';
 
 export const TerminalInput = React.forwardRef(({}, ref) => {
-  const {
-    setShowWelcome,
-    inputs,
-    setInputs,
-    outputs,
-    setOutputs,
-    inputIndex,
-    setInputIndex,
-  } = useTerminalState();
+  const { setShowWelcome, inputs, setInputs, outputs, setOutputs, inputIndex, setInputIndex } =
+    useTerminalState();
   const [input, setInput] = React.useState<string>('');
   const inputRef = React.useRef<HTMLInputElement>(null);
   const { execute, prompt } = useShell();
@@ -70,7 +63,7 @@ export const TerminalInput = React.forwardRef(({}, ref) => {
 
   return (
     <div className='bg-transparent outline-none resize-none break-all'>
-      {prompt ? (<span className='mr-[1ch]'>{prompt}</span>) : null}
+      {prompt ? <span className='mr-[1ch]'>{prompt}</span> : null}
       <span
         contentEditable
         ref={inputRef}
