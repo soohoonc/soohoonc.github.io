@@ -69,7 +69,13 @@ fn ls(&self) -> String {
             "/".to_owned()
         }
     };
-    let mut current_node = Rc::clone(&self.current);
+    let mut current_node = {
+      if new_path.starts_with("/") {
+        Rc::clone(&self.root)
+      } else {
+        Rc::clone(&self.current)
+      }
+    };
     console::log_1(&JsValue::from_str(new_path.as_str()));
     for path in new_path.split("/").filter(|&x| !x.is_empty()) {
         // console::log_1(&JsValue::from_str(path));
@@ -120,7 +126,13 @@ fn ls(&self) -> String {
         return "usage: mkdir [-pv] [-m mode] directory_name ...".to_string()
     } 
     let new_path = args.first().unwrap().clone();
-    let mut current_node = Rc::clone(&self.current);
+    let mut current_node = {
+      if new_path.starts_with("/") {
+        Rc::clone(&self.root)
+      } else {
+        Rc::clone(&self.current)
+      }
+    };
     if current_node.borrow().as_directory().is_none() {
         return "Not a directory".to_string();
     }
@@ -162,6 +174,7 @@ fn ls(&self) -> String {
         output.push_str(arg.as_str());
         output.push_str(" ");
     }
+    output.push_str(" ");
     output
   }
 
@@ -178,20 +191,175 @@ fn ls(&self) -> String {
     " ".to_string()
   }
 
-    pub fn execute(&mut self, input: Statement) -> String {
-        match &input.command[..] {
+fn cat(&self, args: Vec<String>) -> String {
+    if args.is_empty() {
+        return "usage: cat file_name".to_string();
+    }
+    
+    let file_name = args[0].clone();
+    let mut current_node = if file_name.starts_with("/") {
+        Rc::clone(&self.root)
+    } else {
+        Rc::clone(&self.current)
+    };
+    
+    let parts: Vec<&str> = file_name.split('/').filter(|&x| !x.is_empty()).collect();
+    let mut file_node: Option<File> = None;
+    let mut found = false;
+    
+    for (i, node) in parts.iter().enumerate() {
+        let children = current_node.borrow().get_children();
+        for child in children {
+            let child_node = Rc::clone(&child);
+            if child_node.borrow().get_name() == *node {
+                match child_node.borrow().get_node_type() {
+                    NodeType::File(ref file) => {
+                        if i == parts.len() - 1 {
+                            file_node = Some(file.clone());
+                            found = true;
+                        } else {
+                            return "Not a directory".to_string();
+                        }
+                    },
+                    NodeType::Directory(_) => {
+                        if i < parts.len() - 1 {
+                            current_node = Rc::clone(&child_node);
+                            found = true;
+                        } else {
+                            return "Unsupported action for cat".to_string();
+                        }
+                    }
+                }
+                break;  // Exit the inner loop once the match is found
+            }
+        }
+        if !found {
+            return "File not found".to_string();
+        }
+        found = false; // Reset found for the next iteration
+    }
+    
+    match file_node {
+        Some(file_node) => file_node.read(),
+        None => "File not found".to_string(),
+    }
+}
+
+fn write(&self, args: Vec<String>) -> String {
+  // Validate arguments
+  if args.len() < 2 {
+      return "usage: write file_name 'content'".to_string();
+  }
+
+  let file_name = args[0].clone();
+  let content = args[1].clone();
+
+  let mut current_node = if file_name.starts_with("/") {
+      Rc::clone(&self.root)
+  } else {
+      Rc::clone(&self.current)
+  };
+
+  let parts: Vec<&str> = file_name.split('/').filter(|&x| !x.is_empty()).collect();
+  let mut file_node: Option<Rc<RefCell<Node>>> = None;
+  let mut found = false;
+
+  for (i, node) in parts.iter().enumerate() {
+      let children = current_node.borrow().get_children();
+      for child in children {
+          let child_node = Rc::clone(&child);
+          if child_node.borrow().get_name() == *node {
+              match child_node.borrow().get_node_type() {
+                  NodeType::File(ref file) => {
+                      if i == parts.len() - 1 {
+                          file_node = Some(Rc::clone(&child));
+                          found = true;
+                      } else {
+                          return "File not found".to_string();
+                      }
+                  },
+                  NodeType::Directory(_) => {
+                      if i < parts.len() - 1 {
+                          current_node = Rc::clone(&child_node);
+                          found = true;
+                      } else {
+                          return "Unsupported action for write".to_string();
+                      }
+                  }
+              }
+              break;  // Exit the inner loop once the match is found
+          }
+      }
+      if !found {
+          return "File not found".to_string();
+      }
+      found = false; // Reset found for the next iteration
+  }
+
+  match file_node {
+      Some(file_node) => {
+        match file_node.borrow().get_node_type() {
+          NodeType::Directory(_) => {
+            return "Not a file".to_string();
+          },
+          NodeType::File(ref mut file) => {
+            file.write(content)
+          }
+        }
+      },
+      None => return "File not found".to_string(),
+  }
+  return " ".to_string();
+}
+
+pub fn execute(&mut self, statements: Vec<Statement>) -> String {
+  let mut output = String::new();
+  // let mut previous_output = None;
+
+  for (i, statement) in statements.iter().enumerate() {
+      if i > 0 {
+          if let Some(op) = statements[i - 1].operators.last() {
+              match op.as_str() {
+                  // "|" => {
+                  //     // Handle piping (not implemented in this example)
+                  //     // Assume piping is handled via previous_output
+                  //     previous_output = Some(output.clone());
+                  // }
+                  // ">" => {
+                  //     // Handle output redirection
+                  //     if let Some(file_name) = statement.arguments.first() {
+                  //         std::fs::write(file_name, output.clone()).expect("Unable to write file");
+                  //         output.clear();
+                  //     }
+                  // }
+                  // ">>" => {
+                  //     // Handle append output redirection
+                  //     if let Some(file_name) = statement.arguments.first() {
+                  //         use std::fs::OpenOptions;
+                  //         let mut file = OpenOptions::new().append(true).open(file_name).expect("Unable to open file");
+                  //         use std::io::Write;
+                  //         write!(file, "{}", output).expect("Unable to write file");
+                  //         output.clear();
+                  //     }
+                  // }
+                  _ => {}
+              }
+          }
+      }
+
+      output = match &statement.command[..] {
           "" => " ".to_owned(),
           "github" => "<a href=\"https://github.com/soohoonc/\" target=\"_blank\">github</a>".to_owned(),
           "help" => serde_json::to_string("<p className=\"text-emerald-500\">\nhelp command\n</p>").unwrap(),
           "license" => "license command".to_owned(),
           "ls" => Self::ls(self),
           "pwd" => Self::pwd(self),
-          "cd" => Self::cd(self, input.arguments),
+          "cd" => Self::cd(self, statement.arguments.clone()),
           "clear" => "".to_owned(),
-          "echo" => Self::echo(self, input.arguments),
-          "cat" => "cat command".to_owned(),
-          "touch" => Self::touch(self, input.arguments),
-          "mkdir" => Self::mkdir(self, input.arguments),
+          "echo" => Self::echo(self, statement.arguments.clone()),
+          "cat" => Self::cat(self, statement.arguments.clone()),
+          "touch" => Self::touch(self, statement.arguments.clone()),
+          "mkdir" => Self::mkdir(self, statement.arguments.clone()),
           "rm" => "rm command".to_owned(),
           "rmdir" => "rmdir command".to_owned(),
           "mv" => "mv command".to_owned(),
@@ -199,30 +367,11 @@ fn ls(&self) -> String {
           "exit" => "Goodbye!".to_owned(),
           "whoami" => "root".to_owned(),
           "which" => "which command".to_owned(),
-          // "alias" => "alias command".to_owned(),
-          // "env" => "env command".to_owned(),
-          // "grep" => "grep command".to_owned(),
-          // "find" => "find command".to_owned(),
-          // "export" => "export command".to_owned(),
-          // "wc" => "wc command".to_owned(),
-          // "nano" => "nano command".to_owned(),
-          // "vi" => "vi command".to_owned(),
-          // "vim" => "vim command".to_owned(),
-          // "emacs" => "emacs command".to_owned(),
-          // "sed" => "sed command".to_owned(),
-          // "chmod" => "chmod command".to_owned(),
-          // "chown" => "chown command".to_owned(),
-          // "chgrp" => "chgrp command".to_owned(),
-          // "useradd" => "useradd command".to_owned(),
-          // "userdel" => "userdel command".to_owned(),
-          // "passwd" => "passwd command".to_owned(),
-          // "su" => "su command".to_owned(),
-          // "sudo" => "sudo command".to_owned(),
-          // "ln" => "ln command".to_owned(),
-          // "who" => "who command".to_owned(),
-          // "top" => "top command".to_owned(),
-          // "man" => "man command".to_owned(),
+          "write" => Self::write(self, statement.arguments.clone()),
           command => (command.to_owned() + ": command not found").to_owned(),
-        }
-    }
+      };
+  }
+
+  output
+}
 }

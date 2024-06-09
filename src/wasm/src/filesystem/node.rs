@@ -37,13 +37,13 @@ impl Node {
         }
     }
 
-    // pub fn as_file(&self) -> Option<&File> {
-    //     if let NodeType::File(ref file) = self.node_type {
-    //         Some(file)
-    //     } else {
-    //         None
-    //     }
-    // }
+    pub fn as_file(&self) -> Option<&File> {
+        if let NodeType::File(ref file) = self.node_type {
+            Some(file)
+        } else {
+            None
+        }
+    }
 
     pub fn get_node_type(&self) -> NodeType {
         self.node_type.clone()

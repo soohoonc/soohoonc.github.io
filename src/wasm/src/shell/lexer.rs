@@ -1,15 +1,13 @@
-/**
- * Parse commands, by space, arguments and options for now.
- */
-
 pub enum Token {
   Command(String),
+  Operator(String),
   Option(String),
   Argument(String),
 }
 
 pub struct Statement {
   pub command: String,
+  pub operators: Vec<String>,
   pub options: Vec<String>,
   pub arguments: Vec<String>,
 }
@@ -18,6 +16,7 @@ impl Statement {
   pub fn new() -> Statement {
       Statement {
           command: String::new(),
+          operators: Vec::new(),
           options: Vec::new(),
           arguments: Vec::new(),
       }
@@ -26,6 +25,7 @@ impl Statement {
   pub fn push(&mut self, token: Token) {
       match token {
           Token::Command(command) => self.command = command,
+          Token::Operator(operator) => self.operators.push(operator),
           Token::Option(option) => self.options.push(option),
           Token::Argument(argument) => self.arguments.push(argument),
       }
@@ -39,27 +39,35 @@ impl Lexer {
       Lexer {}
   }
 
-  /** A shitty lexer for now... only one statement at a time
-   * Want to add piping and redirections later
-   */
-  pub fn lex(&self, input: &str) -> Statement {
-      let mut statement = Statement::new();
+  pub fn lex(&self, input: &str) -> Vec<Statement> {
+      let mut statements = Vec::new();
+      let mut current_statement = Statement::new();
       let mut input_split = input.split_whitespace();
 
-      if let Some(command) = input_split.next() {
-          statement.push(Token::Command(command.to_string()));
-          for argument in input_split {
-              if argument.starts_with("--") {
-                  statement.push(Token::Option(argument.to_string()));
-              } else if argument.starts_with("-") {
-                argument.chars().skip(1).for_each(|c| {
-                  statement.push(Token::Option(c.to_string()));
-                });
-              } else {
-                  statement.push(Token::Argument(argument.to_string()));
+      while let Some(token) = input_split.next() {
+          match token {
+              "|" | ">" | ">>" => {
+                  current_statement.push(Token::Operator(token.to_string()));
+                  statements.push(current_statement);
+                  current_statement = Statement::new();
+              }
+              _ => {
+                  if current_statement.command.is_empty() {
+                      current_statement.push(Token::Command(token.to_string()));
+                  } else if token.starts_with("--") {
+                      current_statement.push(Token::Option(token.to_string()));
+                  } else if token.starts_with("-") {
+                      token.chars().skip(1).for_each(|c| {
+                          current_statement.push(Token::Option(c.to_string()));
+                      });
+                  } else {
+                      current_statement.push(Token::Argument(token.to_string()));
+                  }
               }
           }
       }
-      statement
+
+      statements.push(current_statement);
+      statements
   }
 }

@@ -12,11 +12,10 @@ impl File {
             data,
         }
     }
-
-    // pub fn read(&self) -> String {
-    //     self.data.clone()
-    // }
-    // pub fn write(&mut self, data: String) {
-    //     self.data = data;
-    // }
+    pub fn read(&self) -> String {
+        self.data.clone()
+    }
+    pub fn write(&mut self, data: String) {
+        self.data = data;
+    }
 }
