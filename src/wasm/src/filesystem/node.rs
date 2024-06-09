@@ -1,14 +1,17 @@
 use std::rc::Rc;
 use std::cell::RefCell;
+
+use super::directory::Directory;
+use super::file::File;
 // use std::sync::{Arc, Mutex};
 
-#[derive(Clone)]
+#[derive(Clone, PartialEq)]
 pub enum NodeType {
-    Directory,
-    File,
+    Directory(Directory),
+    File(File),
 }
 
-#[derive(Clone)]
+#[derive(Clone, PartialEq)]
 pub struct Node {
     name: String,
     node_type: NodeType,
@@ -22,9 +25,25 @@ impl Node {
             name,
             node_type,
             parent,
-            children: Vec::<Rc<RefCell<Node>>>::new(),
+            children: Vec::new(),
         }
     }
+
+    pub fn as_directory(&self) -> Option<&Directory> {
+        if let NodeType::Directory(ref dir) = self.node_type {
+            Some(dir)
+        } else {
+            None
+        }
+    }
+
+    // pub fn as_file(&self) -> Option<&File> {
+    //     if let NodeType::File(ref file) = self.node_type {
+    //         Some(file)
+    //     } else {
+    //         None
+    //     }
+    // }
 
     pub fn get_node_type(&self) -> NodeType {
         self.node_type.clone()
@@ -41,11 +60,11 @@ impl Node {
         }
     }
 
-    pub fn add_child(&mut self, child: Rc<RefCell<Node>>) {
-        self.children.push(child);
-    }
-
     pub fn get_children(&self) -> Vec<Rc<RefCell<Node>>> {
         self.children.clone()
+    }
+
+    pub fn add_child(&mut self, child: Rc<RefCell<Node>>) {
+        self.children.push(Rc::clone(&child));
     }
 }

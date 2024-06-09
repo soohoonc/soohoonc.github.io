@@ -5,6 +5,7 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
+    "build:wasm": "wasm-pack build ./src/wasm --target web",
     "start": "next start",
     "lint": "next lint",
     "format": "bunx prettier --write .",

@@ -1,32 +1,22 @@
-// use std::{cell::RefCell, rc::Rc};
-use std::sync::{Arc, Mutex};
 
-use crate::filesystem::node::Node;
-
-
+#[derive(Clone, PartialEq)]
 pub struct File {
-    name: String,
+    pub name: String,
     data: String,
-    node: Arc<Mutex<Node>>
 }
 
 impl File {
-    pub fn new(name: String, data: String, node: Arc<Mutex<Node>>) -> File {
+    pub fn new(name: String, data: String) -> File {
         File {
             name,
             data,
-            node,
         }
     }
 
-    pub fn get_name(&self) -> &String {
-        &self.name
-    }
-
-    pub fn read(&self) -> String {
-        self.data.clone()
-    }
-    pub fn write(&mut self, data: String) {
-        self.data = data;
-    }
+    // pub fn read(&self) -> String {
+    //     self.data.clone()
+    // }
+    // pub fn write(&mut self, data: String) {
+    //     self.data = data;
+    // }
 }
