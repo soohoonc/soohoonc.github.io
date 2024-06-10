@@ -185,7 +185,7 @@ fn ls(&self) -> String {
     let new_file = args.first().unwrap().clone();
     let cloned_new_file = new_file.clone();
     let new_node = Rc::new(RefCell::new(Node::new(cloned_new_file, NodeType::File(
-        File::new(new_file, "".to_string())
+        File::new(new_file, " ".to_string())
     ), Some(Rc::clone(&self.current)))));
     self.current.borrow_mut().add_child(Rc::clone(&new_node));
     " ".to_string()
@@ -259,6 +259,9 @@ fn write(&self, args: Vec<String>) -> String {
   } else {
       Rc::clone(&self.current)
   };
+
+  console::log_1(&JsValue::from_str(file_name.as_str()));
+  console::log_1(&JsValue::from_str(content.as_str()));
 
   let parts: Vec<&str> = file_name.split('/').filter(|&x| !x.is_empty()).collect();
   let mut file_node: Option<Rc<RefCell<Node>>> = None;

@@ -3,6 +3,9 @@ pub enum Token {
   Operator(String),
   Option(String),
   Argument(String),
+  Quote(String),
+  LParen(String),
+  RParen(String),
 }
 
 pub struct Statement {
@@ -28,6 +31,7 @@ impl Statement {
           Token::Operator(operator) => self.operators.push(operator),
           Token::Option(option) => self.options.push(option),
           Token::Argument(argument) => self.arguments.push(argument),
+          _ => {}
       }
   }
 }
@@ -50,6 +54,18 @@ impl Lexer {
                   current_statement.push(Token::Operator(token.to_string()));
                   statements.push(current_statement);
                   current_statement = Statement::new();
+              }
+
+              "'" | "\"" => {
+                  let mut quote = token.to_string();
+                  while let Some(next_token) = input_split.next() {
+                      quote.push_str(" ");
+                      quote.push_str(next_token);
+                      if next_token.ends_with(token) {
+                          break;
+                      }
+                  }
+                  current_statement.push(Token::Quote(quote));
               }
               _ => {
                   if current_statement.command.is_empty() {

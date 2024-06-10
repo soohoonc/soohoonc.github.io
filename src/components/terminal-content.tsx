@@ -38,7 +38,10 @@ export const TerminalContent = () => {
             <a href='https://soohoonchoi.com' className='link'>
               soohoonchoi
             </a>{' '}
-            ({currentTime})<br />
+            <React.Suspense fallback={null}>
+              {currentTime}
+            </React.Suspense>
+            <br />
             Type &quot;help&quot;, &quot;credits&quot; or &quot;license&quot; for more.
           </p>
         </>

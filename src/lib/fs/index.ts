@@ -14,11 +14,11 @@ async function create(
         await create(shell, value.children, fullPath);
       }
     } else if (value.type === 'file') {
-      console.log(`touch ${fullPath}`);
-      // shell.run(`touch ${fullPath}`);
-      // if (value.content) {
-      //   shell.run(`write ${fullPath} "${value.content}"`);
-      // }
+      console.log(`touch ${fullPath}`)
+      shell.run(`touch ${fullPath}`);
+      if (value.content) {
+        shell.run(`write ${fullPath} '${JSON.stringify(value.content)}'`);
+      }
     }
   }
 }
