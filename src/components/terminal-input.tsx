@@ -63,7 +63,7 @@ export const TerminalInput = React.forwardRef(({}, ref) => {
 
   return (
     <div className='bg-transparent outline-none resize-none break-all'>
-      {prompt ? <span className='mr-[1ch]'>{prompt}</span> : null}
+      {prompt ? <span >{prompt}</span> : null}
       <span
         contentEditable
         ref={inputRef}

@@ -19,11 +19,11 @@ use filesystem::directory::Directory;
 pub struct Shell {
     lexer: Lexer,
     exec: Exec,
-    // root: Rc<RefCell<Node>>,
+    root: Rc<RefCell<Node>>,
     current: Rc<RefCell<Node>>,
     // pipe: Pipe,
-    user: String,
-    hostname: String,
+    user: Rc<RefCell<String>>,
+    hostname: Rc<RefCell<String>>,
 }
 
 #[wasm_bindgen]
@@ -39,32 +39,28 @@ impl Shell {
 
         Shell {
             lexer: Lexer::new(),
-            exec: Exec::new(Rc::clone(&root), Rc::clone(&root)),
+            exec: Exec::new(),
             current: Rc::clone(&root),
-            // root,
+            root,
             // pipe: Pipe::new(""),
-            user,
-            hostname,
+            user: Rc::new(RefCell::new(user)),
+            hostname: Rc::new(RefCell::new(hostname)),
         }
     }
     
     /** Only one statement for now */
         pub fn run(&mut self, input: &str) -> String {
             let statement = self.lexer.lex(input);
-            let result = self.exec.execute(statement);
+            let result = self.exec.execute(
+                statement,
+                &self.root,
+                &self.current,
+                &self.user,
+                &self.hostname,
+            );
             // console::log_1(&result.clone().into());
-            self.current = Rc::clone(&self.exec.get_current());
-            self.user = self.exec.get_user();
-            self.hostname = self.exec.get_hostname();
 
-            let output = serde_json::json!({
-                "result": result,
-                "user": self.exec.get_user(),
-                "host": self.exec.get_hostname(),
-                "path": self.exec.get_current().borrow().get_name(),
-            });
-
-            let output_str = serde_json::to_string(&output).unwrap();
+            let output_str = serde_json::to_string(&result).unwrap();
             // console::log_1(&output_str.clone().into());
             output_str
         }

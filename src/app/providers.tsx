@@ -42,7 +42,7 @@ export function ShellProvider({ children }: { children: React.ReactNode }) {
     }
     const result = JSON.parse(shell.run(command));
     console.log('execute', result);
-    setPrompt(`${result.user}@${result.host} ${result.path} $`);
+    setPrompt(`${result.user}@${result.host} ${result.path} $ `);
     return parse(result.result) as React.ReactNode | null;
   };
   React.useEffect(() => {
@@ -50,7 +50,7 @@ export function ShellProvider({ children }: { children: React.ReactNode }) {
       const shell = await getShell();
       const result = JSON.parse(shell.run('hello'));
       console.log(result.result);
-      setPrompt(`${result.user}@${result.host} ${result.path} $`);
+      setPrompt(`${result.user}@${result.host} ${result.path} $ `);
       setShell(shell);
     }
     init();

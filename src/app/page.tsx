@@ -1,7 +1,7 @@
-import { Terminal } from '@/components/terminal';
-import { ShellProvider, TerminalStateProvider } from './providers';
+import { ShellProvider, TerminalStateProvider } from "./providers"
+import { Terminal } from '@/components/terminal'
 
-export default function Home() {
+const TerminalPage = () => {
   return (
     <div className='w-screen h-screen justify-center items-center'>
       <ShellProvider>
@@ -10,5 +10,7 @@ export default function Home() {
         </TerminalStateProvider>
       </ShellProvider>
     </div>
-  );
+  )
 }
+
+export default TerminalPage

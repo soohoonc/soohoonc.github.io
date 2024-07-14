@@ -1,6 +1,7 @@
 
 use std::rc::Rc;
 use std::cell::RefCell;
+use serde_json::Value;
 use wasm_bindgen::prelude::*;
 use web_sys::console;
 
@@ -10,43 +11,25 @@ use crate::filesystem::file::File;
 // use crate::filesystem::directory::Directory;
 use crate::shell::lexer::Statement;
 
-pub struct Exec {
-    root: Rc<RefCell<Node>>,
-    current: Rc<RefCell<Node>>,
-}
+pub struct Exec {}
 
 impl Exec {
-  pub fn new(root: Rc<RefCell<Node>>, current: Rc<RefCell<Node>>) -> Exec {
-      Exec {
-        root,
-        current,
-      }
+  pub fn new() -> Exec {
+      Exec {}
   }
 
-  pub fn get_current(&self) -> Rc<RefCell<Node>> {
-    Rc::clone(&self.current)
-  }
-
-  pub fn get_user(&self) -> String {
-    "guest".to_owned()
-  }
-
-  pub fn get_hostname(&self) -> String {
-    "soohoonchoi.com".to_owned()
-  }
-
-fn ls(&self) -> String {
+fn ls(current: &Rc<RefCell<Node>>) -> String {
     let mut children: Vec<String> = Vec::new();
-    let current_node = self.current.borrow();
+    let current_node = current.borrow();
     for child in current_node.get_children() {
         children.push(child.borrow().get_name().to_owned());
     }
     serde_json::to_string(&children).unwrap()
 }
 
-  fn pwd(&self) -> String {
+  fn pwd(current: &Rc<RefCell<Node>>) -> String {
     let mut path_string = String::new();
-    let mut current_node = Rc::clone(&self.current);
+    let mut current_node = Rc::clone(&current);
     loop {
       path_string = format!("{}/{}", current_node.borrow().get_name(), path_string);
         let parent = current_node.borrow().get_parent();
@@ -61,7 +44,7 @@ fn ls(&self) -> String {
     }
     serde_json::to_string(&path_string).unwrap()
 }
-  fn cd(&mut self, args: Vec<String>) -> String {
+  fn cd(current: &Rc<RefCell<Node>>, root: &Rc<RefCell<Node>>, args: Vec<String>) -> String {
     let new_path = {
         if args.first().is_some() {
             args.first().unwrap().clone()
@@ -71,9 +54,9 @@ fn ls(&self) -> String {
     };
     let mut current_node = {
       if new_path.starts_with("/") {
-        Rc::clone(&self.root)
+        Rc::clone(&root)
       } else {
-        Rc::clone(&self.current)
+        Rc::clone(&current)
       }
     };
     console::log_1(&JsValue::from_str(new_path.as_str()));
@@ -82,7 +65,7 @@ fn ls(&self) -> String {
         if path == "." {
             continue;
         } else if path == ".." {
-            let parent = self.current.borrow().get_parent();
+            let parent = current.borrow().get_parent();
             match parent {
                 Some(parent) => current_node = parent,
                 None => ()
@@ -114,11 +97,11 @@ fn ls(&self) -> String {
             }
         }
     }
-    self.current = current_node;
+    *current.borrow_mut() = current_node.borrow().clone();
     return " ".to_string()
   }
 
-  fn mkdir(&mut self, args: Vec<String>) -> String {
+  fn mkdir(current: &Rc<RefCell<Node>>, root: &Rc<RefCell<Node>>, args: Vec<String>) -> String {
     // let new_node = Rc::new(RefCell::new(Node::new(new_dir, NodeType::Directory, Some(Rc::clone(&self.current))));
     // self.current.borrow_mut().add_child(Rc::clone(&new_node));
     // Ok(JsValue::from_str("Success"))
@@ -128,9 +111,9 @@ fn ls(&self) -> String {
     let new_path = args.first().unwrap().clone();
     let mut current_node = {
       if new_path.starts_with("/") {
-        Rc::clone(&self.root)
+        Rc::clone(&root)
       } else {
-        Rc::clone(&self.current)
+        Rc::clone(&current)
       }
     };
     if current_node.borrow().as_directory().is_none() {
@@ -178,7 +161,7 @@ fn ls(&self) -> String {
     output
   }
 
-  fn touch(&self, args: Vec<String>) -> String {
+  fn touch(current: &Rc<RefCell<Node>>, args: Vec<String>) -> String {
     if args.first().is_none() {
         return "usage: touch file_name".to_string()
     }
@@ -186,21 +169,21 @@ fn ls(&self) -> String {
     let cloned_new_file = new_file.clone();
     let new_node = Rc::new(RefCell::new(Node::new(cloned_new_file, NodeType::File(
         File::new(new_file, " ".to_string())
-    ), Some(Rc::clone(&self.current)))));
-    self.current.borrow_mut().add_child(Rc::clone(&new_node));
+    ), Some(Rc::clone(&current)))));
+    current.borrow_mut().add_child(Rc::clone(&new_node));
     " ".to_string()
   }
 
-fn cat(&self, args: Vec<String>) -> String {
+fn cat(current: &Rc<RefCell<Node>>, root: &Rc<RefCell<Node>>, args: Vec<String>) -> String {
     if args.is_empty() {
         return "usage: cat file_name".to_string();
     }
     
     let file_name = args[0].clone();
     let mut current_node = if file_name.starts_with("/") {
-        Rc::clone(&self.root)
+        Rc::clone(&root)
     } else {
-        Rc::clone(&self.current)
+        Rc::clone(&current)
     };
     
     let parts: Vec<&str> = file_name.split('/').filter(|&x| !x.is_empty()).collect();
@@ -245,7 +228,7 @@ fn cat(&self, args: Vec<String>) -> String {
     }
 }
 
-fn write(&self, args: Vec<String>) -> String {
+fn write(current: &Rc<RefCell<Node>>, root: &Rc<RefCell<Node>>, args: Vec<String>) -> String {
   // Validate arguments
   if args.len() < 2 {
       return "usage: write file_name 'content'".to_string();
@@ -255,9 +238,9 @@ fn write(&self, args: Vec<String>) -> String {
   let content = args[1].clone();
 
   let mut current_node = if file_name.starts_with("/") {
-      Rc::clone(&self.root)
+      Rc::clone(&root)
   } else {
-      Rc::clone(&self.current)
+      Rc::clone(&current)
   };
 
   console::log_1(&JsValue::from_str(file_name.as_str()));
@@ -273,7 +256,7 @@ fn write(&self, args: Vec<String>) -> String {
           let child_node = Rc::clone(&child);
           if child_node.borrow().get_name() == *node {
               match child_node.borrow().get_node_type() {
-                  NodeType::File(ref file) => {
+                  NodeType::File(_) => {
                       if i == parts.len() - 1 {
                           file_node = Some(Rc::clone(&child));
                           found = true;
@@ -315,7 +298,14 @@ fn write(&self, args: Vec<String>) -> String {
   return " ".to_string();
 }
 
-pub fn execute(&mut self, statements: Vec<Statement>) -> String {
+pub fn execute(
+  &mut self,
+  statements: Vec<Statement>,
+  root: &Rc<RefCell<Node>>,
+  current: &Rc<RefCell<Node>>,
+  user: &Rc<RefCell<String>>,
+  hostname: &Rc<RefCell<String>>
+) -> Value {
   let mut output = String::new();
   // let mut previous_output = None;
 
@@ -353,28 +343,36 @@ pub fn execute(&mut self, statements: Vec<Statement>) -> String {
       output = match &statement.command[..] {
           "" => " ".to_owned(),
           "github" => "<a href=\"https://github.com/soohoonc/\" target=\"_blank\">github</a>".to_owned(),
-          "help" => serde_json::to_string("<p className=\"text-emerald-500\">\nhelp command\n</p>").unwrap(),
+          "help" => "<p className=\"text-emerald-500\">\nhelp command\n</p>".to_owned(),
           "license" => "license command".to_owned(),
-          "ls" => Self::ls(self),
-          "pwd" => Self::pwd(self),
-          "cd" => Self::cd(self, statement.arguments.clone()),
+          "ls" => Self::ls(current),
+          "pwd" => Self::pwd(current),
+          "cd" => Self::cd(current, root, statement.arguments.clone()),
           "clear" => "".to_owned(),
           "echo" => Self::echo(self, statement.arguments.clone()),
-          "cat" => Self::cat(self, statement.arguments.clone()),
-          "touch" => Self::touch(self, statement.arguments.clone()),
-          "mkdir" => Self::mkdir(self, statement.arguments.clone()),
+          "cat" => Self::cat(current, root, statement.arguments.clone()),
+          "touch" => Self::touch(current, statement.arguments.clone()),
+          "mkdir" => Self::mkdir(current, root, statement.arguments.clone()),
           "rm" => "rm command".to_owned(),
           "rmdir" => "rmdir command".to_owned(),
           "mv" => "mv command".to_owned(),
           "cp" => "cp command".to_owned(),
           "exit" => "Goodbye!".to_owned(),
-          "whoami" => "root".to_owned(),
+          "whoami" => user.borrow().to_owned(),
+          "host" => hostname.borrow().to_owned(),
           "which" => "which command".to_owned(),
-          "write" => Self::write(self, statement.arguments.clone()),
+          "write" => Self::write(current, root, statement.arguments.clone()),
           command => (command.to_owned() + ": command not found").to_owned(),
       };
   }
 
+  // return json like object 
+  let output = serde_json::json!({
+    "result": output,
+    "user": user.borrow().to_owned(),
+    "host": hostname.borrow().to_owned(),
+    "path": current.borrow().get_name(),
+  });
   output
 }
 }
