@@ -44,62 +44,70 @@ fn ls(current: &Rc<RefCell<Node>>) -> String {
     }
     serde_json::to_string(&path_string).unwrap()
 }
-  fn cd(current: &Rc<RefCell<Node>>, root: &Rc<RefCell<Node>>, args: Vec<String>) -> String {
-    let new_path = {
-        if args.first().is_some() {
-            args.first().unwrap().clone()
-        } else {
-            "/".to_owned()
-        }
+fn cd(current: &Rc<RefCell<Node>>, root: &Rc<RefCell<Node>>, args: Vec<String>) -> String {
+    console::log_1(&"Entering cd function".into());
+
+    let new_path = args.first().cloned().unwrap_or_else(|| "/".to_owned());
+    console::log_1(&format!("New path: {}", new_path).into());
+
+    let mut current_node = if new_path.starts_with("/") {
+        console::log_1(&"Starting from root".into());
+        Rc::clone(root)
+    } else {
+        console::log_1(&"Starting from current directory".into());
+        Rc::clone(current)
     };
-    let mut current_node = {
-      if new_path.starts_with("/") {
-        Rc::clone(&root)
-      } else {
-        Rc::clone(&current)
-      }
-    };
-    console::log_1(&JsValue::from_str(new_path.as_str()));
-    for path in new_path.split("/").filter(|&x| !x.is_empty()) {
-        // console::log_1(&JsValue::from_str(path));
-        if path == "." {
-            continue;
-        } else if path == ".." {
-            let parent = current.borrow().get_parent();
-            match parent {
-                Some(parent) => current_node = parent,
-                None => ()
-            }
-        } else {
-            let mut found = false;
-            // console::log_1(&JsValue::from_str("Searching"));
-            let children = current_node.borrow().get_children();
-            for child in children {
-                // console::log_1(&JsValue::from_str(child.borrow().get_name().as_str()));
-                let child_node = Rc::clone(&child);
-                // console::log_2(&JsValue::from_str(&child_node.get_name()), &JsValue::from_str(path));
-                let child_node_type = child_node.borrow().get_node_type();
-                if child_node.borrow().get_name() == path {
-                    match child_node_type {
-                        NodeType::Directory(_) => {
-                            current_node = child_node;
-                            found = true;
-                            break;
-                        },
-                        NodeType::File(_) => {
-                            return "Not a directory".to_string();
+
+    for path in new_path.split('/').filter(|&x| !x.is_empty()) {
+        console::log_1(&format!("Processing path segment: {}", path).into());
+
+        match path {
+            "." => continue,
+            ".." => {
+                let current_parent = current_node.borrow().get_parent();
+                if let Some(parent) = current_parent {
+                    current_node = parent;
+                    console::log_1(&"Moved to parent directory".into());
+                } else {
+                    console::log_1(&"Already at root, can't go up".into());
+                }
+            },
+            _ => {
+                let children = current_node.borrow().get_children();
+                let found_child = children.iter()
+                    .find(|child| child.borrow().get_name() == path)
+                    .cloned();
+
+                match found_child {
+                    Some(child) => {
+                      let child_node_type = child.borrow().get_node_type();
+                        if let NodeType::Directory(_) = child_node_type {
+                            current_node = child;
+                            console::log_1(&format!("Moved to directory: {}", path).into());
+                        } else {
+                            console::log_1(&format!("{} is not a directory", path).into());
+                            return format!("{} is not a directory", path);
                         }
+                    },
+                    None => {
+                        console::log_1(&format!("Directory not found: {}", path).into());
+                        return format!("Directory not found: {}", path);
                     }
                 }
             }
-            if !found {
-                return "Directory not found".to_string();
-            }
         }
     }
-    *current.borrow_mut() = current_node.borrow().clone();
-    return " ".to_string()
-  }
+
+    // Update the current directory
+    console::log_1(&"Updating current directory".into());
+    {
+        let mut current_mut = current.borrow_mut();
+        *current_mut = current_node.borrow().clone();
+    }
+    
+    console::log_1(&"CD operation completed successfully".into());
+    " ".to_string()
+}
 
   fn mkdir(current: &Rc<RefCell<Node>>, root: &Rc<RefCell<Node>>, args: Vec<String>) -> String {
     // let new_node = Rc::new(RefCell::new(Node::new(new_dir, NodeType::Directory, Some(Rc::clone(&self.current))));
