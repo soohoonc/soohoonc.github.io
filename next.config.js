@@ -1,8 +1,9 @@
+const withMdx = require('@next/mdx')()
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   distDir: 'out',
   output: 'export',
-  // basePath: '/github-pages',
+  pageExtensions: ['js', 'jsx', 'md', 'mdx', 'ts', 'tsx'],
 };
 
-module.exports = nextConfig;
+module.exports = withMdx(nextConfig)
