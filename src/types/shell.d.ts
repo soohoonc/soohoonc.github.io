@@ -1,1 +1,0 @@
-type Message = React.ReactNode;

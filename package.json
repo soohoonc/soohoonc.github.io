@@ -19,16 +19,13 @@
     "@radix-ui/react-slot": "^1.0.2",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.0.0",
-    "html-react-parser": "^5.1.10",
     "lucide-react": "^0.263.0",
     "next": "^14.2.3",
     "next-themes": "^0.2.1",
     "prettier": "^3.0.3",
     "react": "18.2.0",
     "react-dom": "18.2.0",
-    "semver": "",
-    "wasm": "^1.0.0",
-    "wasm-pack": "^0.12.1"
+    "semver": ""
   },
   "devDependencies": {
     "@types/node": "20.4.2",

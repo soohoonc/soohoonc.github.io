@@ -81,8 +81,8 @@ jobs:
             ${{ runner.os }}-nextjs-${{ hashFiles('**/package-lock.json', '**/yarn.lock', '**/bun.lockb') }}-
       - name: Install dependencies
         run: ${{ steps.detect-package-manager.outputs.manager }} ${{ steps.detect-package-manager.outputs.command }}
-      - name: Build wasm-pack
-        run: bunx wasm-pack build ${{ github.workspace }}/src/wasm --target web
+      # - name: Build wasm-pack
+      #   run: bunx wasm-pack build ${{ github.workspace }}/src/wasm --target web
       - name: Build with Next.js
         run: ${{ steps.detect-package-manager.outputs.runner }} next build
       # - name: Static HTML export with Next.js
