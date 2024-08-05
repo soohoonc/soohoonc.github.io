@@ -1,10 +1,12 @@
+// import { Shell } from "@/components/shell"
+
 const Page = () => {
   return (
     <div>
      <h1>Soohoon Choi</h1>
      <h3 className="mb-2">about me</h3>
      <p className="my-2">
-      Cofounder at <a href="https://greptile.com">Greptile</a>.<br/>
+      Cofounder at <a href="https://greptile.com" target="_blank">Greptile</a>.<br/>
       Georgia Tech computer science and mathematics class of 2023.
       </p>
       Interested in (but not limited to):
@@ -24,7 +26,9 @@ const Page = () => {
         <div><a href="https://linkedin.com/in/soohoonchoi">LinkedIn</a></div>
         <div><a href="https://x.com/soohoonchoi">Twitter</a></div>
      </div>
+     {/* <Shell/> */}
     </div>
+    
   )
 }
 
