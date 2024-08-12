@@ -16,8 +16,9 @@ const Page = () => {
         <li>art</li>
         <li>most subjects tbh</li>
       </ul>
-     {/* <h3 className="mb-2">blog</h3>
-      <ul className="m-2">
+     <h3 className="mb-2">blog</h3>
+      coming soon
+      {/* <ul className="m-2">
         <li><a href="/b/one-year-sf">one year in sf</a></li>
       </ul> */}
     <h3 className="mb-2">contact</h3>
