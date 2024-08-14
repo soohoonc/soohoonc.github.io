@@ -98,6 +98,8 @@ export const ShellHistory = () => {
   );
 };
 
+ShellInput.displayName = 'ShellInput';
+
 function getTime() {
   const date = new Date();
   const formattedDate = date.toLocaleDateString('en-US', {
