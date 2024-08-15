@@ -1,16 +1,17 @@
 export const dynamicParams = false;
 
 export function generateStaticParams() {
-  return [{ slug: 'test' }];
+  const projects = [{ slug: 'test' }, { slug: '8bit' }, { slug: 'reviewr' }, { slug: 'tabnam' }];
+  return projects;
 }
 
-interface BlogPageProps {
+interface ProjectPageProps {
   params: {
     slug: string;
   };
 }
 
-const Page = ({ params }: BlogPageProps) => {
+const Page = ({ params }: ProjectPageProps) => {
   const { slug } = params;
   return (
     <div>
