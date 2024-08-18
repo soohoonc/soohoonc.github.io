@@ -24,6 +24,7 @@
     "caniuse-lite": "^1.0.30001649",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.1",
+    "glob": "^11.0.0",
     "lucide-react": "^0.263.1",
     "next": "^14.2.5",
     "next-themes": "^0.2.1",
