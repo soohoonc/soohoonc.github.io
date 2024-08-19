@@ -1,15 +1,17 @@
 import fs from 'fs';
 import path from 'path';
 import { glob } from 'glob';
-import { remark } from 'remark';
-import html from 'remark-html';
+import { serialize } from 'next-mdx-remote/serialize';
+import remarkHtml from 'remark-html';
 
-export const dynamicParams = false;
+import { MarkdownViewer } from '@/components/markdown-viewer'
+
+// export const dynamicParams = false;
 
 export function generateStaticParams() {
-  const projectFiles = glob.sync('public/p/*.md');
+  const projectFiles = glob.sync('public/p/*.mdx');
   return projectFiles.map((file) => {
-    const slug = path.basename(file, '.md');
+    const slug = path.basename(file, '.mdx');
     return { slug };
   });
 }
@@ -22,17 +24,16 @@ interface ProjectPageProps {
 
 const Page = async ({ params }: ProjectPageProps) => {
   const { slug } = params;
-  const filePath = path.join(process.cwd(), 'public', 'p', `${slug}.md`);
+  const filePath = path.join(process.cwd(), 'public', 'p', `${slug}.mdx`);
   const fileContent = fs.readFileSync(filePath, 'utf8');
-
-  const processedContent = await remark().use(html).process(fileContent);
-  const contentHtml = processedContent.toString();
-
+  const mdxSource = await serialize(fileContent, {
+    mdxOptions: {
+      remarkPlugins: [remarkHtml],
+      rehypePlugins: [],
+    },
+  })
   return (
-    <div>
-      <h2>{slug}</h2>
-      {contentHtml}
-    </div>
+    <MarkdownViewer source={mdxSource} />
   );
 };
 

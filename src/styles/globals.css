@@ -1,4 +1,4 @@
-/* @tailwind base; */
+@tailwind base;
 @tailwind components;
 @tailwind utilities;
 
@@ -72,8 +72,8 @@
   .link {
     color: #10b981;
   }
-}
-
+} */
+/* 
 @layer base {
   * {
     @apply border-border;
@@ -85,3 +85,15 @@
       'calt' 1;
   }
 } */
+@layer base {
+  *, ::before, ::after {
+    border-width: 0;
+    border-style: solid;
+    border-color: theme('borderColor.DEFAULT', currentColor);
+  }
+}
+
+/* Your custom styles */
+.link {
+  color: #10b981;
+}

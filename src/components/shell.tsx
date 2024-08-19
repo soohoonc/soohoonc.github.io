@@ -12,7 +12,7 @@ export const Shell = () => {
 
   return (
     <div
-      className='font-mono text-xs md:text-base h-screen flex flex-col overflow-y-scroll'
+      className='font-mono flex flex-col overflow-y-scroll pt-2'
       onClick={focusInput}
     >
       <ShellHistory />
@@ -21,16 +21,20 @@ export const Shell = () => {
   );
 };
 
-const ShellInput = React.forwardRef<HTMLSpanElement | null>((_, ref) => {
+interface ShellRef {
+  focus: () => void;
+}
+
+const ShellInput = React.forwardRef<ShellRef | null>((_, ref) => {
   const [input, setInput] = React.useState<string>('');
-  const inputRef = React.useRef<HTMLSpanElement>(null);
+  const inputRef = React.useRef<ShellRef>(null);
   const { history, execute, user, hostname } = useShell();
 
-  // React.useImperativeHandle(ref, () => ({
-  //   focus: () => {
-  //     inputRef.current?.focus();
-  //   },
-  // }));
+  React.useImperativeHandle(ref, () => ({
+    focus: () => {
+      inputRef.current?.focus();
+    },
+  }));
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
     if (e.key === 'Enter' && !e.shiftKey) {
@@ -52,7 +56,7 @@ const ShellInput = React.forwardRef<HTMLSpanElement | null>((_, ref) => {
       <span>{`${user.get()}@${hostname.get()} $ `}</span>
       <span
         contentEditable
-        ref={inputRef}
+        ref={inputRef as React.RefObject<HTMLSpanElement>}
         onInput={handleChange}
         onKeyDown={handleKeyDown}
         className='bg-transparent outline-none'
@@ -77,8 +81,8 @@ export const ShellHistory = () => {
   }, []);
 
   return (
-    <>
-      <p suppressHydrationWarning>
+    <div className="border-t w-full">
+      <p suppressHydrationWarning className="m-0 py-2">
         <a href='https://soohoonchoi.com' className='link'>
           soohoonchoi
         </a>{' '}
@@ -94,7 +98,7 @@ export const ShellHistory = () => {
           <br />
         </React.Fragment>
       ))}
-    </>
+    </div>
   );
 };
 
