@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
+    "dev": "wasm-pack build ./src/wasm --target web && next dev",
     "build": "next build",
     "build:wasm": "wasm-pack build ./src/wasm --target web",
     "start": "next start",
@@ -34,7 +34,9 @@
     "react-dom": "18.2.0",
     "remark": "^15.0.1",
     "remark-html": "^16.0.1",
-    "semver": ""
+    "semver": "",
+    "wasm": "^1.0.0",
+    "wasm-pack": "^0.13.0"
   },
   "devDependencies": {
     "@types/node": "20.4.2",
