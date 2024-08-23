@@ -1,8 +1,3 @@
 {
-  "rust-analyzer.linkedProjects": [
-    "./src/wasm/Cargo.toml",
-    "./src/wasm/Cargo.toml",
-    "./src/wasm/Cargo.toml",
-    "./src/wasm/Cargo.toml"
-  ]
+  "rust-analyzer.linkedProjects": ["./src/wasm/Cargo.toml"]
 }
