@@ -1,17 +1,20 @@
 import fs from 'fs';
 import path from 'path';
 import { glob } from 'glob';
-import { serialize } from 'next-mdx-remote/serialize';
+
+import { unified } from 'unified';
+import remarkParse from 'remark-parse';
+import remarkRehype from 'remark-rehype';
+import rehypeSanitize from 'rehype-sanitize';
+import rehypeStringify from 'rehype-stringify';
 import remarkHtml from 'remark-html';
 
-import { MarkdownViewer } from '@/components/markdown-viewer'
-
-// export const dynamicParams = false;
+export const dynamicParams = false;
 
 export function generateStaticParams() {
-  const projectFiles = glob.sync('public/p/*.mdx');
+  const projectFiles = glob.sync('public/p/*.md');
   return projectFiles.map((file) => {
-    const slug = path.basename(file, '.mdx');
+    const slug = path.basename(file, '.md');
     return { slug };
   });
 }
@@ -24,16 +27,15 @@ interface ProjectPageProps {
 
 const Page = async ({ params }: ProjectPageProps) => {
   const { slug } = params;
-  const filePath = path.join(process.cwd(), 'public', 'p', `${slug}.mdx`);
+  const filePath = path.join(process.cwd(), 'public', 'p', `${slug}.md`);
   const fileContent = fs.readFileSync(filePath, 'utf8');
-  const mdxSource = await serialize(fileContent, {
-    mdxOptions: {
-      remarkPlugins: [remarkHtml],
-      rehypePlugins: [],
-    },
-  })
+  const content = await unified()
+    .use(remarkParse)
+    .use(remarkHtml)
+    .process(fileContent);
+  
   return (
-    <MarkdownViewer source={mdxSource} />
+    <div dangerouslySetInnerHTML={{ __html: String(content) }} />
   );
 };
 

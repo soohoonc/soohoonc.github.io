@@ -1,15 +1,32 @@
 'use client'
 
-import { MDXRemote } from 'next-mdx-remote';
+import React from 'react';
+import { MDXRemote, type MDXRemoteSerializeResult } from 'next-mdx-remote';
+import { serialize } from 'next-mdx-remote/serialize';
+import remarkHtml from 'remark-html';
 
 interface MarkdownViewerProps {
-  source: any;
+  content: string;
 }
 
 export const MarkdownViewer = ({
-  source,
+  content,
 }: MarkdownViewerProps) => {
+  const [mdxSource, setMdxSource] = React.useState<MDXRemoteSerializeResult | null>(null);
+  React.useEffect(() => {
+    const setSource = async () => {
+      const mdxSource = await serialize(content, {
+        mdxOptions: {
+          remarkPlugins: [remarkHtml],
+          rehypePlugins: [],
+        },
+      });
+      setMdxSource(mdxSource);
+    }
+    setSource();
+  }, [])
+  if (!mdxSource) return null;
   return (
-    <MDXRemote {...source} />
+    <MDXRemote {...mdxSource} />
   );
 }
