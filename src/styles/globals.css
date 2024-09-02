@@ -2,7 +2,7 @@
 @tailwind components;
 @tailwind utilities;
 
-/* @layer base {
+@layer base {
   :root {
     --background: 0 0% 100%;
     --foreground: 222.2 47.4% 11.2%;
@@ -72,8 +72,8 @@
   .link {
     color: #10b981;
   }
-} */
-/* 
+}
+
 @layer base {
   * {
     @apply border-border;
@@ -84,16 +84,4 @@
       'rlig' 1,
       'calt' 1;
   }
-} */
-@layer base {
-  *, ::before, ::after {
-    border-width: 0;
-    border-style: solid;
-    border-color: theme('borderColor.DEFAULT', currentColor);
-  }
-}
-
-/* Your custom styles */
-.link {
-  color: #10b981;
 }

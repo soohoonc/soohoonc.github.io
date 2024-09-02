@@ -7,9 +7,9 @@ import { glob } from 'glob';
 export const dynamicParams = false;
 
 export function generateStaticParams() {
-  const projectFiles = glob.sync('public/p/*.mdx');
+  const projectFiles = glob.sync('public/p/*.md');
   return projectFiles.map((file) => {
-    const slug = path.basename(file, '.mdx');
+    const slug = path.basename(file, '.md');
     return { slug };
   });
 }
@@ -22,7 +22,7 @@ interface ProjectPageProps {
 
 const Page = async ({ params }: ProjectPageProps) => {
   const { slug } = params;
-  const filePath = path.join(process.cwd(), 'public', 'p', `${slug}.mdx`);
+  const filePath = path.join(process.cwd(), 'public', 'p', `${slug}.md`);
   const fileContent = fs.readFileSync(filePath, 'utf8');
   return (
     <div>
