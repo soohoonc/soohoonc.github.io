@@ -31,7 +31,7 @@ export const File = ({ filePath, fileContent }: FileProps) => {
       setMdxSource(mdxSource);
     }
     setSource();
-  }, [])
+  }, [content])
 
   if (!mdxSource) return null;
 
