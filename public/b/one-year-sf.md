@@ -1,2 +1,0 @@
-# One Year In SF
-
