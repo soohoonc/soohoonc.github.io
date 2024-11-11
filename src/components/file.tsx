@@ -13,11 +13,11 @@ interface FileProps {
   fileContent: string;
 }
 
-export const File = ({ filePath, fileContent }: FileProps) => {
+export const File = ({ filePath  }: FileProps) => {
   const router = useRouter();
   const shell = useShell();
   const [path, setPath] = useState(filePath);
-  const [content, setContent] = useState<string>(fileContent);
+  const [content, setContent] = useState<string>('');
   const [mdxSource, setMdxSource] = useState<MDXRemoteSerializeResult | null>(null);
 
   useEffect(() => {
