@@ -1,4 +1,5 @@
 use std::cell::RefCell;
+use std::path::Path;
 use std::rc::Rc;
 
 use wasm_bindgen::prelude::*;
@@ -9,6 +10,7 @@ mod fs;
 mod shell;
 
 use fs::directory::Directory;
+use fs::file::File;
 use fs::node::{Node, NodeType};
 use shell::exec::Exec;
 use shell::lexer::Lexer;

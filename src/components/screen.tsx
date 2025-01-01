@@ -8,15 +8,7 @@ import remarkHtml from 'remark-html';
 
 import { useShell } from '@/providers/shell';
 
-interface FileProps {
-  filePath: string;
-  fileContent: string;
-}
-
-export const File = ({ filePath  }: FileProps) => {
-  const router = useRouter();
-  const shell = useShell();
-  const [path, setPath] = useState(filePath);
+export const Screen = () => {
   const [content, setContent] = useState<string>('');
   const [mdxSource, setMdxSource] = useState<MDXRemoteSerializeResult | null>(null);
 
@@ -35,22 +27,22 @@ export const File = ({ filePath  }: FileProps) => {
 
   if (!mdxSource) return null;
 
-  // useEffect(() => {
-  //   const handleHashChange = () => {
-  //     const hash = window.location.hash.slice(1);
-  //     setPath(hash);
-  //     loadFileContent(hash);
-  //   };
+  useEffect(() => {
+    const handleHashChange = () => {
+      const hash = window.location.hash.slice(1);
+      setPath(hash);
+      loadFileContent(hash);
+    };
 
-  //   handleHashChange();
+    handleHashChange();
 
-  //   window.addEventListener('hashchange', handleHashChange);
-  //   return () => window.removeEventListener('hashchange', handleHashChange);
-  // }, []);
+    window.addEventListener('hashchange', handleHashChange);
+    return () => window.removeEventListener('hashchange', handleHashChange);
+  }, []);
 
-  // const loadFileContent = async (path: string) => {
-  //   setContent(path);
-  // };
+  const loadFileContent = async (path: string) => {
+    setContent(path);
+  };
 
   return (
     <MDXRemote {...mdxSource} />

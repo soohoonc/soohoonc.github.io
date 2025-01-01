@@ -1,12 +1,9 @@
-import { File } from '@/components/file';
-import fs from 'fs';
-import path from 'path';
+import { Screen } from '@/components/screen';
+
 
 const Page = () => {
-  const filePath = path.join(process.cwd(), 'public/fs/index.md');
-  const fileContent = fs.readFileSync(filePath, 'utf8');
 
-  return <File filePath={filePath} fileContent={fileContent} />;
+  return <Screen />;
 };
 
 export default Page;
