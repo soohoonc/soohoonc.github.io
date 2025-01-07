@@ -3,9 +3,9 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "dev": "wasm-pack build ./src/wasm --target web && next dev",
+    "dev": "wasm-pack build ./src/os --target web && next dev",
     "build": "next build",
-    "build:wasm": "wasm-pack build ./src/wasm --target web",
+    "build:wasm": "wasm-pack build ./src/os --target web",
     "start": "next start",
     "lint": "next lint",
     "format": "bunx prettier --write .",
