@@ -7,14 +7,6 @@ use wasm_bindgen::prelude::*;
 use serde_json;
 
 mod fs;
-mod shell;
-
-use fs::directory::Directory;
-use fs::file::File;
-use fs::node::{Node, NodeType};
-use shell::exec::Exec;
-use shell::lexer::Lexer;
-// use filesystem::pipe::Pipe;
 
 #[wasm_bindgen]
 pub struct Shell {

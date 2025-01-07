@@ -1,9 +1,9 @@
-import { Screen } from '@/components/screen';
+import { Desktop } from '@/components/Desktop';
 
 
 const Page = () => {
 
-  return <Screen />;
+  return <Desktop />;
 };
 
 export default Page;
