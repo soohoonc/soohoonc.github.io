@@ -1,9 +1,0 @@
-{
-  "roots": [
-    {
-      "crateRoots": ["./src/wasm/src/lib.rs"],
-      "isWorkspaceMember": true
-    }
-  ],
-  "source": "discover"
-}
