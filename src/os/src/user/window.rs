@@ -11,29 +11,16 @@ pub struct Window {
 
 pub struct WindowManager {
     windows: HashMap<WindowID, Window>,
-    next_window_id: WindowID,
+    display_server: Option<ProcessID>,
 }
 
-impl WindowManager {
-    pub fn new() -> Self {
-        Self {
-            windows: HashMap::new(),
-            next_window_id: 1,
-        }
-    }
-
-    pub fn create_window(&mut self, title: &str) -> WindowID {
-        let id = self.next_window_id;
-        self.next_window_id += 1;
-
-        let window = Window {
-            id,
-            title: title.to_string(),
-            position: (100, 100),
-            size: (400, 300),
-        };
-
-        self.windows.insert(id, window);
-        id
+impl Program for WindowManager {
+    fn init(&mut self) -> Result<(), String> {
+        // Start display server
+        self.display_server = Some(syscall(SystemCall::CreateProcess {
+            name: "display_server".into(),
+            parent: get_current_pid(),
+        })?);
+        Ok(())
     }
 }

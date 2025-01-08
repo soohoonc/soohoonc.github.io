@@ -1,11 +1,10 @@
 'use client';
 
 import React from 'react';
-import { useShell } from '@/providers/shell';
 
 export const Shell = () => {
   const shellInputRef = React.useRef<HTMLSpanElement>(null);
-  
+
   const focusInput = () => {
     shellInputRef.current?.focus();
   };

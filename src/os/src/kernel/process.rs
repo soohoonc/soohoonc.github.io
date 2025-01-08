@@ -3,9 +3,18 @@ use std::collections::HashMap;
 pub type ProcessID = u32;
 
 pub struct Process {
-    pub id: ProcessID,
-    pub name: String,
-    pub state: ProcessState,
+    id: ProcessID,
+    name: String,
+    state: ProcessState,
+    parent: Option<ProcessID>,
+    children: Vec<ProcessID>,
+    program: Box<dyn Program>,
+}
+
+pub trait Program {
+    fn init(&mut self) -> Result<(), String>;
+    fn update(&mut self) -> Result<(), String>;
+    fn handle_message(&mut self, msg: Message) -> Result<(), String>;
 }
 
 pub enum ProcessState {

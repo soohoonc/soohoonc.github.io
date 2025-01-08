@@ -3,29 +3,10 @@ pub struct Shell {
     history: Vec<String>,
 }
 
-impl Shell {
-    pub fn new() -> Self {
-        Self {
-            current_dir: "/".into(),
-            history: Vec::new(),
-        }
-    }
-
-    pub fn execute(&mut self, command: &str) -> Result<String, &'static str> {
-        self.history.push(command.to_string());
-
-        let parts: Vec<&str> = command.split_whitespace().collect();
-        match parts.get(0).map(|&s| s) {
-            Some("ls") => Ok("Directory listing...".into()),
-            Some("cd") => {
-                if let Some(&dir) = parts.get(1) {
-                    self.current_dir = dir.into();
-                    Ok(format!("Changed directory to {}", dir))
-                } else {
-                    Ok("Usage: cd <directory>".into())
-                }
-            }
-            _ => Ok("Command not found".into()),
+impl Program for Shell {
+    fn handle_message(&mut self, msg: Message) -> Result<(), String> {
+        match msg {
+            Message::UserInput(cmd) => self.execute_command(&cmd), // ... handle other messages
         }
     }
 }
