@@ -1,39 +1,39 @@
-struct Window {
-    pid: i16,
-    x: i16,
-    y: i16,
-    z: i16,
-    h: i16,
-    w: i16,
-    hidden: bool,
+use std::collections::HashMap;
+
+type WindowID = u32;
+
+pub struct Window {
+    id: WindowID,
     title: String,
+    position: (i32, i32),
+    size: (u32, u32),
 }
 
-pub struct WindowManger {
-    windows: Vec<Window>,
-    active_window: Option<i16>,
+pub struct WindowManager {
+    windows: HashMap<WindowID, Window>,
+    next_window_id: WindowID,
+}
 
-    pub fn new(&mut self) {
-      windows = Vec::new();
+impl WindowManager {
+    pub fn new() -> Self {
+        Self {
+            windows: HashMap::new(),
+            next_window_id: 1,
+        }
     }
 
-    pub fn create_window(&mut self, pid: i16) -> i16 {
+    pub fn create_window(&mut self, title: &str) -> WindowID {
+        let id = self.next_window_id;
+        self.next_window_id += 1;
 
-    }
+        let window = Window {
+            id,
+            title: title.to_string(),
+            position: (100, 100),
+            size: (400, 300),
+        };
 
-    pub fn select_window(&mut self, id: i16) {
-      
-    }
-
-    pub fn move_window(&mut self, id: i16, x: i16, y: i16) {
-
-    }
-
-    pub fn hide_window(&mut self, id: i16) {
-
-    }
-
-    pub fn close_window(&mut self, id: i16) {
-
+        self.windows.insert(id, window);
+        id
     }
 }

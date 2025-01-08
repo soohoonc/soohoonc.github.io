@@ -1,7 +1,7 @@
 "use client"
 
 import React, { useState, useEffect, useCallback, useRef } from 'react';
-import init, { OSHandle } from '@/os/pkg'
+import { useWasm } from '@/providers/os';
 
 // Types for our windows and processes
 type Window = {
@@ -25,6 +25,7 @@ type ResizeDirection = 'n' | 's' | 'e' | 'w' | 'ne' | 'nw' | 'se' | 'sw' | null;
 
 export const Desktop = () => {
   // State management
+  const wasm = useWasm();
   const [windows, setWindows] = useState<Window[]>([{
     id: 'test',
     title: 'test',
@@ -34,8 +35,6 @@ export const Desktop = () => {
     zIndex: 2,
     process: '4'
   }]);
-  const [processes, setProcesses] = useState<Process[]>([]);
-  const [os, setOs] = useState<OSHandle | null>(null)
   const [activeWindow, setActiveWindow] = useState<string | null>(null);
   const dragRef = useRef<{ isDragging: boolean; offset: { x: number; y: number } }>({
     isDragging: false,
@@ -208,29 +207,6 @@ export const Desktop = () => {
     endDrag();
     endResize();
   }, [endDrag, endResize]);
-
-
-  useEffect(() => {
-    async function initOS() {
-      await init();
-      const osHandle = new OSHandle();
-      setOs(osHandle);
-
-      // Create some initial processes
-      osHandle.create_process("shell", 1);
-      osHandle.create_process("init", 1);
-
-      // Create some files
-      osHandle.create_file("/welcome.txt", "Welcome to WasmOS!");
-
-      // Start scheduler
-      setInterval(() => {
-        osHandle.schedule();
-      }, 1000);
-    }
-
-    initOS();
-  }, []);
 
   return (
     <>
