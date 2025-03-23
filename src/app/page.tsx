@@ -1,12 +1,14 @@
 import { Desktop } from '@/components/desktop';
 import { OSProvider } from '@/providers/os';
-
+import { DesktopProvider } from '@/providers/desktop';
 
 const Page = () => {
   return (
     <main className="w-screen h-screen">
       <OSProvider>
-        <Desktop />
+        <DesktopProvider>
+          <Desktop />
+        </DesktopProvider>
       </OSProvider>
     </main>
   )
