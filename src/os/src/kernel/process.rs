@@ -1,21 +1,7 @@
 use std::collections::HashMap;
 
-pub type ProcessID = u32;
-
-pub struct Process {
-    id: ProcessID,
-    name: String,
-    state: ProcessState,
-    parent: Option<ProcessID>,
-    children: Vec<ProcessID>,
-    program: Box<dyn Program>,
-}
-
-pub trait Program {
-    fn init(&mut self) -> Result<(), String>;
-    fn update(&mut self) -> Result<(), String>;
-    fn handle_message(&mut self, msg: Message) -> Result<(), String>;
-}
+pub type PID = u32;
+pub type ExitStatus = i32;
 
 pub enum ProcessState {
     Ready,
@@ -23,13 +9,25 @@ pub enum ProcessState {
     Blocked,
     Terminated,
 }
-
-pub struct ProcessManager {
-    pub processes: HashMap<ProcessID, Process>,
-    next_pid: ProcessID,
+pub struct Process {
+    pub pid: PID,
+    pub state: ProcessState,
+    pub name: String,
+    parent: Option<PID>,
+    // cwd: INode,
+    // context: Context,
+    // trap_frame: TrapFrame,
+    // We don't implement memory management for now
+    killed: bool,
+    exit_status: ExitStatus,
 }
 
-impl ProcessManager {
+pub struct ProcessControlBlock {
+    pub processes: HashMap<PID, Process>,
+    next_pid: PID,
+}
+
+impl ProcessControlBlock {
     pub fn new() -> Self {
         Self {
             processes: HashMap::new(),
@@ -37,32 +35,55 @@ impl ProcessManager {
         }
     }
 
-    pub fn create_process(&mut self, name: &str) -> ProcessID {
+    pub fn fork(&mut self) -> Result<(), String> {
         let pid = self.next_pid;
         self.next_pid += 1;
 
         let process = Process {
-            id: pid,
-            name: name.to_string(),
+            pid,
             state: ProcessState::Ready,
+            name: "init".to_string(),
+            parent: None,
+            // cwd: INode::Root,
+            // context: Context::new(),
+            // trap_frame: TrapFrame::new(),
+            killed: false,
+            exit_status: 0,
         };
 
         self.processes.insert(pid, process);
-        pid
+        Ok(())
     }
 
-    pub fn kill_process(&mut self, pid: ProcessID) -> Result<(), &'static str> {
+    pub fn exec(&mut self) -> Result<(), String> {
+        let pid = self.next_pid;
+        self.next_pid += 1;
+
+        let process = Process {
+            pid,
+            state: ProcessState::Running,
+            name: "init".to_string(),
+            parent: None,
+            // cwd: INode::Root,
+            // context: Context::new(),
+            // trap_frame: TrapFrame::new(),
+            killed: false,
+            exit_status: 0,
+        };
+
+        self.processes.insert(pid, process);
+        Ok(())
+    }
+    // fork + exec is useful for shell as you can create a new process and prepare it for the program to runs
+
+    pub fn kill(&mut self, pid: PID) -> Result<(), String> {
         if let Some(process) = self.processes.get_mut(&pid) {
             process.state = ProcessState::Terminated;
             Ok(())
         } else {
-            Err("Process not found")
+            Err("Process not found".to_string())
         }
     }
 
-    // Clean up terminated processes
-    pub fn reap_processes(&mut self) {
-        self.processes
-            .retain(|_, process| !matches!(process.state, ProcessState::Terminated));
-    }
+    // TODO signal and reap ? maybe spawn instead of fork ?
 }

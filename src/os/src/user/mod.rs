@@ -1,5 +1,7 @@
-pub mod shell;
-pub mod window;
+pub mod echo;
+pub mod editor;
+pub mod sh;
 
-pub use shell::Shell;
-pub use window::WindowManager;
+pub use echo::Echo;
+pub use editor::Editor;
+pub use sh::Shell;

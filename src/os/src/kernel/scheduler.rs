@@ -1,4 +1,4 @@
-use super::process::{ProcessManager, ProcessState};
+use super::process::{ProcessControlBlock, ProcessState};
 
 pub struct Scheduler {
     current_process: Option<u32>,
@@ -11,7 +11,7 @@ impl Scheduler {
         }
     }
 
-    pub fn schedule(&mut self, process_manager: &mut ProcessManager) {
+    pub fn schedule(&mut self, process_manager: &mut ProcessControlBlock) {
         if let Some(current) = self.current_process {
             if let Some(process) = process_manager.processes.get_mut(&current) {
                 process.state = ProcessState::Ready;
