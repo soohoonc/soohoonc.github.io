@@ -15,8 +15,6 @@ pub struct OS {
 impl OS {
     pub fn new() -> Self {
         let mut kernel = Kernel::new();
-        kernel.kinit();
-        kernel.userinit();
 
         Self { kernel }
     }

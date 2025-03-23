@@ -1,13 +1,13 @@
-import { Desktop } from '@/components/Desktop';
-import { WasmProvider } from '@/providers/os';
+import { Desktop } from '@/components/desktop';
+import { OSProvider } from '@/providers/os';
 
 
 const Page = () => {
   return (
     <main className="w-screen h-screen">
-      <WasmProvider>
+      <OSProvider>
         <Desktop />
-      </WasmProvider>
+      </OSProvider>
     </main>
   )
 };

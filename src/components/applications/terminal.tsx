@@ -1,10 +1,11 @@
 'use client';
 
 import React from 'react';
+import { useOs } from '@/providers/os';
 
-export const Shell = () => {
+export const Shell = async () => {
   const shellInputRef = React.useRef<HTMLSpanElement>(null);
-
+  const os = useOs();
   const focusInput = () => {
     shellInputRef.current?.focus();
   };

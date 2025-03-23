@@ -1,7 +1,8 @@
 "use client"
 
-import React, { useState, useEffect, useCallback, useRef } from 'react';
-import { useWasm } from '@/providers/os';
+import { useState, useCallback, useRef } from 'react';
+import { useWindowSize } from '@/lib/utils';
+import { useOs } from '@/providers/os';
 
 // Types for our windows and processes
 type Window = {
@@ -25,7 +26,8 @@ type ResizeDirection = 'n' | 's' | 'e' | 'w' | 'ne' | 'nw' | 'se' | 'sw' | null;
 
 export const Desktop = () => {
   // State management
-  const wasm = useWasm();
+  const os = useOs();
+  const { width, height } = useWindowSize();
   const [windows, setWindows] = useState<Window[]>([{
     id: 'test',
     title: 'test',

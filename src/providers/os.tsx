@@ -3,32 +3,29 @@
 import React, { createContext, useContext, useEffect, useState } from 'react';
 import init, { OS } from '@/os/pkg'
 
-interface WasmContextType {
-  wasmInstance: any | null;
-  loading: boolean;
-  error: Error | null;
+interface OsContextType {
+  os: any | null;
+  state: 'loading' | 'error' | 'ready';
 }
 
-const WasmContext = createContext<WasmContextType>({
-  wasmInstance: null,
-  loading: true,
-  error: null,
+const OsContext = createContext<OsContextType>({
+  os: null,
+  state: 'loading',
 });
 
-export const WasmProvider: React.FC<React.PropsWithChildren<{}>> = ({ children }) => {
-  const [wasmInstance, setWasmInstance] = useState<any | null>(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<Error | null>(null);
+export const OSProvider: React.FC<React.PropsWithChildren<{}>> = ({ children }) => {
+  const [os, setOS] = useState<any | null>(null);
+  const [state, setState] = useState<OsContextType['state']>('loading');
 
   useEffect(() => {
     const initializeWasm = async () => {
       try {
         await init();
-        setWasmInstance(new OS())
+        setOS(OS.new());
+        setState('ready');
       } catch (err) {
-        setError(err as Error);
-      } finally {
-        setLoading(false);
+        console.log(err);
+        setState('error');
       }
     };
 
@@ -36,10 +33,10 @@ export const WasmProvider: React.FC<React.PropsWithChildren<{}>> = ({ children }
   }, []);
 
   return (
-    <WasmContext.Provider value={{ wasmInstance, loading, error }}>
+    <OsContext.Provider value={{ os, state }}>
       {children}
-    </WasmContext.Provider>
+    </OsContext.Provider>
   );
 };
 
-export const useWasm = () => useContext(WasmContext);
+export const useOs = () => useContext(OsContext);
