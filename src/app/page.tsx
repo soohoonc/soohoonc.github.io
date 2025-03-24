@@ -4,7 +4,7 @@ import { DesktopProvider } from '@/providers/desktop';
 
 const Page = () => {
   return (
-    <main className="w-screen h-screen">
+    <main className="fixed w-screen h-screen">
       <OSProvider>
         <DesktopProvider>
           <Desktop />

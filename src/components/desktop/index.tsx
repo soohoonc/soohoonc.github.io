@@ -19,10 +19,7 @@ export const Desktop = () => {
 
   return (
     <div
-      className="h-screen w-screen mac-os-classic"
-      style={{
-        backgroundColor: "#ceceff",
-      }}
+      className="mac-os-classic"
       onClick={handleBackgroundClick}
       onMouseMove={onMouseMove}
       onMouseUp={onMouseUp}

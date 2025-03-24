@@ -34,6 +34,8 @@
     color: #000000;
     cursor: default;
     overflow: hidden;
+    height: 100vh;
+    width: 100vw;
   }
 
   .mac-window {
@@ -52,7 +54,7 @@
     align-items: center;
     padding: 0 4px;
     position: relative;
-    background: linear-gradient(to right, #cccccc, #999999);
+    background: linear-gradient(to right, #cccccc, #cacaca);
   }
 
   .mac-window-content {
@@ -63,9 +65,10 @@
   .mac-icon-label {
     background-color: white;
     padding: 1px 4px;
-    font-size: 10px;
+    font-size: 12px;
+    font-weight: 400;
     text-align: center;
-    max-width: 100%;
+    width: 100%;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;

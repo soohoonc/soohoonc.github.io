@@ -1,4 +1,5 @@
 "use client"
+import { cn } from "@/lib/utils"
 import { useDesktop } from "@/providers/desktop"
 
 // The main DesktopIcons component
@@ -26,11 +27,7 @@ export const DesktopIcons = () => {
           >
             <div className="w-8 h-8 flex items-center justify-center mb-1 text-2xl">{icon.icon}</div>
             <div
-              className={`mac-icon-label ${selectedIcon === icon.id ? "mac-icon-label-selected" : ""}`}
-              style={{
-                backgroundColor: selectedIcon === icon.id ? "#0000ff" : "#ffffff",
-                color: selectedIcon === icon.id ? "#ffffff" : "#000000",
-              }}
+              className={cn("mac-icon-label", selectedIcon === icon.id && "mac-icon-label-selected")}
             >
               {icon.name}
             </div>

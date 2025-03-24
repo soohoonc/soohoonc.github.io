@@ -2,15 +2,27 @@
 
 import type React from "react"
 
-import { useState, useCallback, useRef, createContext, useContext } from "react"
+import { useState, useCallback, useRef, createContext, useContext, lazy, Component } from "react"
+import { applications } from "@/components/applications"
 
 type ResizeDirection = "n" | "s" | "e" | "w" | "ne" | "nw" | "se" | "sw" | null
 type DraggableItemType = "window" | "icon"
 
-export type Process = {
+export type Application = {
   id: string
   name: string
-  icon?: string
+  icon: DesktopIcon
+  command: string // the path of the application
+  args?: Record<string, any>
+}
+
+export type DesktopIcon = {
+  id: string
+  name: string
+  icon: string
+  position: { x: number; y: number }
+  command: string
+  args?: Record<string, any>
 }
 
 export type Window = {
@@ -21,14 +33,7 @@ export type Window = {
   isMinimized: boolean
   zIndex: number
   process: string
-}
-
-export type DesktopIcon = {
-  id: string
-  name: string
-  icon: string
-  position: { x: number; y: number }
-  processId: string
+  content: React.ReactNode
 }
 
 // Unified dragging state interface
@@ -47,7 +52,7 @@ interface DesktopContextType {
   startResize: (e: React.MouseEvent, id: string, direction: ResizeDirection) => void
   onMouseMove: (e: React.MouseEvent) => void
   onMouseUp: () => void
-  createWindow: (process: Process) => void
+  createWindow: (application: Application) => void
   draggingState: DraggingState
   selectIcon: (id: string | null) => void
   selectedIcon: string | null
@@ -59,40 +64,8 @@ const DesktopContext = createContext<DesktopContextType | null>(null)
 export const DesktopProvider = ({ children }: { children: React.ReactNode }) => {
   const [activeWindow, setActiveWindow] = useState<string>()
   const [windows, setWindows] = useState<Window[]>([])
-
-  // Icon state
-  const [icons, setIcons] = useState<DesktopIcon[]>([
-    {
-      id: "hard-drive",
-      name: "Macintosh HD",
-      icon: "💾",
-      position: { x: 20, y: 20 },
-      processId: "finder",
-    },
-    {
-      id: "trash",
-      name: "Trash",
-      icon: "🗑️",
-      position: { x: 20, y: 100 },
-      processId: "trash",
-    },
-    {
-      id: "notepad",
-      name: "SimpleText",
-      icon: "📝",
-      position: { x: 20, y: 180 },
-      processId: "notepad",
-    },
-    {
-      id: "calculator",
-      name: "Calculator",
-      icon: "🧮",
-      position: { x: 20, y: 260 },
-      processId: "calculator",
-    },
-  ])
+  const [icons, setIcons] = useState<DesktopIcon[]>(applications.map((app) => app.icon))
   const [selectedIcon, setSelectedIcon] = useState<string | null>(null)
-
   // Unified dragging state
   const [draggingState, setDraggingState] = useState<DraggingState>({
     itemType: null,
@@ -132,17 +105,10 @@ export const DesktopProvider = ({ children }: { children: React.ReactNode }) => 
 
   // Open an application from an icon
   const openApplication = useCallback(
-    (iconId: string) => {
-      const icon = icons.find((i) => i.id === iconId)
-      if (!icon) return
-
-      const process: Process = {
-        id: icon.processId,
-        name: icon.name,
-        icon: icon.icon,
-      }
-
-      createWindow(process)
+    (command: string) => {
+      const application = applications.find((a) => a.command === command)
+      if (!application) return
+      createWindow(application)
     },
     [icons],
   )
@@ -228,23 +194,29 @@ export const DesktopProvider = ({ children }: { children: React.ReactNode }) => 
   }, [])
 
   const createWindow = useCallback(
-    (process: Process) => {
+    (application: Application) => {
+      const Component = lazy(async () => {
+        // Dynamically import the component based on the command path
+        return import(`@/components/applications/${application.command}`)
+          .then(module => ({ default: module.default || module }))
+          .catch(error => {
+            console.error('Failed to load component:', error)
+            return { default: () => <div>Failed to load application</div> }
+          })
+      })
+
       const newWindow: Window = {
         id: `window-${Date.now()}`,
-        title: process.name,
+        title: application.name,
         position: { x: 50, y: 50 },
         size: { width: 400, height: 300 },
         isMinimized: false,
         zIndex: windows.length,
-        process: process.id,
+        process: application.id,
+        content: <Component />
       }
       setWindows((prev) => [...prev, newWindow])
       setActiveWindow(newWindow.id)
-
-      // Make createWindow available globally for the desktop icons
-      if (typeof window !== "undefined") {
-        ; (window as any).createWindow = createWindow
-      }
     },
     [windows],
   )
@@ -267,7 +239,8 @@ export const DesktopProvider = ({ children }: { children: React.ReactNode }) => 
       if (itemType === "icon") {
         // Select the icon
         selectIcon(id)
-
+        const application = applications.find((a) => a.icon.id === id)
+        if (!application) return
         // Check for double click
         const currentTime = new Date().getTime()
         const isDoubleClick = currentTime - dragRef.current.lastClickTime < 300
@@ -275,7 +248,7 @@ export const DesktopProvider = ({ children }: { children: React.ReactNode }) => 
 
         if (isDoubleClick) {
           // Open the application on double click
-          openApplication(id)
+          openApplication(application.command)
           return
         }
       }

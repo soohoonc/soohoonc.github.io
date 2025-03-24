@@ -3,7 +3,39 @@
 import React from 'react';
 import { useOs } from '@/providers/os';
 
-export const Shell = async () => {
+// Add missing utility functions and state
+const history = {
+  messages: [] as { role: 'user' | 'assistant'; content: string }[],
+  add: function (message: { role: 'user' | 'assistant'; content: string }) {
+    this.messages.push(message);
+  },
+  get: function () {
+    return this.messages;
+  }
+};
+
+const user = {
+  get: () => 'user'  // You can customize this
+};
+
+const hostname = {
+  get: () => 'macbook'  // You can customize this
+};
+
+const execute = (command: string): string => {
+  switch (command.toLowerCase().trim()) {
+    case 'help':
+      return 'Available commands: help, credits, license';
+    case 'credits':
+      return 'Created by Soohoon Choi';
+    case 'license':
+      return 'MIT License';
+    default:
+      return `Command not found: ${command}`;
+  }
+};
+
+const Terminal = () => {
   const shellInputRef = React.useRef<HTMLSpanElement>(null);
   const os = useOs();
   const focusInput = () => {
@@ -28,7 +60,6 @@ interface ShellRef {
 const ShellInput = React.forwardRef<ShellRef | null>((_, ref) => {
   const [input, setInput] = React.useState<string>('');
   const inputRef = React.useRef<ShellRef>(null);
-  const { history, execute, user, hostname } = useShell();
 
   React.useImperativeHandle(ref, () => ({
     focus: () => {
@@ -67,7 +98,6 @@ const ShellInput = React.forwardRef<ShellRef | null>((_, ref) => {
 });
 
 export const ShellHistory = () => {
-  const { history } = useShell();
   const [currentTime, setCurrentTime] = React.useState(getTime());
 
   React.useEffect(() => {
@@ -119,3 +149,5 @@ function getTime() {
   });
   return `${formattedDate}, ${formattedTime}`;
 }
+
+export default Terminal;

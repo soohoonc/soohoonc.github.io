@@ -21,15 +21,11 @@ export const MenuBar = () => {
 
   return (
     <div
-      className="h-5 flex items-center px-2 text-xs font-medium"
-      style={{
-        backgroundColor: "#ffffff",
-        borderBottom: "1px solid #000000",
-      }}
+      className="mac-title-bar"
     >
       <div className="flex items-center space-x-4">
         <div className="flex items-center">
-          <span className="mr-2">🍎</span>
+          <span className="mr-2">S</span>
           <span className="font-bold">File</span>
         </div>
         <span>Edit</span>
