@@ -33,7 +33,7 @@ jobs:
         with:
           bun-version: 'latest'
       - name: Checkout
-        uses: actions/checkout@latest
+        uses: actions/checkout@v4
       - name: Detect package manager
         id: detect-package-manager
         run: |
