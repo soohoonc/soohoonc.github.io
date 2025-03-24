@@ -1,6 +1,7 @@
 "use client"
 import { cn } from "@/lib/utils"
 import { useDesktop } from "@/providers/desktop"
+import Image from 'next/image'
 
 // The main DesktopIcons component
 export const DesktopIcons = () => {
@@ -25,7 +26,13 @@ export const DesktopIcons = () => {
             }}
             onMouseDown={(e) => startDrag(e, icon.id, "icon")}
           >
-            <div className="w-8 h-8 flex items-center justify-center mb-1 text-2xl">{icon.icon}</div>
+            <div className="w-8 h-8 flex items-center justify-center mb-1">
+              <img
+                src={icon.icon}
+                alt={icon.name}
+                className="w-8 h-8 object-contain"
+              />
+            </div>
             <div
               className={cn("mac-icon-label", selectedIcon === icon.id && "mac-icon-label-selected")}
             >

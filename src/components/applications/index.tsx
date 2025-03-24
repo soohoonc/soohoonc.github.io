@@ -7,8 +7,8 @@ export const applications: Application[] = [
     name: 'Finder',
     icon: {
       id: 'finder-icon',
-      name: 'Finder',
-      icon: '/public/icons/finder.png', // adjust path as needed
+      name: 'Drive',
+      icon: '/icons/finder.png', // adjust path as needed
       position: { x: 20, y: 20 },
       command: 'finder'
     },
@@ -44,7 +44,7 @@ export const applications: Application[] = [
     icon: {
       id: 'welcome-icon',
       name: 'Welcome',
-      icon: '/public/icons/welcome.png',
+      icon: '/icons/welcome.png',
       position: { x: 20, y: 100 },
       command: 'teach-text',
       args: {
@@ -62,7 +62,7 @@ export const applications: Application[] = [
     icon: {
       id: 'trash-icon',
       name: 'Trash',
-      icon: '/public/icons/trash.png',
+      icon: '/icons/trash.png',
       position: { x: 20, y: 180 },
       command: 'trash',
     },
