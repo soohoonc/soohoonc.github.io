@@ -6,8 +6,7 @@ interface WindowProps {
 }
 
 export const WindowComponent = ({ window }: WindowProps) => {
-  const { startDrag, minimizeWindow, closeWindow, startResize, draggingState } = useDesktop()
-
+  const { onMouseDown, closeWindow, startResize, draggingState } = useDesktop()
   const isBeingDragged = draggingState.itemType === "window" && draggingState.itemId === window.id
   const ghostPosition = isBeingDragged && draggingState.ghostPosition ? draggingState.ghostPosition : null
 
@@ -31,7 +30,7 @@ export const WindowComponent = ({ window }: WindowProps) => {
         {/* Title Bar */}
         <div
           className="mac-title-bar"
-          onMouseDown={(e) => startDrag(e, window.id, "window")}
+          onMouseDown={(e) => onMouseDown(e, window.id, "window")}
           style={{
             background: "linear-gradient(to right, #cccccc, #999999)",
           }}
@@ -42,15 +41,15 @@ export const WindowComponent = ({ window }: WindowProps) => {
               style={{ backgroundColor: "#ffffff" }}
               onClick={() => closeWindow(window.id)}
             >
-              x
+
             </button>
-            <button
+            {/* <button
               className="w-3 h-3 border border-black flex items-center justify-center text-[8px]"
               style={{ backgroundColor: "#ffffff" }}
               onClick={() => minimizeWindow(window.id)}
             >
               -
-            </button>
+            </button> */}
           </div>
           <span className="absolute left-1/2 transform -translate-x-1/2 text-xs font-bold">{window.title}</span>
         </div>
@@ -62,24 +61,8 @@ export const WindowComponent = ({ window }: WindowProps) => {
 
         {/* Resize Handles */}
         <div
-          className="absolute bottom-0 right-0 w-4 h-4 cursor-nwse-resize"
+          className="absolute bottom-0 right-0 w-4 h-4 cursor-nwse-resize border border-black"
           onMouseDown={(e) => startResize(e, window.id, "se")}
-        />
-        <div
-          className="absolute top-0 left-0 w-1 h-full cursor-ew-resize"
-          onMouseDown={(e) => startResize(e, window.id, "w")}
-        />
-        <div
-          className="absolute top-0 right-0 w-1 h-full cursor-ew-resize"
-          onMouseDown={(e) => startResize(e, window.id, "e")}
-        />
-        <div
-          className="absolute top-0 left-0 h-1 w-full cursor-ns-resize"
-          onMouseDown={(e) => startResize(e, window.id, "n")}
-        />
-        <div
-          className="absolute bottom-0 left-0 h-1 w-full cursor-ns-resize"
-          onMouseDown={(e) => startResize(e, window.id, "s")}
         />
       </div>
 

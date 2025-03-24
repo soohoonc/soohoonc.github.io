@@ -21,17 +21,16 @@ export const MenuBar = () => {
 
   return (
     <div
-      className="mac-title-bar"
+      className="mac-title-bar mac-pixel-text"
     >
       <div className="flex items-center space-x-4">
         <div className="flex items-center">
-          <span className="mr-2">S</span>
-          <span className="font-bold">File</span>
+          <span className="pl-4 pr-2 font-bold text-center text-xl">λ</span>
         </div>
+        <span>File</span>
         <span>Edit</span>
         <span>View</span>
         <span>Special</span>
-        <span>Help</span>
       </div>
       <div className="ml-auto flex items-center space-x-2">
         <span>{formattedTime}</span>

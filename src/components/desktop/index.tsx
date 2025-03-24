@@ -8,25 +8,18 @@ import { DesktopIcons } from "./icons"
 import { useDesktop } from "@/providers/desktop"
 
 export const Desktop = () => {
-  const { windows, onMouseMove, onMouseUp, selectIcon } = useDesktop()
-
-  // Handle background click to deselect icons
-  const handleBackgroundClick = (e: React.MouseEvent) => {
-    if (e.currentTarget === e.target) {
-      selectIcon(null)
-    }
-  }
+  const { windows, onMouseMove, onMouseUp, onMouseDown } = useDesktop()
 
   return (
     <div
-      className="mac-os-classic"
-      onClick={handleBackgroundClick}
+      className="mac-os-classic mac-pixelatedf-container"
+      onMouseDown={(e) => onMouseDown(e, "desktop", null)}
       onMouseMove={onMouseMove}
       onMouseUp={onMouseUp}
     >
       <MenuBar />
       <DesktopIcons />
-      {windows.map((window) => !window.isMinimized && <WindowComponent key={window.id} window={window} />)}
+      {windows.map((window) => <WindowComponent key={window.id} window={window} />)}
     </div>
   )
 }

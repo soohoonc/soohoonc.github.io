@@ -5,32 +5,24 @@
 @layer base {
   @font-face {
     font-family: "Chicago";
-    src: url("/fonts/ChicagoFLF.ttf") format("truetype");
+    src: url("/fonts/ChicagoFLF.ttf");
     font-weight: normal;
     font-style: normal;
   }
-
-  @font-face {
-    font-family: "Geneva";
-    src: url("/fonts/Geneva.ttf") format("truetype");
-    font-weight: normal;
-    font-style: normal;
-  }
-
   /* Force pixelated text rendering throughout the app */
   html,
   body {
+    font-family: "Chicago";
+    font-weight: normal;
+    font-style: normal;
+    font-size: 12px;
     text-rendering: geometricPrecision;
-    -webkit-font-smoothing: none;
-    -moz-osx-font-smoothing: grayscale;
-    font-smooth: never;
   }
 }
 
 @layer components {
   .mac-os-classic {
     background-color: #ceceff;
-    font-family: system-ui, -apple-system, sans-serif;
     color: #000000;
     cursor: default;
     overflow: hidden;
@@ -129,28 +121,5 @@
     font-smooth: never;
     letter-spacing: 0;
     transform: scale(1, 1);
-  }
-
-  /* Pixelated text with canvas-like rendering */
-  .mac-pixel-text-extreme {
-    font-family: "Chicago", monospace;
-    font-size: 12px;
-    line-height: 1;
-    letter-spacing: 0;
-    word-spacing: 0;
-    text-rendering: geometricPrecision;
-    -webkit-font-smoothing: none;
-    -moz-osx-font-smoothing: grayscale;
-    font-smooth: never;
-
-    /* Create a pixel grid effect */
-    background-image: linear-gradient(rgba(0, 0, 0, 0.05) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(0, 0, 0, 0.05) 1px, transparent 1px);
-    background-size: 1px 1px;
-    background-position: -0.5px -0.5px;
-
-    /* Force pixelation with transform */
-    transform-origin: center center;
-    transform: scale(0.99, 0.99);
   }
 }

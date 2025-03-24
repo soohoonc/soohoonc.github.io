@@ -1,6 +1,7 @@
 import { type ClassValue, clsx } from 'clsx';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useLayoutEffect } from 'react';
 import { twMerge } from 'tailwind-merge';
+import { debounce } from 'lodash';
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -32,4 +33,18 @@ export const useWindowSize = (): WindowSize => {
   }, []);
 
   return windowSize;
-}; 
+};
+
+export const useIsMobile = (): boolean => {
+  const [isMobile, setIsMobile] = useState<boolean>(false);
+  useLayoutEffect(() => {
+    const updateSize = (): void => {
+      setIsMobile(window.innerWidth < 768);
+    };
+    window.addEventListener('resize', debounce(updateSize, 1000));
+    updateSize()
+    return (): void => window.removeEventListener('resize', updateSize);
+  }, []);
+
+  return isMobile;
+};

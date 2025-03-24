@@ -1,12 +1,11 @@
 "use client"
+
 import { cn } from "@/lib/utils"
 import { useDesktop } from "@/providers/desktop"
-import Image from 'next/image'
 
 // The main DesktopIcons component
 export const DesktopIcons = () => {
-  const { icons, startDrag, draggingState, selectedIcon } = useDesktop()
-
+  const { icons, onMouseDown, draggingState, selectedIcon } = useDesktop()
   return (
     <div className="absolute inset-0">
       {/* Render all icons */}
@@ -18,13 +17,13 @@ export const DesktopIcons = () => {
             key={icon.id}
             className="absolute flex flex-col items-center w-16"
             style={{
-              left: icon.position.x,
-              top: icon.position.y,
+              ...(icon.position.x > 0 ? { left: icon.position.x } : { right: -icon.position.x }),
+              ...(icon.position.y > 0 ? { top: icon.position.y } : { bottom: -icon.position.y }),
               cursor: isBeingDragged ? "grabbing" : "default",
               opacity: isBeingDragged ? 0.5 : 1,
               transition: isBeingDragged ? "none" : "all 0.1s ease-out",
             }}
-            onMouseDown={(e) => startDrag(e, icon.id, "icon")}
+            onMouseDown={(e) => onMouseDown(e, icon.id, "icon")}
           >
             <div className="w-8 h-8 flex items-center justify-center mb-1">
               <img
@@ -34,7 +33,7 @@ export const DesktopIcons = () => {
               />
             </div>
             <div
-              className={cn("mac-icon-label", selectedIcon === icon.id && "mac-icon-label-selected")}
+              className={cn("w-fit max-w-32 mac-icon-label", selectedIcon === icon.id && "mac-icon-label-selected")}
             >
               {icon.name}
             </div>

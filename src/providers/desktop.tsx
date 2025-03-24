@@ -1,26 +1,30 @@
 "use client"
 
-import type React from "react"
+import React, { useEffect } from "react"
 
-import { useState, useCallback, useRef, createContext, useContext, lazy, Component } from "react"
-import { applications } from "@/components/applications"
+import { useState, useCallback, useRef, createContext, useContext, lazy } from "react"
+import { icons as initialIcons, applications } from "@/components/applications"
+import { useIsMobile, useWindowSize } from "@/lib/utils"
 
 type ResizeDirection = "n" | "s" | "e" | "w" | "ne" | "nw" | "se" | "sw" | null
-type DraggableItemType = "window" | "icon"
+type DraggableItemType = "window" | "icon" | null
+type Position = { x: number; y: number }
+type Dimension = { width: number; height: number }
 
 export type Application = {
-  id: string
   name: string
-  icon: DesktopIcon
-  command: string // the path of the application
-  args?: Record<string, any>
+  command: string
+  tools?: {
+    name: string,
+    dropdown: React.ReactNode
+  }[]
 }
 
 export type DesktopIcon = {
   id: string
   name: string
   icon: string
-  position: { x: number; y: number }
+  position: Position
   command: string
   args?: Record<string, any>
 }
@@ -28,11 +32,10 @@ export type DesktopIcon = {
 export type Window = {
   id: string
   title: string
-  position: { x: number; y: number }
-  size: { width: number; height: number }
-  isMinimized: boolean
+  position: Position
+  size: Dimension
   zIndex: number
-  process: string
+  application: Application
   content: React.ReactNode
 }
 
@@ -40,31 +43,36 @@ export type Window = {
 interface DraggingState {
   itemType: DraggableItemType | null
   itemId: string | null
-  ghostPosition: { x: number; y: number } | null
+  ghostPosition: Position | null
 }
 
 interface DesktopContextType {
   windows: Window[]
   icons: DesktopIcon[]
-  startDrag: (e: React.MouseEvent, id: string, itemType: DraggableItemType) => void
-  minimizeWindow: (id: string) => void
+  // minimizeWindow: (id: string) => void
   closeWindow: (id: string) => void
   startResize: (e: React.MouseEvent, id: string, direction: ResizeDirection) => void
+  onMouseDown: (e: React.MouseEvent, id: string, itemType: DraggableItemType) => void
   onMouseMove: (e: React.MouseEvent) => void
   onMouseUp: () => void
-  createWindow: (application: Application) => void
+  createWindow: (application: Application, args: any, options?: {
+    position: Position
+    size: Dimension
+  }) => void
   draggingState: DraggingState
   selectIcon: (id: string | null) => void
   selectedIcon: string | null
-  openApplication: (iconId: string) => void
+  openApplication: (command: string, args: any) => void
 }
 
 const DesktopContext = createContext<DesktopContextType | null>(null)
 
 export const DesktopProvider = ({ children }: { children: React.ReactNode }) => {
-  const [activeWindow, setActiveWindow] = useState<string>()
+  const isMobile = useIsMobile()
+  const { width, height } = useWindowSize();
+  const [activeWindow, setActiveWindow] = useState<Window | null>(null)
   const [windows, setWindows] = useState<Window[]>([])
-  const [icons, setIcons] = useState<DesktopIcon[]>(applications.map((app) => app.icon))
+  const [icons, setIcons] = useState<DesktopIcon[]>(initialIcons)
   const [selectedIcon, setSelectedIcon] = useState<string | null>(null)
   // Unified dragging state
   const [draggingState, setDraggingState] = useState<DraggingState>({
@@ -76,7 +84,7 @@ export const DesktopProvider = ({ children }: { children: React.ReactNode }) => 
   // Drag refs
   const dragRef = useRef<{
     isDragging: boolean
-    offset: { x: number; y: number }
+    offset: Position
     lastClickTime: number
   }>({
     isDragging: false,
@@ -87,9 +95,9 @@ export const DesktopProvider = ({ children }: { children: React.ReactNode }) => 
   const resizeRef = useRef<{
     isResizing: boolean
     direction: ResizeDirection
-    startPos: { x: number; y: number }
+    startPos: Position
     startSize: { width: number; height: number }
-    startWindowPos: { x: number; y: number }
+    startWindowPos: Position
   }>({
     isResizing: false,
     direction: null,
@@ -105,10 +113,10 @@ export const DesktopProvider = ({ children }: { children: React.ReactNode }) => 
 
   // Open an application from an icon
   const openApplication = useCallback(
-    (command: string) => {
+    (command: string, args: any) => {
       const application = applications.find((a) => a.command === command)
       if (!application) return
-      createWindow(application)
+      createWindow(application, args)
     },
     [icons],
   )
@@ -118,8 +126,8 @@ export const DesktopProvider = ({ children }: { children: React.ReactNode }) => 
       const maxZ = Math.max(...prev.map((w) => w.zIndex))
       return prev.map((w) => (w.id === id ? { ...w, zIndex: maxZ + 1 } : w))
     })
-    setActiveWindow(id)
-  }, [])
+    setActiveWindow(windows.find((w) => w.id === id) || null)
+  }, [windows])
 
   const startResize = useCallback(
     (e: React.MouseEvent, id: string, direction: ResizeDirection) => {
@@ -154,7 +162,7 @@ export const DesktopProvider = ({ children }: { children: React.ReactNode }) => 
 
       setWindows((prev) =>
         prev.map((w) => {
-          if (w.id !== activeWindow) return w
+          if (w.id !== activeWindow.id) return w
 
           const newSize = { ...w.size }
           const newPos = { ...w.position }
@@ -194,7 +202,7 @@ export const DesktopProvider = ({ children }: { children: React.ReactNode }) => 
   }, [])
 
   const createWindow = useCallback(
-    (application: Application) => {
+    (application: Application, args: any, options?: any) => {
       const Component = lazy(async () => {
         // Dynamically import the component based on the command path
         return import(`@/components/applications/${application.command}`)
@@ -208,15 +216,14 @@ export const DesktopProvider = ({ children }: { children: React.ReactNode }) => 
       const newWindow: Window = {
         id: `window-${Date.now()}`,
         title: application.name,
-        position: { x: 50, y: 50 },
-        size: { width: 400, height: 300 },
-        isMinimized: false,
+        position: options?.position || { x: 50, y: 50 },
+        size: options?.size || { width: 400, height: 300 },
         zIndex: windows.length,
-        process: application.id,
-        content: <Component />
+        application: application,
+        content: < Component {...args} />
       }
       setWindows((prev) => [...prev, newWindow])
-      setActiveWindow(newWindow.id)
+      setActiveWindow(newWindow)
     },
     [windows],
   )
@@ -225,22 +232,21 @@ export const DesktopProvider = ({ children }: { children: React.ReactNode }) => 
     setWindows((prev) => prev.filter((w) => w.id !== id))
   }, [])
 
-  const minimizeWindow = useCallback((id: string) => {
-    setWindows((prev) => prev.map((w) => (w.id === id ? { ...w, isMinimized: !w.isMinimized } : w)))
-  }, [])
+  // const minimizeWindow = useCallback((id: string) => {
+  //   setWindows((prev) => prev.map((w) => (w.id === id ? { ...w, isMinimized: !w.isMinimized } : w)))
+  // }, [])
 
   // Unified start drag function for both windows and icons
-  const startDrag = useCallback(
+  const onMouseDown = useCallback(
     (e: React.MouseEvent, id: string, itemType: DraggableItemType) => {
       e.preventDefault()
       e.stopPropagation()
-
       // Handle icon-specific logic
       if (itemType === "icon") {
         // Select the icon
         selectIcon(id)
-        const application = applications.find((a) => a.icon.id === id)
-        if (!application) return
+        const icon = icons.find((i) => i.id === id)
+        if (!icon) return
         // Check for double click
         const currentTime = new Date().getTime()
         const isDoubleClick = currentTime - dragRef.current.lastClickTime < 300
@@ -248,7 +254,7 @@ export const DesktopProvider = ({ children }: { children: React.ReactNode }) => 
 
         if (isDoubleClick) {
           // Open the application on double click
-          openApplication(application.command)
+          openApplication(icon.command, icon.args)
           return
         }
       }
@@ -256,7 +262,10 @@ export const DesktopProvider = ({ children }: { children: React.ReactNode }) => 
       // Get the item to drag based on type
       const item = itemType === "window" ? windows.find((w) => w.id === id) : icons.find((i) => i.id === id)
 
-      if (!item) return
+      if (!item) {
+        setSelectedIcon(null)
+        return
+      }
 
       // Set up dragging state
       dragRef.current = {
@@ -351,10 +360,10 @@ export const DesktopProvider = ({ children }: { children: React.ReactNode }) => 
   const value = {
     windows,
     icons,
-    startDrag,
-    minimizeWindow,
+    // minimizeWindow,
     closeWindow,
     startResize,
+    onMouseDown,
     onMouseMove,
     onMouseUp,
     createWindow,
@@ -363,6 +372,19 @@ export const DesktopProvider = ({ children }: { children: React.ReactNode }) => 
     selectedIcon,
     openApplication,
   }
+
+  useEffect(() => {
+    setWindows([])
+    createWindow({
+      name: 'Teach Text',
+      command: 'teach-text'
+    }, {
+      path: '/home/soohoon/welcome'
+    }, {
+      ...(isMobile ? { size: { width, height: 400 } } : {}),
+      ...(isMobile ? { position: { x: 0, y: 40 } } : {})
+    })
+  }, [isMobile])
 
   return <DesktopContext.Provider value={value}>{children}</DesktopContext.Provider>
 }
