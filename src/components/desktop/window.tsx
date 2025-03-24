@@ -55,7 +55,7 @@ export const WindowComponent = ({ window }: WindowProps) => {
         </div>
 
         {/* Content Area */}
-        <div className="mac-window-content mac-scrollbar w-6" style={{ height: "calc(100% - 20px)" }}>
+        <div className="mac-window-content mac-scrollbar" style={{ height: "calc(100% - 20px)" }}>
           {window.content}
         </div>
 
