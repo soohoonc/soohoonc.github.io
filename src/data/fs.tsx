@@ -23,8 +23,8 @@ export const fs: Node[] = [
                 <h1>Hi, I am Soohoon Choi</h1>
                 <br />
                 <p>
-                  I&apos;m currently running <a href="https://greptile.com" className="text-green-500 underline">GREPTILE</a>, an AI code review company, as a cofounder.
-                  Before that I was a CS and math student at <a href="https://gatech.edu" className="text-amber-700 underline">Georgia Tech</a> .
+                  I&apos;m currently running <a href="https://greptile.com" target="_blank" className="text-green-500 underline">GREPTILE</a>, an AI code review company, as a cofounder.
+                  Before that I was a CS and math student at <a href="https://gatech.edu" target="_blank" className="text-amber-700 underline">Georgia Tech</a> .
                 </p>
                 <br />
                 <p>
@@ -41,6 +41,13 @@ export const fs: Node[] = [
                   <br />
                   soohoonchoi [at] gmail [dot] com
                 </p>
+                <br />
+                <p>Socials</p>
+                <ul>
+                  <li>- <a href="https://x.com/soohoonchoi" target="_blank" className="text-blue-500 underline">Twitter/X</a></li>
+                  <li>- <a href="https://github.com/soohoonc" target="_blank" className="text-blue-500 underline">GitHub</a></li>
+                  <li>- <a href="https://linkedin.com/in/soohoonchoi" target="_blank" className="text-blue-500 underline">LinkedIn</a></li>
+                </ul>
               </div>
             )
           },

@@ -217,7 +217,7 @@ export const DesktopProvider = ({ children }: { children: React.ReactNode }) => 
         id: `window-${Date.now()}`,
         title: application.name,
         position: options?.position || { x: 50, y: 50 },
-        size: options?.size || { width: 400, height: 300 },
+        size: options?.size || { width: 640, height: 480 },
         zIndex: windows.length,
         application: application,
         content: < Component {...args} />
@@ -381,7 +381,7 @@ export const DesktopProvider = ({ children }: { children: React.ReactNode }) => 
     }, {
       path: '/home/soohoon/welcome'
     }, {
-      ...(isMobile ? { size: { width, height: 400 } } : {}),
+      ...(isMobile ? { size: { width, height: 480 } } : {}),
       ...(isMobile ? { position: { x: 0, y: 40 } } : {})
     })
   }, [isMobile])
