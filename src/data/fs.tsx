@@ -23,7 +23,7 @@ export const fs: Node[] = [
                 <h1>Hi, I am Soohoon Choi</h1>
                 <br />
                 <p>
-                  I'm currently running <a href="https://greptile.com" className="text-green-500 underline">GREPTILE</a>, an AI code review company, as a cofounder.
+                  I&apos;m currently running <a href="https://greptile.com" className="text-green-500 underline">GREPTILE</a>, an AI code review company, as a cofounder.
                   Before that I was a CS and math student at <a href="https://gatech.edu" className="text-amber-700 underline">Georgia Tech</a> .
                 </p>
                 <br />
