@@ -6,7 +6,7 @@ import type { Application, DesktopIcon } from '@/providers/desktop'
 export const icons: DesktopIcon[] = [
   {
     id: 'finder-icon',
-    name: 'Drive',
+    name: 'Soohoon',
     icon: '/icons/finder.png', // adjust path as needed
     position: { x: -20, y: 20 },
     command: 'finder'

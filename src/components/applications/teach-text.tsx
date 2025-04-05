@@ -7,15 +7,15 @@ interface TeachTextProps {
 const TeachText = ({ path }: TeachTextProps) => {
 
   const find = (nodes: any[], path: string) => {
-    const parts = path.split('/')
-    let node = nodes.find(node => node.name === parts[1])
-    if (!node) {
-      return null
+    const parts = path.split('/').filter(p => p) // Remove empty strings
+    let node = nodes[0] // Start from root node
+
+    for (let i = 0; i < parts.length; i++) {
+      if (!node.children) return null
+      node = node.children.find((n: any) => n.name === parts[i])
+      if (!node) return null
     }
-    if (parts.length === 2) {
-      return node.content
-    }
-    return find(node.children, parts.slice(1).join('/'))
+    return node?.content || null
   }
 
   if (!path) {
@@ -25,6 +25,7 @@ const TeachText = ({ path }: TeachTextProps) => {
       <button>Create new file</button>
     </div>)
   }
+
   const content = find(fs, path)
   if (content) {
     return content
