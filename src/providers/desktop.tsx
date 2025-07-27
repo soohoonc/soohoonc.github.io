@@ -5,20 +5,13 @@ import React, { useEffect } from "react"
 import { useState, useCallback, useRef, createContext, useContext, lazy } from "react"
 import { icons as initialIcons, applications } from "@/components/applications"
 import { useIsMobile, useWindowSize } from "@/lib/utils"
+import { useOs } from "./os"
+import type { Application } from "./os"
 
 type ResizeDirection = "n" | "s" | "e" | "w" | "ne" | "nw" | "se" | "sw" | null
 type DraggableItemType = "window" | "icon" | null
 type Position = { x: number; y: number }
 type Dimension = { width: number; height: number }
-
-export type Application = {
-  name: string
-  command: string
-  tools?: {
-    name: string,
-    dropdown: React.ReactNode
-  }[]
-}
 
 export type DesktopIcon = {
   id: string
@@ -30,16 +23,15 @@ export type DesktopIcon = {
 }
 
 export type Window = {
+  processId: number
   id: string
   title: string
   position: Position
   size: Dimension
   zIndex: number
-  application: Application
   content: React.ReactNode
 }
 
-// Unified dragging state interface
 interface DraggingState {
   itemType: DraggableItemType | null
   itemId: string | null
@@ -49,7 +41,6 @@ interface DraggingState {
 interface DesktopContextType {
   windows: Window[]
   icons: DesktopIcon[]
-  // minimizeWindow: (id: string) => void
   closeWindow: (id: string) => void
   startResize: (e: React.MouseEvent, id: string, direction: ResizeDirection) => void
   onMouseDown: (e: React.MouseEvent, id: string, itemType: DraggableItemType) => void
@@ -62,7 +53,7 @@ interface DesktopContextType {
   draggingState: DraggingState
   selectIcon: (id: string | null) => void
   selectedIcon: string | null
-  openApplication: (command: string, args: any) => void
+  selectedProcessId: number
 }
 
 const DesktopContext = createContext<DesktopContextType | null>(null)
@@ -70,18 +61,19 @@ const DesktopContext = createContext<DesktopContextType | null>(null)
 export const DesktopProvider = ({ children }: { children: React.ReactNode }) => {
   const isMobile = useIsMobile()
   const { width, height } = useWindowSize();
+  const { spawnProcess, killProcess, state: osState } = useOs()
   const [activeWindow, setActiveWindow] = useState<Window | null>(null)
   const [windows, setWindows] = useState<Window[]>([])
   const [icons, setIcons] = useState<DesktopIcon[]>(initialIcons)
   const [selectedIcon, setSelectedIcon] = useState<string | null>(null)
-  // Unified dragging state
+  const [selectedProcessId, setSelectedProcessId] = useState<number>(1)
+  const [initialAppCreated, setInitialAppCreated] = useState<boolean>(false)
   const [draggingState, setDraggingState] = useState<DraggingState>({
     itemType: null,
     itemId: null,
     ghostPosition: null,
   })
 
-  // Drag refs
   const dragRef = useRef<{
     isDragging: boolean
     offset: Position
@@ -106,12 +98,10 @@ export const DesktopProvider = ({ children }: { children: React.ReactNode }) => 
     startWindowPos: { x: 0, y: 0 },
   })
 
-  // Select an icon
   const selectIcon = useCallback((id: string | null) => {
     setSelectedIcon(id)
   }, [])
 
-  // Open an application from an icon
   const openApplication = useCallback(
     (command: string, args: any) => {
       const application = applications.find((a) => a.command === command)
@@ -126,7 +116,11 @@ export const DesktopProvider = ({ children }: { children: React.ReactNode }) => 
       const maxZ = Math.max(...prev.map((w) => w.zIndex))
       return prev.map((w) => (w.id === id ? { ...w, zIndex: maxZ + 1 } : w))
     })
-    setActiveWindow(windows.find((w) => w.id === id) || null)
+    const window = windows.find((w) => w.id === id)
+    setActiveWindow(window || null)
+    if (window) {
+      setSelectedProcessId(window.processId)
+    }
   }, [windows])
 
   const startResize = useCallback(
@@ -204,7 +198,6 @@ export const DesktopProvider = ({ children }: { children: React.ReactNode }) => 
   const createWindow = useCallback(
     (application: Application, args: any, options?: any) => {
       const Component = lazy(async () => {
-        // Dynamically import the component based on the command path
         return import(`@/components/applications/${application.command}`)
           .then(module => ({ default: module.default || module }))
           .catch(error => {
@@ -213,53 +206,67 @@ export const DesktopProvider = ({ children }: { children: React.ReactNode }) => 
           })
       })
 
+      const processId = spawnProcess(application)
+
       const newWindow: Window = {
         id: `window-${Date.now()}`,
         title: application.name,
         position: options?.position || { x: 50, y: 50 },
         size: options?.size || { width: 640, height: 480 },
-        zIndex: windows.length,
-        application: application,
-        content: < Component {...args} />
+        zIndex: 0,
+        processId,
+        content: <Component {...args} />
       }
-      setWindows((prev) => [...prev, newWindow])
+      
+      setWindows(prev => {
+        const newWindows = [...prev, newWindow]
+        newWindow.zIndex = newWindows.length - 1
+        return newWindows
+      })
       setActiveWindow(newWindow)
+      setSelectedProcessId(processId)
     },
-    [windows],
+    [spawnProcess],
   )
 
   const closeWindow = useCallback((id: string) => {
-    setWindows((prev) => prev.filter((w) => w.id !== id))
-  }, [])
+    const window = windows.find(w => w.id === id)
+    if (window) {
+      killProcess(window.processId)
+    }
+    
+    setWindows((prev) => {
+      const remainingWindows = prev.filter((w) => w.id !== id)
+      
+      // When closing any window, always default back to Finder (like macOS)
+      if (window) {
+        setSelectedProcessId(1)
+        setActiveWindow(null)
+      }
+      
+      return remainingWindows
+    })
+  }, [windows, killProcess, selectedProcessId])
 
-  // const minimizeWindow = useCallback((id: string) => {
-  //   setWindows((prev) => prev.map((w) => (w.id === id ? { ...w, isMinimized: !w.isMinimized } : w)))
-  // }, [])
 
-  // Unified start drag function for both windows and icons
   const onMouseDown = useCallback(
     (e: React.MouseEvent, id: string, itemType: DraggableItemType) => {
       e.preventDefault()
       e.stopPropagation()
-      // Handle icon-specific logic
       if (itemType === "icon") {
-        // Select the icon
         selectIcon(id)
         const icon = icons.find((i) => i.id === id)
         if (!icon) return
-        // Check for double click
         const currentTime = new Date().getTime()
         const isDoubleClick = currentTime - dragRef.current.lastClickTime < 300
         dragRef.current.lastClickTime = currentTime
 
         if (isDoubleClick) {
-          // Open the application on double click
           openApplication(icon.command, icon.args)
           return
         }
       }
 
-      // Get the item to drag based on type
       const item = itemType === "window" ? windows.find((w) => w.id === id) : icons.find((i) => i.id === id)
 
       if (!item) {
@@ -267,7 +274,6 @@ export const DesktopProvider = ({ children }: { children: React.ReactNode }) => 
         return
       }
 
-      // Set up dragging state
       dragRef.current = {
         isDragging: true,
         offset: {
@@ -277,14 +283,12 @@ export const DesktopProvider = ({ children }: { children: React.ReactNode }) => 
         lastClickTime: dragRef.current.lastClickTime,
       }
 
-      // Update dragging state
       setDraggingState({
         itemType,
         itemId: id,
         ghostPosition: item.position,
       })
 
-      // Bring window to front if dragging a window
       if (itemType === "window") {
         bringToFront(id)
       }
@@ -292,18 +296,15 @@ export const DesktopProvider = ({ children }: { children: React.ReactNode }) => 
     [windows, icons, selectIcon, openApplication, bringToFront],
   )
 
-  // Unified drag function
   const onDrag = useCallback(
     (e: React.MouseEvent) => {
       if (!dragRef.current.isDragging || !draggingState.itemId) return
 
-      // Calculate new position
       const newPosition = {
         x: e.clientX - dragRef.current.offset.x,
         y: e.clientY - dragRef.current.offset.y,
       }
 
-      // Update ghost position
       setDraggingState((prev) => ({
         ...prev,
         ghostPosition: newPosition,
@@ -312,17 +313,13 @@ export const DesktopProvider = ({ children }: { children: React.ReactNode }) => 
     [draggingState.itemId],
   )
 
-  // Unified end drag function
   const endDrag = useCallback(() => {
     if (dragRef.current.isDragging && draggingState.itemId && draggingState.ghostPosition) {
-      // Update position based on item type
       if (draggingState.itemType === "window") {
-        // Update window position
         setWindows((prev) =>
           prev.map((w) => (w.id === draggingState.itemId ? { ...w, position: draggingState.ghostPosition! } : w)),
         )
       } else if (draggingState.itemType === "icon") {
-        // Update icon position
         setIcons((prev) =>
           prev.map((icon) =>
             icon.id === draggingState.itemId ? { ...icon, position: draggingState.ghostPosition! } : icon,
@@ -331,7 +328,6 @@ export const DesktopProvider = ({ children }: { children: React.ReactNode }) => 
       }
     }
 
-    // Reset dragging state
     dragRef.current.isDragging = false
     setDraggingState({
       itemType: null,
@@ -340,7 +336,6 @@ export const DesktopProvider = ({ children }: { children: React.ReactNode }) => 
     })
   }, [draggingState])
 
-  // Mouse move and up handlers
   const onMouseMove = useCallback(
     (e: React.MouseEvent) => {
       if (resizeRef.current.isResizing) {
@@ -360,7 +355,6 @@ export const DesktopProvider = ({ children }: { children: React.ReactNode }) => 
   const value = {
     windows,
     icons,
-    // minimizeWindow,
     closeWindow,
     startResize,
     onMouseDown,
@@ -370,21 +364,27 @@ export const DesktopProvider = ({ children }: { children: React.ReactNode }) => 
     draggingState,
     selectIcon,
     selectedIcon,
+    selectedProcessId,
     openApplication,
   }
 
+
   useEffect(() => {
-    setWindows([])
-    createWindow({
-      name: 'Teach Text',
-      command: 'teach-text'
-    }, {
-      path: '/home/soohoon/welcome'
-    }, {
-      ...(isMobile ? { size: { width, height: 480 } } : {}),
-      ...(isMobile ? { position: { x: 0, y: 40 } } : {})
+    if (osState !== 'ready' || initialAppCreated) return
+
+    const application = { name: 'Teach Text', command: 'teach-text' }
+    const windowSize = isMobile ? { width, height: 480 } : { width: 640, height: 480 }
+    const centerX = (width - windowSize.width) / 2
+    const centerY = (height - windowSize.height) / 2
+    
+    createWindow(application, { path: '/home/soohoon/welcome' }, {
+      size: windowSize,
+      position: isMobile 
+        ? { x: 0, y: 40 }
+        : { x: Math.max(0, centerX), y: Math.max(40, centerY) }
     })
-  }, [isMobile])
+    setInitialAppCreated(true)
+  }, [osState, initialAppCreated, isMobile, width, height])
 
   return <DesktopContext.Provider value={value}>{children}</DesktopContext.Provider>
 }

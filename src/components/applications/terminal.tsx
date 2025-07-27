@@ -3,6 +3,26 @@
 import React from 'react';
 import { useOs } from '@/providers/os';
 
+export type MenuItem = {
+  label: string
+  dropdown: React.ReactNode
+}
+
+export const menuItems: MenuItem[] = [
+  {
+    label: 'Terminal',
+    dropdown: <div>Terminal Menu</div>
+  },
+  {
+    label: 'Shell',
+    dropdown: <div>Shell Menu</div>
+  },
+  {
+    label: 'Edit',
+    dropdown: <div>Edit Menu</div>
+  }
+]
+
 // Add missing utility functions and state
 const history = {
   messages: [] as { role: 'user' | 'assistant'; content: string }[],

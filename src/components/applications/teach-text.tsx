@@ -1,4 +1,25 @@
+import React from 'react'
 import { fs } from '@/data/fs'
+
+export type MenuItem = {
+  label: string
+  dropdown: React.ReactNode
+}
+
+export const menuItems: MenuItem[] = [
+  {
+    label: 'File',
+    dropdown: <div>File Menu</div>
+  },
+  {
+    label: 'Edit',
+    dropdown: <div>Edit Menu</div>
+  },
+  {
+    label: 'Format',
+    dropdown: <div>Format Menu</div>
+  }
+]
 
 interface TeachTextProps {
   path?: string;

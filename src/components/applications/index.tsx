@@ -1,6 +1,7 @@
 "use client"
 
-import type { Application, DesktopIcon } from '@/providers/desktop'
+import type { DesktopIcon } from '@/providers/desktop'
+import type { Application } from '@/providers/os'
 
 
 export const icons: DesktopIcon[] = [
@@ -33,18 +34,17 @@ export const icons: DesktopIcon[] = [
   },
 ]
 
-// Export applications configuration
 export const applications: Application[] = [
   {
     name: 'Finder',
-    command: 'finder',
+    command: 'finder'
   },
   {
     name: 'Terminal',
-    command: 'terminal',
+    command: 'terminal'
   },
   {
     name: 'Teach Text',
-    command: 'teach-text',
+    command: 'teach-text'
   },
 ]
