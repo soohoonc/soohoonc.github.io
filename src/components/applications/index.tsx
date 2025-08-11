@@ -13,6 +13,20 @@ export const icons: DesktopIcon[] = [
     command: 'finder'
   },
   {
+    id: 'terminal-icon',
+    name: 'Terminal',
+    icon: '/icons/terminal.png',
+    position: { x: -20, y: 180 },
+    command: 'terminal'
+  },
+  {
+    id: 'process-manager-icon',
+    name: 'Processes',
+    icon: '/icons/process.png',
+    position: { x: -20, y: 260 },
+    command: 'process-manager'
+  },
+  {
     id: 'welcome-icon',
     name: 'Welcome',
     icon: '/icons/welcome.png',
@@ -42,6 +56,10 @@ export const applications: Application[] = [
   {
     name: 'Terminal',
     command: 'terminal'
+  },
+  {
+    name: 'Process Manager',
+    command: 'process-manager'
   },
   {
     name: 'Teach Text',

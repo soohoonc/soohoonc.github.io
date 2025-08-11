@@ -39,7 +39,7 @@ export const WindowComponent = ({ window }: WindowProps) => {
             <button
               className="w-3 h-3 border border-black flex items-center justify-center text-[8px]"
               style={{ backgroundColor: "#ffffff" }}
-              onClick={() => closeWindow(window.id)}
+              onClick={() => closeWindow(window.id).catch(console.error)}
             >
 
             </button>

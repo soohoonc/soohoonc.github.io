@@ -41,7 +41,7 @@ interface DraggingState {
 interface DesktopContextType {
   windows: Window[]
   icons: DesktopIcon[]
-  closeWindow: (id: string) => void
+  closeWindow: (id: string) => Promise<void>
   startResize: (e: React.MouseEvent, id: string, direction: ResizeDirection) => void
   onMouseDown: (e: React.MouseEvent, id: string, itemType: DraggableItemType) => void
   onMouseMove: (e: React.MouseEvent) => void
@@ -49,11 +49,12 @@ interface DesktopContextType {
   createWindow: (application: Application, args: any, options?: {
     position: Position
     size: Dimension
-  }) => void
+  }) => Promise<void>
   draggingState: DraggingState
   selectIcon: (id: string | null) => void
   selectedIcon: string | null
   selectedProcessId: number
+  openApplication: (command: string, args: any) => Promise<void>
 }
 
 const DesktopContext = createContext<DesktopContextType | null>(null)
@@ -103,12 +104,12 @@ export const DesktopProvider = ({ children }: { children: React.ReactNode }) => 
   }, [])
 
   const openApplication = useCallback(
-    (command: string, args: any) => {
+    async (command: string, args: any) => {
       const application = applications.find((a) => a.command === command)
       if (!application) return
-      createWindow(application, args)
+      await createWindow(application, args)
     },
-    [icons],
+    [createWindow],
   )
 
   const bringToFront = useCallback((id: string) => {
@@ -196,7 +197,7 @@ export const DesktopProvider = ({ children }: { children: React.ReactNode }) => 
   }, [])
 
   const createWindow = useCallback(
-    (application: Application, args: any, options?: any) => {
+    async (application: Application, args: any, options?: any) => {
       const Component = lazy(async () => {
         return import(`@/components/applications/${application.command}`)
           .then(module => ({ default: module.default || module }))
@@ -206,33 +207,41 @@ export const DesktopProvider = ({ children }: { children: React.ReactNode }) => 
           })
       })
 
-      const processId = spawnProcess(application)
+      try {
+        const processId = await spawnProcess(application)
 
-      const newWindow: Window = {
-        id: `window-${Date.now()}`,
-        title: application.name,
-        position: options?.position || { x: 50, y: 50 },
-        size: options?.size || { width: 640, height: 480 },
-        zIndex: 0,
-        processId,
-        content: <Component {...args} />
+        const newWindow: Window = {
+          id: `window-${Date.now()}`,
+          title: application.name,
+          position: options?.position || { x: 50, y: 50 },
+          size: options?.size || { width: 640, height: 480 },
+          zIndex: 0,
+          processId,
+          content: <Component {...args} />
+        }
+        
+        setWindows(prev => {
+          const newWindows = [...prev, newWindow]
+          newWindow.zIndex = newWindows.length - 1
+          return newWindows
+        })
+        setActiveWindow(newWindow)
+        setSelectedProcessId(processId)
+      } catch (error) {
+        console.error('Failed to spawn process for window:', error)
       }
-      
-      setWindows(prev => {
-        const newWindows = [...prev, newWindow]
-        newWindow.zIndex = newWindows.length - 1
-        return newWindows
-      })
-      setActiveWindow(newWindow)
-      setSelectedProcessId(processId)
     },
     [spawnProcess],
   )
 
-  const closeWindow = useCallback((id: string) => {
+  const closeWindow = useCallback(async (id: string) => {
     const window = windows.find(w => w.id === id)
     if (window) {
-      killProcess(window.processId)
+      try {
+        await killProcess(window.processId)
+      } catch (error) {
+        console.error('Failed to kill process:', error)
+      }
     }
     
     setWindows((prev) => {
@@ -262,7 +271,7 @@ export const DesktopProvider = ({ children }: { children: React.ReactNode }) => 
         dragRef.current.lastClickTime = currentTime
 
         if (isDoubleClick) {
-          openApplication(icon.command, icon.args)
+          openApplication(icon.command, icon.args).catch(console.error)
           return
         }
       }
@@ -382,9 +391,9 @@ export const DesktopProvider = ({ children }: { children: React.ReactNode }) => 
       position: isMobile 
         ? { x: 0, y: 40 }
         : { x: Math.max(0, centerX), y: Math.max(40, centerY) }
-    })
+    }).catch(console.error)
     setInitialAppCreated(true)
-  }, [osState, initialAppCreated, isMobile, width, height])
+  }, [osState, initialAppCreated, isMobile, width, height, createWindow])
 
   return <DesktopContext.Provider value={value}>{children}</DesktopContext.Provider>
 }

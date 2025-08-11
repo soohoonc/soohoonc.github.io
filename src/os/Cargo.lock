@@ -119,6 +119,7 @@ dependencies = [
 name = "soohoonc_wasm"
 version = "0.0.1"
 dependencies = [
+ "js-sys",
  "once_cell",
  "serde",
  "serde-wasm-bindgen",
