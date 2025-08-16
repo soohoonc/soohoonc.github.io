@@ -20,35 +20,30 @@ export const fs: Node[] = [
             type: "file",
             content: (
               <div className="flex flex-col w-full p-2">
-                <h1>Hi, I am Soohoon Choi</h1>
+                <h1>hi i&apos;m soohoon</h1>
                 <br />
                 <p>
-                  I&apos;m currently running <a href="https://greptile.com" target="_blank" className="text-green-500 underline">GREPTILE</a>, an AI code review company, as a cofounder.
-                  Before that I was a CS and math student at <a href="https://gatech.edu" target="_blank" className="text-amber-700 underline">Georgia Tech</a> .
-                </p>
-                <br />
-                <p>
-                  I am based in <span className="text-red-500">🌉 San Francisco</span>, but before I lived in:
-                </p>
-                <ul>
-                  <li>- Atlanta</li>
-                  <li>- Manila</li>
-                  <li>- Seoul</li>
-                </ul>
-                <br />
-                <p>
-                  Feel free to reach me out at:
+                  i&apos;m currently running <a href="https://greptile.com" target="_blank" className="text-green-500 underline">greptile</a> as cofounder and cto
                   <br />
-                  soohoonchoi [at] gmail [dot] com
+                  before that I was a computer science and math student at <a href="https://gatech.edu" target="_blank" className="text-amber-700 underline">georgia tech</a>
+                  <br />
+                  i live in <a href="https://maps.apple.com/place?auid=8077516530309122779" target="_blank" className="underline text-red-500">san francisco</a>
+                  <br />
+                  i <a href="https://www.instagram.com/soohoon.art" target="_blank" className="underline text-blue-500">draw sometimes</a> (kinda on hiatus right now)
+                  <br />
+                  naturally here is my <a href="https://soohoonchoi.substack.com" className="underline text-orange-500" target="_blank">substack</a>
+                  <br />
+                  i angel invest small amounts (i.e. <a href="https://better-auth.com" className="underline" target="_blank">better-auth</a>, <a href="https://www.prismreplay.com/" target="_blank" className="underline">prism</a>, <a href="https://joinsecondnature.com" className="underline" target="_blank">poppy</a>, etc.)
                 </p>
                 <br />
-                <p>Socials</p>
+                <p>contact</p>
                 <ul>
-                  <li>- <a href="https://x.com/soohoonchoi" target="_blank" className="text-blue-500 underline">Twitter/X</a></li>
-                  <li>- <a href="https://github.com/soohoonc" target="_blank" className="text-blue-500 underline">GitHub</a></li>
-                  <li>- <a href="https://linkedin.com/in/soohoonchoi" target="_blank" className="text-blue-500 underline">LinkedIn</a></li>
+                  <li>- <a href="https://x.com/soohoonchoi" target="_blank" className="text-blue-500 underline">twitter/x</a></li>
+                  <li>- <a href="https://github.com/soohoonc" target="_blank" className="text-blue-500 underline">github</a></li>
+                  <li>- <a href="https://linkedin.com/in/soohoonchoi" target="_blank" className="text-blue-500 underline">linkedin</a></li>
+                  <li>- email: soohoonchoi [at] gmail [dot] com</li>
                 </ul>
-              </div>
+              </div >
             )
           },
           {
