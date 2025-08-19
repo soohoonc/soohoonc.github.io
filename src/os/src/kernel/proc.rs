@@ -15,6 +15,7 @@ pub enum ProcessState {
 pub struct Process {
     pub pid: PID,
     pub parent_pid: Option<PID>,
+    pub program_name: String,
     pub state: ProcessState,
     pub exit_status: Option<ExitStatus>,
     pub children: HashSet<PID>,
@@ -31,6 +32,7 @@ impl Process {
         Self {
             pid,
             parent_pid,
+            program_name: "init".to_string(),
             state: ProcessState::Ready,
             exit_status: None,
             children: HashSet::new(),
@@ -84,11 +86,13 @@ impl ProcessControlBlock {
         Ok(child_pid)
     }
 
-    pub fn exec(&mut self, pid: PID) -> Result<(), String> {
+    pub fn exec(&mut self, pid: PID, program_name: String) -> Result<(), String> {
         let process = self
             .processes
             .get_mut(&pid)
             .ok_or_else(|| format!("Process {} not found", pid))?;
+
+        process.program_name = program_name;
         process.state = ProcessState::Ready;
 
         Ok(())

@@ -31,6 +31,12 @@ impl FileSystem {
                 content: "Hello from filesystem!".to_string(),
             },
         );
+        files.insert(
+            "program.exe".to_string(),
+            File {
+                content: "Executable program content".to_string(),
+            },
+        );
 
         Self { files }
     }

@@ -54,7 +54,7 @@ pub fn syscall_dispatch(
         }
         SYS_GETPID => sys_getpid(current_pid),
         SYS_KILL => sys_kill(&mut kernel.process_table, current_pid, args.args[0] as PID),
-        SYS_EXEC => Ok(0),
+        SYS_EXEC => sys_exec(kernel, current_pid, args.args[0] as u32),
         SYS_READ => {
             let fd = FileDescriptor(args.args[0] as u32);
             let count = args.args[1] as usize;
@@ -259,5 +259,22 @@ pub fn sys_close(
         Ok(0)
     } else {
         Err(SyscallError::EBADF)
+    }
+}
+
+pub fn sys_exec(
+    kernel: &mut super::Kernel,
+    current_pid: PID,
+    _path_len: u32,
+) -> SyscallResult<i32> {
+    let program_name = "program.exe".to_string();
+
+    if !kernel.filesystem.files.contains_key(&program_name) {
+        return Err(SyscallError::EBADF);
+    }
+
+    match kernel.process_table.exec(current_pid, program_name) {
+        Ok(()) => Ok(0),
+        Err(_) => Err(SyscallError::ESRCH),
     }
 }
