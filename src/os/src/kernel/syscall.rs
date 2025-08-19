@@ -1,141 +1,263 @@
-/*
- * System Call Interface - OSTEP Chapters 5 & 6 (Educational)
- * 
- * This module provides educational definitions of system call concepts
- * from OSTEP Chapters 5-6: Process API and Limited Direct Execution.
- * 
- * Key OSTEP Process API (Chapter 5):
- * - fork(): Create a copy of the calling process
- * - exec(): Replace the current process image with new program  
- * - wait(): Wait for child processes to complete
- * - exit(): Terminate the current process
- * - kill(): Send signals to processes
- * 
- * Limited Direct Execution (Chapter 6):
- * - System calls provide controlled access to kernel functionality
- * - User programs trap into kernel mode for privileged operations
- * - Kernel validates parameters and maintains security boundaries
- * 
- * In this WASM implementation, system calls are simplified:
- * - Calls go directly through WASM bindings to kernel PCB
- * - No trap table or dispatch mechanism needed
- * - Focus on OSTEP educational concepts
- */
+use super::{
+    fs::FileDescriptor,
+    proc::{ExitStatus, ProcessControlBlock, PID},
+    trap::SyscallArgs,
+};
 
-use super::process::{PID, ExitStatus, Signal, SIGKILL, SIGTERM, SIGSTOP, SIGCONT};
+pub const SYS_FORK: u32 = 1;
+pub const SYS_EXIT: u32 = 2;
+pub const SYS_WAIT: u32 = 3;
+pub const SYS_READ: u32 = 4;
+pub const SYS_KILL: u32 = 5;
+pub const SYS_EXEC: u32 = 6;
+pub const SYS_GETPID: u32 = 7;
+pub const SYS_SLEEP: u32 = 8;
+pub const SYS_WRITE: u32 = 9;
+pub const SYS_OPEN: u32 = 10;
+pub const SYS_CLOSE: u32 = 11;
 
-/// Core system call numbers (OSTEP Process API)
-pub const SYS_EXIT: u32 = 1;       // Terminate process
-pub const SYS_FORK: u32 = 2;       // Create process copy
-pub const SYS_READ: u32 = 3;       // Read from file descriptor
-pub const SYS_WRITE: u32 = 4;      // Write to file descriptor  
-pub const SYS_WAITPID: u32 = 7;    // Wait for child process
-pub const SYS_EXECVE: u32 = 11;    // Execute new program
-pub const SYS_GETPID: u32 = 20;    // Get process ID
-pub const SYS_KILL: u32 = 37;      // Send signal to process
-
-/// System call error codes (educational reference)
 #[derive(Debug, Clone, Copy, PartialEq)]
 pub enum SyscallError {
-    EPERM = 1,    // Operation not permitted
-    ENOENT = 2,   // No such file or directory  
-    ESRCH = 3,    // No such process
-    EINTR = 4,    // Interrupted system call
-    EBADF = 9,    // Bad file descriptor
-    ECHILD = 10,  // No child processes
-    ENOMEM = 12,  // Out of memory
-    EACCES = 13,  // Permission denied
-    EINVAL = 22,  // Invalid argument
-    ENOSYS = 38,  // Function not implemented
+    ESRCH = 1,
+    EBADF = 2,
+    ECHILD = 3,
+    EAGAIN = 4,
+    ENOSYS = 5,
 }
 
 type SyscallResult<T> = Result<T, SyscallError>;
 
-/// File descriptor constants (educational)
-#[derive(Debug, Clone, Copy, PartialEq)]
-pub struct FileDescriptor(pub u32);
-
-impl FileDescriptor {
-    pub const STDIN: FileDescriptor = FileDescriptor(0);
-    pub const STDOUT: FileDescriptor = FileDescriptor(1);  
-    pub const STDERR: FileDescriptor = FileDescriptor(2);
-    
-    pub fn is_valid(&self) -> bool {
-        self.0 < 1024 // Educational limit
+pub fn syscall_dispatch(
+    syscall_num: u32,
+    kernel: &mut super::Kernel,
+    current_pid: PID,
+    args: SyscallArgs,
+) -> SyscallResult<i32> {
+    if current_pid == 0 && syscall_num != SYS_FORK {
+        return Err(SyscallError::ESRCH);
     }
-}
 
-/// Educational system call implementations (simplified)
-/// In real implementation, these would interact with actual kernel
-
-/// Get current process ID  
-pub fn getpid() -> PID {
-    super::trap::get_current_process()
-}
-
-/// Get parent process ID
-pub fn getppid() -> PID {
-    1 // Return init as default parent
-}
-
-/// Fork process (educational - not actually implemented)
-pub fn fork() -> SyscallResult<PID> {
-    Err(SyscallError::ENOSYS) // Would be implemented in real OS
-}
-
-/// Execute new program (educational)
-pub fn execve(pathname: &str, _argv: &[&str], _envp: &[&str]) -> SyscallResult<()> {
-    if pathname.is_empty() {
-        return Err(SyscallError::ENOENT);
-    }
-    Ok(()) // Simplified success
-}
-
-/// Wait for child process (educational)
-pub fn waitpid(pid: PID, _status: Option<&mut i32>, _options: i32) -> SyscallResult<PID> {
-    if pid == 0 {
-        return Err(SyscallError::EINVAL);
-    }
-    Ok(pid) // Simplified success
-}
-
-/// Terminate process (educational)
-pub fn exit(status: ExitStatus) -> ! {
-    std::process::exit(status) // In WASM, this is handled differently
-}
-
-/// Send signal to process (educational)
-pub fn kill(pid: PID, _sig: Signal) -> SyscallResult<()> {
-    if pid <= 0 {
-        return Err(SyscallError::EINVAL);
-    }
-    Ok(()) // Simplified success
-}
-
-/// Write to file descriptor (educational)
-pub fn write(fd: FileDescriptor, buf: &[u8]) -> SyscallResult<usize> {
-    if !fd.is_valid() {
-        return Err(SyscallError::EBADF);
-    }
-    
-    match fd.0 {
-        1 | 2 => Ok(buf.len()), // STDOUT/STDERR - simulate success
-        _ => Ok(buf.len()),      // Other files - simulate success
-    }
-}
-
-/// Read from file descriptor (educational) 
-pub fn read(fd: FileDescriptor, buf: &mut [u8]) -> SyscallResult<usize> {
-    if !fd.is_valid() {
-        return Err(SyscallError::EBADF);
-    }
-    
-    match fd.0 {
-        0 => Ok(0),                                        // STDIN - no input
-        _ => {                                            // Other files
-            let bytes_read = std::cmp::min(buf.len(), 256);
-            buf[..bytes_read].fill(0);
-            Ok(bytes_read)
+    match syscall_num {
+        SYS_FORK => sys_fork(&mut kernel.process_table, current_pid),
+        SYS_EXIT => sys_exit(
+            &mut kernel.process_table,
+            current_pid,
+            args.args[0] as ExitStatus,
+        ),
+        SYS_WAIT => {
+            let child_pid = if args.args[0] == 0 {
+                None
+            } else {
+                Some(args.args[0] as PID)
+            };
+            sys_wait(&mut kernel.process_table, current_pid, child_pid)
         }
+        SYS_GETPID => sys_getpid(current_pid),
+        SYS_KILL => sys_kill(&mut kernel.process_table, current_pid, args.args[0] as PID),
+        SYS_EXEC => Ok(0),
+        SYS_READ => {
+            let fd = FileDescriptor(args.args[0] as u32);
+            let count = args.args[1] as usize;
+            let mut buf = vec![0u8; count.min(4096)];
+            sys_read(kernel, current_pid, fd, &mut buf)
+        }
+        SYS_WRITE => {
+            let fd = FileDescriptor(args.args[0] as u32);
+            sys_write(kernel, current_pid, fd, b"Hello from kernel!")
+        }
+        SYS_OPEN => sys_open(kernel, current_pid, args.args[0] as u32),
+        SYS_CLOSE => {
+            let fd = FileDescriptor(args.args[0] as u32);
+            sys_close(kernel, current_pid, fd)
+        }
+        SYS_SLEEP => Ok(0),
+        _ => Err(SyscallError::ENOSYS),
+    }
+}
+
+pub fn sys_fork(pcb: &mut ProcessControlBlock, parent_pid: PID) -> SyscallResult<i32> {
+    if parent_pid == 0 {
+        match pcb.spawn() {
+            Ok(new_pid) => Ok(new_pid as i32),
+            Err(_) => Err(SyscallError::EAGAIN),
+        }
+    } else {
+        match pcb.fork(parent_pid) {
+            Ok(child_pid) => Ok(child_pid as i32),
+            Err(_) => Err(SyscallError::EAGAIN),
+        }
+    }
+}
+
+pub fn sys_exit(pcb: &mut ProcessControlBlock, pid: PID, status: ExitStatus) -> SyscallResult<i32> {
+    match pcb.exit(pid, status) {
+        Ok(()) => Ok(0),
+        Err(_) => Err(SyscallError::ESRCH),
+    }
+}
+
+pub fn sys_wait(
+    pcb: &mut ProcessControlBlock,
+    parent_pid: PID,
+    child_pid: Option<PID>,
+) -> SyscallResult<i32> {
+    match pcb.wait(parent_pid, child_pid) {
+        Ok((waited_pid, _status)) => Ok(waited_pid as i32),
+        Err(_) => Err(SyscallError::ECHILD),
+    }
+}
+
+pub fn sys_kill(
+    pcb: &mut ProcessControlBlock,
+    _caller_pid: PID,
+    target_pid: u32,
+) -> SyscallResult<i32> {
+    match pcb.send_signal(target_pid, 9) {
+        Ok(()) => Ok(0),
+        Err(_) => Err(SyscallError::ESRCH),
+    }
+}
+
+pub fn sys_getpid(current_pid: PID) -> SyscallResult<i32> {
+    Ok(current_pid as i32)
+}
+
+pub fn sys_read(
+    kernel: &mut super::Kernel,
+    current_pid: PID,
+    fd: FileDescriptor,
+    buf: &mut [u8],
+) -> SyscallResult<i32> {
+    if !fd.is_valid() {
+        return Err(SyscallError::EBADF);
+    }
+
+    if fd == FileDescriptor::STDIN {
+        return Ok(0);
+    }
+    let process = kernel
+        .process_table
+        .processes
+        .get(&current_pid)
+        .ok_or(SyscallError::ESRCH)?;
+
+    if !process.fd_table.contains_key(&fd.0) {
+        return Err(SyscallError::EBADF);
+    }
+
+    if let Some(open_file) = kernel.open_file_table.get_mut(&fd.0) {
+        if !open_file.readable {
+            return Err(SyscallError::EBADF);
+        }
+        if let Some(file) = kernel.filesystem.files.get(&open_file.filename) {
+            let content_bytes = file.content.as_bytes();
+            let bytes_available = content_bytes.len().saturating_sub(open_file.position);
+            let bytes_to_read = std::cmp::min(buf.len(), bytes_available);
+
+            if bytes_to_read > 0 {
+                let end_pos = open_file.position + bytes_to_read;
+                buf[..bytes_to_read].copy_from_slice(&content_bytes[open_file.position..end_pos]);
+                open_file.position = end_pos;
+            }
+
+            Ok(bytes_to_read as i32)
+        } else {
+            Err(SyscallError::EBADF)
+        }
+    } else {
+        Err(SyscallError::EBADF)
+    }
+}
+
+pub fn sys_write(
+    kernel: &mut super::Kernel,
+    current_pid: PID,
+    fd: FileDescriptor,
+    buf: &[u8],
+) -> SyscallResult<i32> {
+    if !fd.is_valid() {
+        return Err(SyscallError::EBADF);
+    }
+
+    if fd == FileDescriptor::STDOUT || fd == FileDescriptor::STDERR {
+        return Ok(buf.len() as i32);
+    }
+    let process = kernel
+        .process_table
+        .processes
+        .get(&current_pid)
+        .ok_or(SyscallError::ESRCH)?;
+
+    if !process.fd_table.contains_key(&fd.0) {
+        return Err(SyscallError::EBADF);
+    }
+
+    if let Some(open_file) = kernel.open_file_table.get(&fd.0) {
+        if !open_file.writable {
+            return Err(SyscallError::EBADF);
+        }
+        if let Some(file) = kernel.filesystem.files.get_mut(&open_file.filename) {
+            let new_content = String::from_utf8_lossy(buf).to_string();
+            file.content.push_str(&new_content);
+
+            Ok(buf.len() as i32)
+        } else {
+            Err(SyscallError::EBADF)
+        }
+    } else {
+        Err(SyscallError::EBADF)
+    }
+}
+
+pub fn sys_open(
+    kernel: &mut super::Kernel,
+    current_pid: PID,
+    _path_len: u32,
+) -> SyscallResult<i32> {
+    let filename = "test.txt".to_string();
+    if !kernel.filesystem.files.contains_key(&filename) {
+        return Err(SyscallError::EBADF);
+    }
+    let process = kernel
+        .process_table
+        .processes
+        .get_mut(&current_pid)
+        .ok_or(SyscallError::ESRCH)?;
+
+    let global_fd = kernel.next_global_fd;
+    kernel.next_global_fd += 1;
+    let open_file = super::OpenFile {
+        filename: filename.clone(),
+        position: 0,
+        readable: true,
+        writable: true,
+    };
+
+    kernel.open_file_table.insert(global_fd, open_file);
+    let fd = FileDescriptor(global_fd);
+    process.fd_table.insert(global_fd, fd);
+
+    Ok(global_fd as i32)
+}
+
+pub fn sys_close(
+    kernel: &mut super::Kernel,
+    current_pid: PID,
+    fd: FileDescriptor,
+) -> SyscallResult<i32> {
+    if fd == FileDescriptor::STDIN || fd == FileDescriptor::STDOUT || fd == FileDescriptor::STDERR {
+        return Err(SyscallError::EBADF);
+    }
+    let process = kernel
+        .process_table
+        .processes
+        .get_mut(&current_pid)
+        .ok_or(SyscallError::ESRCH)?;
+
+    if process.fd_table.remove(&fd.0).is_some() {
+        kernel.open_file_table.remove(&fd.0);
+        Ok(0)
+    } else {
+        Err(SyscallError::EBADF)
     }
 }

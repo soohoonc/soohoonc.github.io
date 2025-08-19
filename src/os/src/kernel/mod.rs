@@ -1,81 +1,38 @@
-/*
- * core
- */
+use crate::kernel::{fs::FileSystem, proc::ProcessControlBlock};
+use std::collections::HashMap;
 
-use crate::kernel::{process::ProcessControlBlock, scheduler::Scheduler};
-
-pub mod process;
-pub mod scheduler;
+pub mod fs;
+pub mod proc;
 pub mod syscall;
 pub mod trap;
 
+#[derive(Debug, Clone)]
+pub struct OpenFile {
+    pub filename: String,
+    pub position: usize,
+    pub readable: bool,
+    pub writable: bool,
+}
+
 pub struct Kernel {
-    pub pcb: ProcessControlBlock,
-    pub scheduler: Scheduler,
+    pub process_table: ProcessControlBlock,
+    pub filesystem: FileSystem,
+    pub current_pid: u32,
+    pub open_file_table: HashMap<u32, OpenFile>,
+    next_global_fd: u32,
 }
 
 impl Kernel {
     pub fn new() -> Self {
-        let mut pcb = ProcessControlBlock::new();
-
-        if let Err(e) = pcb.init() {
-            eprintln!("Failed to create init process: {}", e);
-        }
+        let mut ptable = ProcessControlBlock::new();
+        let init_pid = ptable.init().unwrap_or(1);
 
         Self {
-            pcb,
-            scheduler: Scheduler::new(),
-        }
-    }
-
-    /// Called after system calls that may change process state
-    pub fn schedule(&mut self) {
-        // Check if we need to schedule (current process blocked/terminated/yielded)
-        if self.should_schedule() {
-            self.scheduler.schedule(&mut self.pcb);
-        }
-
-        // Process signals for all processes (like xv6's clockintr)
-        self.process_all_signals();
-    }
-
-    pub fn yield_cpu(&mut self) {
-        if let Some(current_pid) = self.scheduler.get_current_process() {
-            if let Some(current_process) = self.pcb.processes.get_mut(&current_pid) {
-                if current_process.state == process::ProcessState::Running {
-                    current_process.state = process::ProcessState::Ready;
-                }
-            }
-        }
-
-        // Force rescheduling
-        self.scheduler.schedule(&mut self.pcb);
-        self.process_all_signals();
-    }
-
-    /// Check if scheduling should occur (like xv6's trap return logic)
-    fn should_schedule(&self) -> bool {
-        if let Some(current_pid) = self.scheduler.get_current_process() {
-            if let Some(current_process) = self.pcb.processes.get(&current_pid) {
-                // Schedule if current process is not running
-                !matches!(current_process.state, process::ProcessState::Running)
-            } else {
-                // Current process no longer exists
-                true
-            }
-        } else {
-            // No current process
-            true
-        }
-    }
-
-    /// Process pending signals for all processes (like xv6's clockintr)
-    fn process_all_signals(&mut self) {
-        let all_pids: Vec<process::PID> = self.pcb.processes.keys().cloned().collect();
-        for pid in all_pids {
-            if let Err(e) = self.pcb.process_pending_signals(pid) {
-                eprintln!("Error processing signals for process {}: {}", pid, e);
-            }
+            process_table: ptable,
+            filesystem: FileSystem::new(),
+            current_pid: init_pid,
+            open_file_table: HashMap::new(),
+            next_global_fd: 3,
         }
     }
 }

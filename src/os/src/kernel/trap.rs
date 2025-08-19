@@ -1,49 +1,31 @@
-/*
- *  trap handling
- */
+use super::Kernel;
 
-use super::process::PID;
-
-#[derive(Debug, Clone, Copy, PartialEq)]
-pub enum TrapType {
-    SystemCall,         // User program makes system call
-    TimerInterrupt,     // Timer fires for scheduling
-    KeyboardInterrupt,  // Keyboard input available
-    IllegalInstruction, // Process executed invalid instruction
-    PageFault,          // Memory access violation
+#[derive(Debug, Clone, Copy)]
+pub struct SyscallArgs {
+    pub args: [u64; 2],
 }
 
-#[derive(Debug, Clone, Copy, PartialEq)]
-pub enum CpuMode {
-    User,   // Restricted mode - limited instructions
-    Kernel, // Privileged mode - full hardware access
-}
-
-#[derive(Debug, Clone)]
-pub struct Context {
-    pub pc: u64,              // Program counter
-    pub sp: u64,              // Stack pointer
-    pub registers: [u64; 32], // General purpose registers
-    pub mode: CpuMode,        // Current privilege level
-}
-
-impl Context {
-    pub fn new(entry_point: u64, stack_pointer: u64) -> Self {
-        Self {
-            pc: entry_point,
-            sp: stack_pointer,
-            registers: [0; 32],
-            mode: CpuMode::User,
-        }
+impl SyscallArgs {
+    pub fn new() -> Self {
+        Self { args: [0; 2] }
     }
 }
 
-static mut CURRENT_PID: PID = 0;
-
-pub fn get_current_process() -> PID {
-    unsafe { CURRENT_PID }
+#[derive(Debug, Clone, Copy, PartialEq)]
+pub enum TrapType {
+    SystemCall,
 }
 
-pub fn set_current_process(pid: PID) {
-    unsafe { CURRENT_PID = pid };
+pub fn trap_handler(
+    kernel: &mut Kernel,
+    trap_type: TrapType,
+    trap_num: u32,
+    args: SyscallArgs,
+) -> i32 {
+    match trap_type {
+        TrapType::SystemCall => {
+            super::syscall::syscall_dispatch(trap_num, kernel, kernel.current_pid, args)
+                .unwrap_or(-1)
+        }
+    }
 }
