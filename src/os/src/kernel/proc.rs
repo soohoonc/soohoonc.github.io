@@ -16,6 +16,8 @@ pub struct Process {
     pub pid: PID,
     pub parent_pid: Option<PID>,
     pub program_name: String,
+    pub command: String,
+    pub args: Vec<String>,
     pub state: ProcessState,
     pub exit_status: Option<ExitStatus>,
     pub children: HashSet<PID>,
@@ -33,6 +35,33 @@ impl Process {
             pid,
             parent_pid,
             program_name: "init".to_string(),
+            command: "init".to_string(),
+            args: vec![],
+            state: ProcessState::Ready,
+            exit_status: None,
+            children: HashSet::new(),
+            fd_table,
+        }
+    }
+
+    pub fn new_with_command(
+        pid: PID,
+        parent_pid: Option<PID>,
+        name: String,
+        command: String,
+        args: Vec<String>,
+    ) -> Self {
+        let mut fd_table = HashMap::new();
+        fd_table.insert(0, FileDescriptor::STDIN);
+        fd_table.insert(1, FileDescriptor::STDOUT);
+        fd_table.insert(2, FileDescriptor::STDERR);
+
+        Self {
+            pid,
+            parent_pid,
+            program_name: name,
+            command,
+            args,
             state: ProcessState::Ready,
             exit_status: None,
             children: HashSet::new(),
@@ -110,6 +139,29 @@ impl ProcessControlBlock {
 
         self.processes.insert(pid, process);
         Ok(pid)
+    }
+
+    pub fn spawn_with_command(
+        &mut self,
+        name: String,
+        command: String,
+        args: Vec<String>,
+    ) -> Result<PID, String> {
+        let pid = self.next_pid;
+        self.next_pid += 1;
+
+        let process = Process::new_with_command(pid, Some(1), name, command, args);
+
+        if let Some(init) = self.processes.get_mut(&1) {
+            init.children.insert(pid);
+        }
+
+        self.processes.insert(pid, process);
+        Ok(pid)
+    }
+
+    pub fn get_all_processes(&self) -> Vec<&Process> {
+        self.processes.values().collect()
     }
 
     pub fn send_signal(&mut self, pid: PID, signal: u32) -> Result<(), String> {

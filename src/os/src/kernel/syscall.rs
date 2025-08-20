@@ -15,6 +15,9 @@ pub const SYS_SLEEP: u32 = 8;
 pub const SYS_WRITE: u32 = 9;
 pub const SYS_OPEN: u32 = 10;
 pub const SYS_CLOSE: u32 = 11;
+pub const SYS_SPAWN: u32 = 12;
+pub const SYS_PS: u32 = 13;
+pub const SYS_YIELD: u32 = 14;
 
 #[derive(Debug, Clone, Copy, PartialEq)]
 pub enum SyscallError {
@@ -70,6 +73,12 @@ pub fn syscall_dispatch(
             let fd = FileDescriptor(args.args[0] as u32);
             sys_close(kernel, current_pid, fd)
         }
+        SYS_SPAWN => {
+            // For now, create a simple spawn without arguments
+            sys_spawn(&mut kernel.process_table)
+        }
+        SYS_PS => sys_ps(&kernel.process_table),
+        SYS_YIELD => sys_yield(),
         SYS_SLEEP => Ok(0),
         _ => Err(SyscallError::ENOSYS),
     }
@@ -277,4 +286,21 @@ pub fn sys_exec(
         Ok(()) => Ok(0),
         Err(_) => Err(SyscallError::ESRCH),
     }
+}
+
+pub fn sys_spawn(pcb: &mut ProcessControlBlock) -> SyscallResult<i32> {
+    match pcb.spawn() {
+        Ok(pid) => Ok(pid as i32),
+        Err(_) => Err(SyscallError::EAGAIN),
+    }
+}
+
+pub fn sys_ps(pcb: &ProcessControlBlock) -> SyscallResult<i32> {
+    // Return number of processes for now
+    Ok(pcb.processes.len() as i32)
+}
+
+pub fn sys_yield() -> SyscallResult<i32> {
+    // Cooperative yield - in WASM this is essentially a no-op
+    Ok(0)
 }

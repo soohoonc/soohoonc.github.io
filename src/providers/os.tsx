@@ -31,6 +31,25 @@ interface OsContextType {
   ps: () => Process[];
   getpid: () => number | null;
   procInfo: (pid: number) => Process | null;
+  // Terminal compatibility methods
+  listProcesses: () => Array<{
+    processId: number;
+    parentId: number;
+    name: string;
+    command: string;
+    state: string;
+    cpuTime: number;
+    memoryUsage: number;
+  }>;
+  spawnProcess: (app: Application) => Promise<number>;
+  forkProcess: (parentPid: number) => Promise<number>;
+  killProcess: (pid: number) => Promise<void>;
+  terminateProcess: (pid: number) => Promise<void>;
+  stopProcess: (pid: number) => Promise<void>;
+  continueProcess: (pid: number) => Promise<void>;
+  waitForChild: (parentPid: number, childPid?: number) => Promise<{ pid: number; exitStatus: number }>;
+  exitProcess: (pid: number, exitStatus: number) => Promise<void>;
+  getCurrentProcess: () => number | null;
 }
 
 const OsContext = createContext<OsContextType>({
@@ -200,7 +219,7 @@ export const OSProvider: React.FC<React.PropsWithChildren<{}>> = ({ children }) 
     if (!os) throw new Error('OS not initialized');
 
     try {
-      os.yield();
+      os.yield_cpu();
       updateProcessList();
     } catch (error) {
       console.error('yield() failed:', error);

@@ -40,4 +40,8 @@ impl FileSystem {
 
         Self { files }
     }
+
+    pub fn create_file(&mut self, path: String, content: String) {
+        self.files.insert(path, File { content });
+    }
 }
