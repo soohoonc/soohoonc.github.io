@@ -1,7 +1,7 @@
 "use client"
 
 import React, { createContext, useContext, useEffect, useState, useCallback, useRef } from 'react';
-import init, { OS, ProcessInfo } from '@/os/pkg'
+import init, { OS } from '@/os/pkg'
 
 export type Application = {
   name: string
