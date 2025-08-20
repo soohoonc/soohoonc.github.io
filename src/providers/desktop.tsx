@@ -5,8 +5,8 @@ import React, { useEffect } from "react"
 import { useState, useCallback, useRef, createContext, useContext, lazy } from "react"
 import { icons as initialIcons, applications } from "@/components/applications"
 import { useIsMobile, useWindowSize } from "@/lib/utils"
+import type { Application } from "@/components/applications"
 import { useOs } from "./os"
-import type { Application } from "./os"
 
 type ResizeDirection = "n" | "s" | "e" | "w" | "ne" | "nw" | "se" | "sw" | null
 type DraggableItemType = "window" | "icon" | null
@@ -62,7 +62,7 @@ const DesktopContext = createContext<DesktopContextType | null>(null)
 export const DesktopProvider = ({ children }: { children: React.ReactNode }) => {
   const isMobile = useIsMobile()
   const { width, height } = useWindowSize();
-  const { spawnProcess, killProcess, state: osState } = useOs()
+  const os = useOs()
   const [activeWindow, setActiveWindow] = useState<Window | null>(null)
   const [windows, setWindows] = useState<Window[]>([])
   const [icons, setIcons] = useState<DesktopIcon[]>(initialIcons)
@@ -109,7 +109,7 @@ export const DesktopProvider = ({ children }: { children: React.ReactNode }) => 
       if (!application) return
       await createWindow(application, args)
     },
-    [createWindow],
+    []
   )
 
   const bringToFront = useCallback((id: string) => {
@@ -208,7 +208,7 @@ export const DesktopProvider = ({ children }: { children: React.ReactNode }) => 
       })
 
       try {
-        const processId = await spawnProcess(application)
+        const processId = os.spawn(application.name)
 
         const newWindow: Window = {
           id: `window-${Date.now()}`,
@@ -219,7 +219,7 @@ export const DesktopProvider = ({ children }: { children: React.ReactNode }) => 
           processId,
           content: <Component {...args} />
         }
-        
+
         setWindows(prev => {
           const newWindows = [...prev, newWindow]
           newWindow.zIndex = newWindows.length - 1
@@ -231,31 +231,31 @@ export const DesktopProvider = ({ children }: { children: React.ReactNode }) => 
         console.error('Failed to spawn process for window:', error)
       }
     },
-    [spawnProcess],
+    [os],
   )
 
   const closeWindow = useCallback(async (id: string) => {
     const window = windows.find(w => w.id === id)
     if (window) {
       try {
-        await killProcess(window.processId)
+        os.kill(window.processId)
       } catch (error) {
         console.error('Failed to kill process:', error)
       }
     }
-    
+
     setWindows((prev) => {
       const remainingWindows = prev.filter((w) => w.id !== id)
-      
+
       // When closing any window, always default back to Finder (like macOS)
       if (window) {
         setSelectedProcessId(1)
         setActiveWindow(null)
       }
-      
+
       return remainingWindows
     })
-  }, [windows, killProcess, selectedProcessId])
+  }, [os, windows, selectedProcessId])
 
 
   const onMouseDown = useCallback(
@@ -379,21 +379,21 @@ export const DesktopProvider = ({ children }: { children: React.ReactNode }) => 
 
 
   useEffect(() => {
-    if (osState !== 'ready' || initialAppCreated) return
+    if (initialAppCreated) return
 
     const application = { name: 'Teach Text', command: 'teach-text' }
     const windowSize = isMobile ? { width, height: 480 } : { width: 640, height: 480 }
     const centerX = (width - windowSize.width) / 2
     const centerY = (height - windowSize.height) / 2
-    
+
     createWindow(application, { path: '/home/soohoon/welcome' }, {
       size: windowSize,
-      position: isMobile 
+      position: isMobile
         ? { x: 0, y: 40 }
         : { x: Math.max(0, centerX), y: Math.max(40, centerY) }
     }).catch(console.error)
     setInitialAppCreated(true)
-  }, [osState, initialAppCreated, isMobile, width, height, createWindow])
+  }, [os, initialAppCreated, isMobile, width, height, createWindow])
 
   return <DesktopContext.Provider value={value}>{children}</DesktopContext.Provider>
 }

@@ -1,7 +1,12 @@
 "use client"
 
 import type { DesktopIcon } from '@/providers/desktop'
-import type { Application } from '@/providers/os'
+
+
+export type Application = {
+  name: string
+  command: string
+}
 
 
 export const icons: DesktopIcon[] = [
