@@ -1,14 +1,8 @@
-/**
- * < 2 neighbors: die
- * 2 <= x <= 3: live
- * > 3: die
- * dead and 3 neighbor -> live
- */
 const targetElement = document.getElementById('life')
 
 const PADDING = 5
 const DISPLAY_WIDTH = 48
-const DISPLAY_HEIGHT = 24
+const DISPLAY_HEIGHT = 16
 const WIDTH = DISPLAY_WIDTH + 2 * PADDING
 const HEIGHT = DISPLAY_HEIGHT + 2 * PADDING
 
