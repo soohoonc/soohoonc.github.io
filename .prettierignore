@@ -1,6 +1,0 @@
-.next
-.vercel
-.build
-node_modules
-*.mdx
-target/
