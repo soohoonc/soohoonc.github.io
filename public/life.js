@@ -1,5 +1,6 @@
 const targetElement = document.getElementById('life')
 
+const UPDATE_INTERVAL = 300
 const PADDING = 5
 const DISPLAY_WIDTH = 48
 const DISPLAY_HEIGHT = 16
@@ -80,7 +81,7 @@ let lifeInterval = setInterval(() => {
     }
   }
   state = new_state
-}, 100)
+}, UPDATE_INTERVAL)
 
 const handleInteraction = (e) => {
   const rect = targetElement.getBoundingClientRect()
