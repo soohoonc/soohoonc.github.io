@@ -5,19 +5,61 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>soohoonchoi</title>
+  <link rel="icon" href="favicon.ico" />
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      line-height: 1.4;
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    #background {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      z-index: 0;
+      font-family: monospace;
+      overflow: hidden;
+      pointer-events: auto;
+      white-space: nowrap;
+      user-select: none;
+      -webkit-user-select: none;
+      -moz-user-select: none;
+      -ms-user-select: none;
+    }
+
+    #content {
+      background: #FFFFFFEE;
+      border: 1px solid black;
+      padding: 1.2em;
+      max-width: 480px;
+      position: relative;
+      z-index: 1;
+      pointer-events: auto;
+    }
+  </style>
 </head>
 
 <body>
-  <header>
-    <nav>
-      <div>
-        <h1>soohoon choi</h1>
-      </div>
-  </header>
-
-  <main>
+  <code id="background"></code>
+  <script src="scripts/index.js"></script>
+  <div id="content">
+    <header>
+      <h1>Soohoon Choi</h1>
+    </header>
+    <br />
     <section id="about">
-      <h3>about</h3>
       <p>
         i'm curently running <a href="https://greptile.com" target="_blank">greptile</a> as cofounder and cto. <br />
         before that i was a computer science and math student at
@@ -28,19 +70,16 @@
         <a href="https://joinsecondnature.com" target="_blank">poppy</a>, etc.).
       </p>
     </section>
+    <br />
     <section id="contact">
-      <h3>socials & contact</h3>
-      <a href="https://linkedin.com/in/soohoonchoi" target="_blank">linkedin</a> .
+      <strong>contact me:</strong><br />
+      <a href="https://x.com/soohoonchoi" target="_blank">twitter/x</a> .
       <a href="https://github.com/soohoonc" target="_blank">github</a> .
-      <a href="https://x.com/soohoonchoi" target="_blank">twitter/x</a> .<br />
+      <a href="https://linkedin.com/in/soohoonchoi" target="_blank">linkedin</a>
+      <br />
       email me: <span>soohoonchoi [at] gmail [dot] com</span>
     </section>
-  </main>
-  <footer>
-    <code id="life">
-      <script src="life.js"></script>
-    </code>
-  </footer>
+  </div>
 </body>
 
 </html>
