@@ -61,7 +61,10 @@ const gliderGenerator = (startX, startY, state, rotation = 0) => {
 }
 
 let state = Array(HEIGHT).fill().map(() => Array(WIDTH).fill(SPACE))
+gliderGenerator(2, 0, state, 0)
 gliderGenerator(WIDTH - 39, HEIGHT - 12, state, 180)
+gliderGenerator(2, HEIGHT - 39, state, 270)
+gliderGenerator(WIDTH - 12, 2, state, 90)
 
 let lifeInterval = setInterval(() => {
   targetElement.innerHTML = state.map(row => row.join('')).join(NEWLINE)
