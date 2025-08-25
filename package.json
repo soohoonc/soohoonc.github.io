@@ -4,7 +4,6 @@
   "private": true,
   "scripts": {
     "dev": "bun run server.js",
-    "dev:old": "bun --hot ./public/index.html", 
     "format": "prettier --write *.html *.css"
   },
   "devDependencies": {
