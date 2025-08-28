@@ -1,10 +1,10 @@
 const second = new Date().getSeconds();
 const scriptName = (() => {
   switch (second % 3) {
-    // case 0:
-    //   return 'life';
-    // case 1:
-    //   return 'donut';
+    case 0:
+      return 'life';
+    case 1:
+      return 'donut';
     default:
       return 'skull';
   }
