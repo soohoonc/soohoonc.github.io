@@ -60,18 +60,14 @@ function initializeSkull(geometry) {
   myMesh.geometry.computeBoundingBox();
 
   const bbox = myMesh.geometry.boundingBox;
-  myMesh.position.set(0, 0, 0);
+  myMesh.position.set(0, 0, 2);
   myMesh.rotation.x = 0.2;
 
   if (window.innerWidth < window.innerHeight) {
     myMesh.rotation.x = 0.2 - Math.PI / 2;
   }
-
-  const screenArea = window.innerWidth * window.innerHeight;
-  const referenceArea = 1920 * 1080;
-  const scaleFactor = Math.sqrt(screenArea / referenceArea);
   
-  camera.position.x = (bbox.max.x * (window.innerWidth < window.innerHeight ? 4 : 6))/ scaleFactor;
+  camera.position.x = bbox.max.x * (5 / Math.sqrt((Math.max(window.innerWidth, 480) * window.innerHeight) / (1440 * 1196)));
   camera.position.y = 0;
   camera.position.z = 0;
   camera.lookAt(0, 0, 0);
@@ -104,13 +100,5 @@ window.addEventListener('resize', function () {
     myMesh.rotation.x = 0.2 - Math.PI / 2;
   } else {
     myMesh.rotation.x = 0.2;
-  }
-
-  if (myMesh.geometry) {
-    const bbox = myMesh.geometry.boundingBox;
-    const screenArea = window.innerWidth * window.innerHeight;
-    const referenceArea = 1920 * 1080;
-    const scaleFactor = Math.sqrt(screenArea / referenceArea);
-    camera.position.x = (bbox.max.x * (window.innerWidth < window.innerHeight ? 4 : 6)) / scaleFactor;
   }
 });
