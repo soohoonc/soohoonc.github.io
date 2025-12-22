@@ -1,18 +1,7 @@
-const targetElement = document.getElementById('background')
+import { targetElement, WIDTH, HEIGHT, SPACE, NEWLINE } from './grid.js'
 
 const UPDATE_INTERVAL = 42
 
-const FONT_SIZE = Math.max(12, Math.min(window.innerWidth, window.innerHeight) * 0.01)
-const CHAR_WIDTH = FONT_SIZE * 0.6
-const CHAR_HEIGHT = FONT_SIZE
-const WIDTH = Math.floor(window.innerWidth / CHAR_WIDTH)
-const HEIGHT = Math.floor(window.innerHeight / CHAR_HEIGHT)
-
-targetElement.style.setProperty('font-size', `${FONT_SIZE}px`, 'important')
-targetElement.style.setProperty('line-height', `${FONT_SIZE}px`, 'important')
-
-const SPACE = "&nbsp;"
-const NEWLINE = "<br />"
 const SHADES = '.,-~:;=!*#$@'
 
 const PADDING = 5

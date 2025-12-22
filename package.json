@@ -3,11 +3,11 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "dev": "bun run server.js",
+    "dev": "bun ./public/index.html",
     "format": "prettier --write *.html *.css"
   },
   "devDependencies": {
     "prettier": "^3.6.2"
   },
-  "packageManager": "bun@1.2.20"
+  "packageManager": "bun@1.3.2"
 }
