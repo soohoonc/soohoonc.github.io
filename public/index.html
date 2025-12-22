@@ -6,57 +6,16 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>soohoonchoi</title>
   <link rel="icon" href="favicon.ico" />
-  <style>
-    * {
-      margin: 0;
-      padding: 0;
-    }
-
-    body {
-      line-height: 1.4;
-      height: 100vh;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      position: relative;
-      overflow: hidden;
-    }
-
-    #background {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100vw;
-      height: 100vh;
-      z-index: 0;
-      font-family: monospace;
-      overflow: hidden;
-      pointer-events: auto;
-      white-space: nowrap;
-      user-select: none;
-      -webkit-user-select: none;
-      -moz-user-select: none;
-      -ms-user-select: none;
-    }
-
-    #content {
-      background: #FFFFFF;
-      opacity: 0.88;
-      padding: 1em;
-      max-width: 480px;
-      position: relative;
-      z-index: 1;
-      pointer-events: auto;
-    }
-  </style>
+  <link rel="stylesheet" href="styles.css" />
 </head>
 
 <body>
+  <script src="/scripts/header.js"></script>
   <code id="background"></code>
   <script type="module" src="scripts/index.js"></script>
-  <div id="content">
+  <div id="title-card" class="card">
     <header>
-      <h1>Soohoon Choi</h1>
+      <strong>Soohoon Choi</strong>
     </header>
     <br />
     <section id="about">
@@ -64,11 +23,13 @@
         i'm curently running <a href="https://greptile.com" target="_blank">greptile</a> as cofounder and cto. <br />
         before that i was a computer science and math student at
         <a href="https://gatech.edu" target="_blank">georgia tech</a>. <br />
-        i occasionally <a href="https://instagram.com/soohoon.art" target="_blank">draw</a> and angel invest
+        angel investing
         (<a href="https://better-auth.com" target="_blank">better-auth</a>,
         <a href="https://prismreplay.com" target="_blank">prism</a>,
         <a href="https://joinsecondnature.com" target="_blank">poppy</a>, etc.).<br />
-        learn more about me <a href="/about/index.html">here</a>.
+        i occasionally <a href="https://instagram.com/soohoon.art" target="_blank">draw</a>. <br />
+        read my <a href="/blog">blog</a> coming soon. <br />
+        learn more about me <a href="/about">here</a>.
       </p>
     </section>
     <br />

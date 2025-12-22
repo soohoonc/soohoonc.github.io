@@ -1,0 +1,91 @@
+* {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  line-height: 1.4;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+body.page {
+  height: auto;
+  min-height: 100vh;
+  padding: 5em 2em 2em;
+  align-items: flex-start;
+  overflow: auto;
+}
+
+#background {
+  position: fixed;
+  inset: 0;
+  font-family: monospace;
+  white-space: nowrap;
+  user-select: none;
+}
+
+.card {
+  background: rgba(255, 255, 255, 0.92);
+  padding: 1em;
+  z-index: 1;
+}
+
+.card.small {
+  max-width: 480px;
+}
+
+.card.large,
+#content {
+  width: 80vw;
+  max-width: 800px;
+}
+
+.card h1,
+.card h2,
+.card h3 {
+  margin: 1.5em 0 0.5em;
+}
+
+.card p {
+  margin: 1em 0;
+}
+
+.card img {
+  max-width: 100%;
+}
+
+.card pre {
+  background: #1e1e1e;
+  color: #d4d4d4;
+  padding: 1em;
+  margin: 1em 0;
+  overflow-x: auto;
+}
+
+#header {
+  position: fixed;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100%;
+  max-width: 800px;
+  display: flex;
+  justify-content: space-between;
+  padding: 1em;
+  z-index: 10;
+  box-sizing: border-box;
+}
+
+#header span,
+#header nav {
+  background: rgba(255, 255, 255, 0.92);
+  padding: 0.25em 0.5em;
+}
+
+#header nav {
+  display: flex;
+  gap: 1em;
+}

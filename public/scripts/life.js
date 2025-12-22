@@ -87,6 +87,23 @@ document.addEventListener('mousemove', handleInteraction)
 document.addEventListener('touchmove', handleInteraction)
 document.addEventListener('touchstart', handleInteraction)
 
-window.addEventListener('pagehide', () => {
-  clearInterval(lifeInterval)
+document.addEventListener('visibilitychange', () => {
+  if (document.hidden) {
+    clearInterval(lifeInterval)
+  } else {
+    lifeInterval = setInterval(() => {
+      targetElement.innerHTML = state.map(row => row.join('')).join(NEWLINE)
+      let new_state = Array(HEIGHT).fill().map(() => Array(WIDTH).fill(SPACE))
+      for (let i = 1; i < HEIGHT - 1; i += 1) {
+        for (let j = 1; j < WIDTH - 1; j += 1) {
+          let alive = state[i][j] === BLOCK
+          let count = DIRECTIONS.reduce((acc, [di, dj]) => {
+            return acc + (state[i + di][j + dj] === BLOCK ? 1 : 0)
+          }, 0)
+          new_state[i][j] = ((alive && (count === 2 || count === 3)) || (!alive && count === 3)) ? BLOCK : SPACE
+        }
+      }
+      state = new_state
+    }, UPDATE_INTERVAL)
+  }
 })

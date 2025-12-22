@@ -1,6 +1,6 @@
 import { targetElement, WIDTH, HEIGHT, SPACE, NEWLINE } from './grid.js'
 
-const UPDATE_INTERVAL = 50
+const UPDATE_INTERVAL = 100
 
 const BLOCK = "#"
 
