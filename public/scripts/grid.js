@@ -1,5 +1,5 @@
-const targetElement = document.getElementById('background')
-const contentElement = document.getElementById('content')
+const targetElement = document.querySelector('.background')
+const contentElement = document.querySelector('.content')
 
 const FONT_SIZE = Math.max(12, Math.min(window.innerWidth, window.innerHeight) * 0.01)
 const CHAR_WIDTH = FONT_SIZE * 0.6

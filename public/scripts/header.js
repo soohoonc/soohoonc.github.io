@@ -9,7 +9,7 @@ for (const part of parts) {
 }
 
 const header = document.createElement('div');
-header.id = 'header';
+header.className = 'header';
 header.innerHTML = `
   <span>${breadcrumb}</span>
   <nav>

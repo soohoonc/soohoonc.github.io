@@ -13,13 +13,11 @@ body {
 
 body.page {
   height: auto;
-  min-height: 100vh;
-  padding: 5em 2em 2em;
   align-items: flex-start;
   overflow: auto;
 }
 
-#background {
+.background {
   position: fixed;
   inset: 0;
   font-family: monospace;
@@ -38,7 +36,8 @@ body.page {
 }
 
 .card.large,
-#content {
+
+.content {
   width: 80vw;
   max-width: 800px;
 }
@@ -46,11 +45,7 @@ body.page {
 .card h1,
 .card h2,
 .card h3 {
-  margin: 1.5em 0 0.5em;
-}
-
-.card p {
-  margin: 1em 0;
+  margin: 1em 0 0.5em;
 }
 
 .card img {
@@ -65,27 +60,25 @@ body.page {
   overflow-x: auto;
 }
 
-#header {
+.header {
   position: fixed;
   top: 0;
   left: 50%;
   transform: translateX(-50%);
-  width: 100%;
+  width: 80vw;
   max-width: 800px;
   display: flex;
   justify-content: space-between;
-  padding: 1em;
   z-index: 10;
-  box-sizing: border-box;
+  padding-top: 1em;
 }
 
-#header span,
-#header nav {
+.header span,
+.header nav {
   background: rgba(255, 255, 255, 0.92);
-  padding: 0.25em 0.5em;
 }
 
-#header nav {
+.header nav {
   display: flex;
   gap: 1em;
 }
