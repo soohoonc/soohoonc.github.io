@@ -9,7 +9,10 @@ import { parse as parseYaml } from "yaml";
 async function parseMarkdown(raw) {
   const match = raw.match(/^---\n([\s\S]*?)\n---\n([\s\S]*)$/);
   const data = match ? parseYaml(match[1]) : {};
-  const content = match ? match[2] : raw;
+  let content = match ? match[2] : raw;
+
+  // Remove <hide>...</hide> tags and their contents
+  content = content.replace(/<hide>[\s\S]*?<\/hide>/g, '');
 
   const result = await unified()
     .use(remarkParse)
