@@ -64,7 +64,7 @@ h3 {
 
 @media (max-width: 768px) {
   interactive-art {
-    display: none !important;
+    max-height: 450px !important;
   }
 }
 

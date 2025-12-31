@@ -2,7 +2,6 @@ class InteractiveArt extends HTMLElement {
   connectedCallback() {
     this.style.display = 'block';
     this.style.width = '100%';
-    this.style.height = '450px';
     this.style.overflow = 'hidden';
     this.style.fontFamily = 'monospace';
     this.style.fontSize = '10px';
@@ -15,8 +14,10 @@ class InteractiveArt extends HTMLElement {
     this.style.boxSizing = 'border-box';
 
     const width = this.offsetWidth || 1024;
+    const height = Math.min(450, width);
+    this.style.height = `${height}px`;
     const cols = Math.floor(width / 6);
-    const rows = Math.floor(450 / 10);
+    const rows = Math.floor(height / 10);
 
     const chars = '$@B%8&WM#*oahkbdpqwmZO0QLCJUYXzcvunxrjft/\\|()1{}[]?-_+~<>i!lI;:,"^`\'.';
     let grid = [];
