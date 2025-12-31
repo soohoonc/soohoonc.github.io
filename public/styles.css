@@ -12,8 +12,10 @@ body {
 }
 
 body.page {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   height: auto;
-  align-items: flex-start;
   overflow: auto;
 }
 
@@ -26,26 +28,21 @@ body.page {
 }
 
 .card {
-  background: rgba(255, 255, 255, 0.92);
-  padding: 1em;
   z-index: 1;
 }
 
-.card.small {
-  max-width: 480px;
-}
-
-.card.large,
-
 .content {
   width: 80vw;
-  max-width: 800px;
+  max-width: 1024px;
+  margin-top: 3em;
 }
 
-.card h1,
+.card h1 {
+  margin: 0 0 0.25em;
+}
 .card h2,
 .card h3 {
-  margin: 1em 0 0.5em;
+  margin: 0.25em 0 0.25em;
 }
 
 .card img {
@@ -66,7 +63,7 @@ body.page {
   left: 50%;
   transform: translateX(-50%);
   width: 80vw;
-  max-width: 800px;
+  max-width: 1024px;
   display: flex;
   justify-content: space-between;
   z-index: 10;
@@ -74,10 +71,6 @@ body.page {
 }
 
 .header span,
-.header nav {
-  background: rgba(255, 255, 255, 0.92);
-}
-
 .header nav {
   display: flex;
   gap: 1em;
