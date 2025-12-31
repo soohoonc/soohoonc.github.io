@@ -10,8 +10,6 @@ class InteractiveArt extends HTMLElement {
     this.style.whiteSpace = 'pre';
     this.style.userSelect = 'none';
     this.style.cursor = 'default';
-    this.style.backgroundColor = 'transparent';
-    this.style.color = '#000';
     this.style.padding = '0';
     this.style.margin = '0 0 1em 0';
     this.style.boxSizing = 'border-box';
