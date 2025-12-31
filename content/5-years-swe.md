@@ -7,8 +7,7 @@ date: 2025-12-21
 
 Here I briefly document the first 5 years of my software engineering career. 
 
-I still have a long ways to go, however in the past 5 years I have learned enough to say that I can build things that some number of other engineers [find useful](https://greptile.com). Each of these points I believe helped me to become the engineer I am today.
-
+I wrote my first line of code in 2020 and while I still have a long ways to go I can sorta build things that other engineers [find useful](https://greptile.com). Each of these points I believe helped me to become the engineer I am today.
 
 ## 2020
 
@@ -16,7 +15,7 @@ I still have a long ways to go, however in the past 5 years I have learned enoug
 - Binge watch as many major + career advice as possible, everyone is recommending computer science (CS).
 - Observe that all the "cool companies" are hiring out of CS. The company I am most interested in, Neuralink, is hiring more CS majors than biomedical engineering majors.
 - Attempt a computer science interview, [try two sum on leetcode](https://leetcode.com/u/soohoonchoi/) and get my ass kicked. Realize how far behind the curve I am.
-- Take summer courses in programming 101 to see if I really want to be a CS major (Java OOP 💔)
+- Take summer courses in programming 101 to see if I really want to be a CS major (Java OOP)
 - Fall 2020: Switch majors to CS, take data structures and algorithms, software design, and computer systems I.
 - Join the most technical sounding CS campus organizations: machine learning club, computer security club, and competitive programming club. See what the standard of a good computer science student is.
 
@@ -51,7 +50,7 @@ Another good decision I made was to join as many of the most technical sounding 
 - Apply and decide on Microsoft internship for the Summer.
 - Participate in the college accelerator ([Create X](https://create-x.gatech.edu/)) with Daksh for our side project/startup, work through summer nights + weekends.
 - Fall 2022: Take computer security, quantum computing (was just linear algebra 3).
-- Worked as a TA for computer vision (wanted deep learning 😔), did not get paid much as I forgot to log hours.
+- Worked as a TA for computer vision (wanted deep learning), did not get paid much as I forgot to log hours.
 - Joined the programming languages club (goated club), get functional-pilled.
 - ChatGPT drops in November, our side project feels more realistic.
 
@@ -60,7 +59,7 @@ Another good decision I made was to join as many of the most technical sounding 
 - Spring 2023: Take OS design because I couldn't fit in compilers to my schedule.
 - The start up is going to conferences, raising seed rounds, and getting rejected from YC.
 - Decide to move to San Francisco to work on the startup full time after graduation.
-- Start programming all day for work (React, Typescript, Next.js, AWS 🤢).
+- Start programming all day for work (React, Typescript, Next.js, AWS).
 - Pivot from college side project to AI chat with your codebase at the [Scale AI hackathon](https://scale.com/blog/generative-ai-hackathon-2).
 
 ## 2024
