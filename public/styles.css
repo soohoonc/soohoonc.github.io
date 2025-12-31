@@ -1,9 +1,17 @@
+:root {
+  color-scheme: light dark;
+  --bg: #ffffff;
+  --text: #000000;
+}
+
 * {
   margin: 0;
   padding: 0;
 }
 
 body {
+  background-color: var(--bg);
+  color: var(--text);
   line-height: 1.4;
   height: 100vh;
   display: flex;
@@ -19,6 +27,14 @@ body.page {
   overflow: auto;
 }
 
+h1 {
+  margin: 0 0 0.25em;
+}
+h2,
+h3 {
+  margin: 0.25em 0 0.25em;
+}
+
 .background {
   position: fixed;
   inset: 0;
@@ -27,51 +43,42 @@ body.page {
   user-select: none;
 }
 
-.card {
-  z-index: 1;
-}
-
 .content {
-  width: 80vw;
+  width: 95vw;
   max-width: 1024px;
-  margin-top: 3em;
-}
-
-.card h1 {
-  margin: 0 0 0.25em;
-}
-.card h2,
-.card h3 {
-  margin: 0.25em 0 0.25em;
-}
-
-.card img {
-  max-width: 100%;
-}
-
-.card pre {
-  background: #1e1e1e;
-  color: #d4d4d4;
-  padding: 1em;
-  margin: 1em 0;
-  overflow-x: auto;
-}
-
-.header {
-  position: fixed;
-  top: 0;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 80vw;
-  max-width: 1024px;
-  display: flex;
-  justify-content: space-between;
-  z-index: 10;
   padding-top: 1em;
 }
 
-.header span,
+.header {
+  width: 95vw;
+  max-width: 1024px;
+  display: flex;
+  justify-content: space-between;
+  padding-top: 1em;
+}
+
 .header nav {
   display: flex;
-  gap: 1em;
+  gap: 0.5em;
+}
+
+@media (max-width: 768px) {
+  interactive-art {
+    max-height: 450px !important;
+  }
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #1a1a1a;
+    --text: #e0e0e0;
+  }
+
+  a {
+    color: #6ca0ff;
+  }
+
+  a:hover {
+    color: #8bb5ff;
+  }
 }
