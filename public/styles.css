@@ -12,7 +12,7 @@
 body {
   background-color: var(--bg);
   color: var(--text);
-  line-height: 1.4;
+  line-height: 1.6;
   height: 100vh;
   display: flex;
   align-items: center;
@@ -35,6 +35,47 @@ h3 {
   margin: 0.25em 0 0.25em;
 }
 
+hr {
+  margin-top: 1em;
+  margin-bottom: 1em;
+}
+
+ul, ol {
+  margin-top: 0.5em;
+  margin-bottom: 0.5em;
+  padding-left: 1.5em;
+}
+
+#footnote-label {
+  display: none;
+}
+
+sup {
+  line-height: 0;
+}
+
+sup + sup::before {
+  content: ", ";
+}
+
+/* Prevent KaTeX blocks from overflowing screen */
+.katex-display {
+  overflow-x: auto;
+  overflow-y: hidden;
+  max-width: 100%;
+  padding: 0.5em 0;
+}
+
+.katex {
+  max-width: 100%;
+}
+
+/* Hide footnote back-reference icons */
+.data-footnote-backref,
+a[data-footnote-backref] {
+  display: none;
+}
+
 .background {
   position: fixed;
   inset: 0;
@@ -47,6 +88,7 @@ h3 {
   width: 95vw;
   max-width: 1024px;
   padding-top: 1em;
+  padding-bottom: 3em;
 }
 
 .header {

@@ -3,7 +3,10 @@ import { mkdir } from "fs/promises";
 import { unified } from "unified";
 import remarkParse from "remark-parse";
 import remarkGfm from "remark-gfm";
-import remarkHtml from "remark-html";
+import remarkMath from "remark-math";
+import remarkRehype from "remark-rehype";
+import rehypeKatex from "rehype-katex";
+import rehypeStringify from "rehype-stringify";
 import { parse as parseYaml } from "yaml";
 
 async function parseMarkdown(raw) {
@@ -17,10 +20,15 @@ async function parseMarkdown(raw) {
   const result = await unified()
     .use(remarkParse)
     .use(remarkGfm)
-    .use(remarkHtml)
+    .use(remarkMath)
+    .use(remarkRehype)
+    .use(rehypeKatex)
+    .use(rehypeStringify)
     .process(content);
 
-  return { data, html: String(result) };
+  let html = String(result);
+
+  return { data, html };
 }
 
 // Load templates

@@ -12,10 +12,14 @@
   },
   "packageManager": "bun@1.3.2",
   "dependencies": {
+    "rehype-katex": "^7.0.1",
+    "rehype-stringify": "^10.0.1",
     "remark-frontmatter": "^5.0.0",
     "remark-gfm": "^4.0.1",
     "remark-html": "^16.0.1",
+    "remark-math": "^6.0.0",
     "remark-parse": "^11.0.0",
+    "remark-rehype": "^11.1.2",
     "unified": "^11.0.5",
     "yaml": "^2.8.2"
   }
