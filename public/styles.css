@@ -68,6 +68,31 @@ h3 {
   }
 }
 
+/* KaTeX overflow handling */
+.katex-display,
+.katex {
+  overflow-x: auto;
+  overflow-y: hidden;
+  max-width: 100%;
+}
+
+.katex-display {
+  padding: 0.5em 0;
+}
+
+/* Hide footnote reference icons */
+.data-footnote-backref::before,
+.data-footnote-backref::after,
+a[data-footnote-backref]::before,
+a[data-footnote-backref]::after,
+[data-footnote-backref] {
+  content: none !important;
+}
+
+a[data-footnote-backref] {
+  text-decoration: none;
+}
+
 @media (prefers-color-scheme: dark) {
   :root {
     --bg: #1a1a1a;
