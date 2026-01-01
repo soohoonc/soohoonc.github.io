@@ -9,23 +9,6 @@ import rehypeKatex from "rehype-katex";
 import rehypeStringify from "rehype-stringify";
 import { parse as parseYaml } from "yaml";
 
-// Google Analytics tag - injected into all generated pages
-const gtag = `
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-HQB2RBTK2S"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag() { dataLayer.push(arguments); }
-  gtag('js', new Date());
-
-  gtag('config', 'G-HQB2RBTK2S');
-</script>
-`;
-
-function injectGtag(html) {
-  return html.replace('<head>', `<head>${gtag}`);
-}
-
 async function parseMarkdown(raw) {
   const match = raw.match(/^---\n([\s\S]*?)\n---\n([\s\S]*)$/);
   const data = match ? parseYaml(match[1]) : {};
@@ -68,11 +51,11 @@ posts.sort((a, b) => (b.date > a.date ? 1 : -1));
 // Generate post pages
 for (const post of posts) {
   await mkdir(`public/blog/${post.slug}`, { recursive: true });
-  const html = injectGtag(postTemplate
+  const html = postTemplate
     .replace(/\{\{title\}\}/g, post.title)
     .replace(/\{\{date\}\}/g, post.date)
     .replace(/\{\{description\}\}/g, post.description)
-    .replace(/\{\{content\}\}/g, post.html));
+    .replace(/\{\{content\}\}/g, post.html);
   await Bun.write(`public/blog/${post.slug}/index.html`, html);
 }
 
@@ -80,7 +63,7 @@ for (const post of posts) {
 const postsList = posts
   .map(p => `<p><a href="/blog/${p.slug}">${p.title}</a></p>`)
   .join("\n    ");
-const blogHtml = injectGtag(blogTemplate.replace(/\{\{posts\}\}/g, postsList));
+const blogHtml = blogTemplate.replace(/\{\{posts\}\}/g, postsList);
 await Bun.write("public/blog/index.html", blogHtml);
 
 // Generate RSS feed

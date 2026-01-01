@@ -65,7 +65,7 @@ class InteractiveArt extends HTMLElement {
     const lerp = (a, b, t) => a + (b - a) * t;
 
     const animate = () => {
-      time += 0.01;
+      time += 0.005;
 
       const rawVelX = mouseX - prevMouseX;
       const rawVelY = mouseY - prevMouseY;
