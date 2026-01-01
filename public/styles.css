@@ -12,7 +12,7 @@
 body {
   background-color: var(--bg);
   color: var(--text);
-  line-height: 1.4;
+  line-height: 1.6;
   height: 100vh;
   display: flex;
   align-items: center;
@@ -35,6 +35,29 @@ h3 {
   margin: 0.25em 0 0.25em;
 }
 
+hr {
+  margin-top: 1em;
+  margin-bottom: 1em;
+}
+
+ul, ol {
+  margin-top: 0.5em;
+  margin-bottom: 0.5em;
+  padding-left: 1.5em;
+}
+
+#footnote-label {
+  display: none;
+}
+
+sup {
+  line-height: 0;
+}
+
+sup + sup::before {
+  content: ", ";
+}
+
 .background {
   position: fixed;
   inset: 0;
@@ -47,6 +70,7 @@ h3 {
   width: 95vw;
   max-width: 1024px;
   padding-top: 1em;
+  padding-bottom: 3em;
 }
 
 .header {
