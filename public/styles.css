@@ -58,6 +58,24 @@ sup + sup::before {
   content: ", ";
 }
 
+/* Prevent KaTeX blocks from overflowing screen */
+.katex-display {
+  overflow-x: auto;
+  overflow-y: hidden;
+  max-width: 100%;
+  padding: 0.5em 0;
+}
+
+.katex {
+  max-width: 100%;
+}
+
+/* Hide footnote back-reference icons */
+.data-footnote-backref,
+a[data-footnote-backref] {
+  display: none;
+}
+
 .background {
   position: fixed;
   inset: 0;
