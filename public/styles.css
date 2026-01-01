@@ -57,7 +57,7 @@ sup {
   line-height: 0;
 }
 
-sup + sup::before {
+sup+sup::before {
   content: ", ";
 }
 
