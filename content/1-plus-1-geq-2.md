@@ -1,13 +1,11 @@
 ---
-title: Why 1 + 1 > 2
+title: When 1 + 1 > 2
 date: 2025-12-31
 ---
 
 
 
-Working in a team is hard. Most have a sour taste after countless failed school team projects and bureaucratic office gridlocks. However there are teams where the net productivity of the team is superlinear to the number of members. 
-
-I propose a simple model of team output in terms of member affinity, productivity, attention allocation, and multi-agent penalties. It fits pretty nicely with what I have observed at [my startup](https://greptile.com)  and  what I have read about of different organizations.
+Through starting and running [Greptile](https://greptile.com), I have observed a team that produced a superlinear amount of output compared to a scaled version of myself. Unfortunately, I have also observed the contrary, where some teams produce a sublinear amount of output compared to a scaled version of any single member in the team. The reason why such phenomena occurs is a central problem in organizational management. Based on what I have observed and read about different organizations, I propose a simple model of team output in terms of member affinity, productivity, attention allocation, and multi-agent penalties.
 
 ## Member Affinity
 

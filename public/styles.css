@@ -30,6 +30,7 @@ body.page {
 h1 {
   margin: 0 0 0.25em;
 }
+
 h2,
 h3 {
   margin: 0.25em 0 0.25em;
@@ -40,7 +41,8 @@ hr {
   margin-bottom: 1em;
 }
 
-ul, ol {
+ul,
+ol {
   margin-top: 0.5em;
   margin-bottom: 0.5em;
   padding-left: 1.5em;
@@ -54,11 +56,10 @@ sup {
   line-height: 0;
 }
 
-sup + sup::before {
+sup+sup::before {
   content: ", ";
 }
 
-/* Prevent KaTeX blocks from overflowing screen */
 .katex-display {
   overflow-x: auto;
   overflow-y: hidden;
@@ -70,7 +71,6 @@ sup + sup::before {
   max-width: 100%;
 }
 
-/* Hide footnote back-reference icons */
 .data-footnote-backref,
 a[data-footnote-backref] {
   display: none;
@@ -88,7 +88,7 @@ a[data-footnote-backref] {
   width: 95vw;
   max-width: 1024px;
   padding-top: 1em;
-  padding-bottom: 3em;
+  padding-bottom: 2em;
 }
 
 .header {
@@ -112,15 +112,15 @@ a[data-footnote-backref] {
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --bg: #1a1a1a;
-    --text: #e0e0e0;
+    --bg: #0e0e0e;
+    --text: #fefefe;
   }
 
   a {
-    color: #6ca0ff;
+    color: skyblue;
   }
 
   a:hover {
-    color: #8bb5ff;
+    color: lightblue;
   }
 }

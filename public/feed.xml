@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>soohoonchoi blog</title>
+    <link>https://soohoonchoi.com/blog</link>
+    <description>Blog posts by Soohoon Choi</description>
+    <language>en-us</language>
+    <atom:link href="https://soohoonchoi.com/feed.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title><![CDATA[When 1 + 1 > 2]]></title>
+      <link>https://soohoonchoi.com/blog/1-plus-1-geq-2</link>
+      <guid>https://soohoonchoi.com/blog/1-plus-1-geq-2</guid>
+      <pubDate>Wed, 31 Dec 2025 00:00:00 GMT</pubDate>
+      <description><![CDATA[Through starting and running Greptile, I have observed a team that produced a superlinear amount of output compared to a scaled version of myself. Unfortunately, I have also observed the contrary, where some teams produce a sublinear amount of output compared to a scaled version of any single member in the team. The reason why such phenomena occurs is a central problem in organizational management. Based on what I have observed and read about different organizations, I propose a simple model of ...]]></description>
+    </item>
+    <item>
+      <title><![CDATA[5 Years of Software Engineering]]></title>
+      <link>https://soohoonchoi.com/blog/5-years-swe</link>
+      <guid>https://soohoonchoi.com/blog/5-years-swe</guid>
+      <pubDate>Sun, 21 Dec 2025 00:00:00 GMT</pubDate>
+      <description><![CDATA[Here I briefly document the first 5 years of my software engineering career.
+I wrote my first line of code in 2020 and while I still have a lot to learn, I am in a position where I can claim that I can build things that other engineers find useful. I outline a rough summary of some of the key points that helped me become the engineer I am today.s
+2020
+
+Take CS 1371, computing for engineers, second semester of freshman year as a biomedical engineering student, it is the most interesting class I h...]]></description>
+    </item>
+  </channel>
+</rss>

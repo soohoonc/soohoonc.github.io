@@ -7,13 +7,14 @@ date: 2025-12-21
 
 Here I briefly document the first 5 years of my software engineering career. 
 
-I wrote my first line of code in 2020 and while I still have a long ways to go I can sorta build things that other engineers [find useful](https://greptile.com). Each of these points I believe helped me to become the engineer I am today.
+I wrote my first line of code in 2020 and while I still have a lot to learn, I am in a position where I can claim that I can build things that other engineers [find useful](https://greptile.com). I outline a rough summary of some of the key points that helped me become the engineer I am today.s
 
 ## 2020
 
 - Take CS 1371, computing for engineers, second semester of freshman year as a biomedical engineering student, it is the most interesting class I have taken so far.
 - Binge watch as many major + career advice as possible, everyone is recommending computer science (CS).
 - Observe that all the "cool companies" are hiring out of CS. The company I am most interested in, Neuralink, is hiring more CS majors than biomedical engineering majors.
+- Join a research lab working on BCI's, PI tells me that majoring in CS is probably more helpful for actual research.
 - Attempt a computer science interview, [try two sum on leetcode](https://leetcode.com/u/soohoonchoi/) and get my ass kicked. Realize how far behind the curve I am.
 - Take summer courses in programming 101 to see if I really want to be a CS major (Java OOP)
 - Fall 2020: Switch majors to CS, take data structures and algorithms, software design, and computer systems I.
@@ -66,7 +67,7 @@ Another good decision I made was to join as many of the most technical sounding 
 
 - Go through the longest day I have ever worked during YC (HN launch, scaling, midnight database column drop in one day).
 - Basically code all day all year (pretty sure I got my 10k hours in).
-- Typescript, AWS, Kubernetes (hell), but some fun with OCaml for advent of code (you should have fun programming).
+- Typescript, AWS, Kubernetes daily(hell), but decided to have fun with OCaml for advent of code (you should have fun programming).
 - Decide to go all in on AI code reviews in December.
 
 ## 2025
@@ -75,3 +76,14 @@ Another good decision I made was to join as many of the most technical sounding 
 - Need to hire and grow the company.
 - Start talking to engineers more, realize engineering with a team comes with a whole new set of problems.
 - Currently trying to understand running + scaling engineering teams and building scalable, reliable, maintainable, and tasteful software.
+
+## Hindsight
+
+There a couple of things that I regret looking back upon my journey so far. I wish I continued doing research, I stopped shortly after when things went remote and I failed to meaningfully contribute in this environment.
+Not becoming good at programming fast enough made me lose out on one of the core college experiences I was looking forward to. 
+I wish I had taken the opportunities in each organization I joined more seriously. Participating in more CTFs, competitions, and hackathons, even if I knew I was not as good as the others would have forced me to become better faster.
+I wish I had worked on projects with greater breadth. The only real side project I worked on was the side project/startup with Daksh starting junior year of college. I wish I was able to work on building things like my own OS, programming language (tbf I did a bit of this), auto diff library, etc. There are so many things I want to build now but I didn't have the foresight of planning during college where I had the time to do so.
+
+
+I am glad I took as many classes that I could, I took classes outside my concentration of AI and databases to learn about systems and all things math. I think it gave me a good primer of what was out there.
+I am glad I came from a "non-traditional" engineering background. I was deciding between medical school, art school, or seminary going into college, it was what I was preparing for in high school. While some part of me does wish that I started out earlier in programming or math competitions, this makes life more interesting and I couldn't ask for anything better than that.
