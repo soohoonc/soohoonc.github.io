@@ -23,7 +23,7 @@ const gtag = `
 `;
 
 function injectGtag(html) {
-  return html.replace('<html lang="en">', `<html lang="en">${gtag}`);
+  return html.replace('<head>', `<head>${gtag}`);
 }
 
 async function parseMarkdown(raw) {
