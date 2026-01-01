@@ -87,6 +87,13 @@ class InteractiveArt extends HTMLElement {
     this.addEventListener("mouseleave", handleLeave);
     this.addEventListener("touchend", handleLeave);
 
+    this.addEventListener('mouseleave', () => {
+      prevMouseX = mouseX;
+      prevMouseY = mouseY;
+      smoothVelX = 0;
+      smoothVelY = 0;
+    });
+
     let time = Date.now() * 0.001;
     let affectedCells = new Set();
     const lerp = (a, b, t) => a + (b - a) * t;
