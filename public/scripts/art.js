@@ -53,7 +53,14 @@ class InteractiveArt extends HTMLElement {
       mouseY = (e.clientY - rect.top) / 10;
     });
 
-    let time = 0;
+    this.addEventListener('mouseleave', () => {
+      prevMouseX = mouseX;
+      prevMouseY = mouseY;
+      smoothVelX = 0;
+      smoothVelY = 0;
+    });
+
+    let time = Date.now() * 0.001;
     let affectedCells = new Set();
     const lerp = (a, b, t) => a + (b - a) * t;
 
@@ -62,8 +69,10 @@ class InteractiveArt extends HTMLElement {
 
       const rawVelX = mouseX - prevMouseX;
       const rawVelY = mouseY - prevMouseY;
-      smoothVelX = smoothVelX * 0.7 + rawVelX * 0.3;
-      smoothVelY = smoothVelY * 0.7 + rawVelY * 0.3;
+      const clampedVelX = Math.max(-5, Math.min(5, rawVelX));
+      const clampedVelY = Math.max(-5, Math.min(5, rawVelY));
+      smoothVelX = smoothVelX * 0.9 + clampedVelX * 0.1;
+      smoothVelY = smoothVelY * 0.9 + clampedVelY * 0.1;
       const mouseSpeed = Math.sqrt(smoothVelX * smoothVelX + smoothVelY * smoothVelY);
 
       const mouseMoved = Math.abs(rawVelX) > 0.01 || Math.abs(rawVelY) > 0.01;
@@ -123,9 +132,7 @@ class InteractiveArt extends HTMLElement {
           const n4 = Math.sin(distortX * 0.25 + time * 0.6) * Math.cos(distortY * 0.2 - time * 0.5);
           const n5 = Math.cos(distortX * 0.06 - distortY * 0.07 + time * 0.25);
 
-          const turb = Math.sin(distortX * 0.3 + Math.cos(distortY * 0.3 + time * 0.3) + time * 0.4);
-
-          const noise = (n1 + n2 * 0.6 + n3 * 0.4 + n4 * 0.3 + n5 * 0.5 + turb * 0.2) / 3.0;
+          const noise = (n1 + n2 * 0.6 + n3 * 0.4 + n4 * 0.3 + n5 * 0.5) / 2.8;
 
           const intensity = Math.floor((noise + 1) * 0.5 * (chars.length - 1));
           grid[y][x] = chars[Math.max(0, Math.min(chars.length - 1, intensity))];

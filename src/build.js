@@ -58,7 +58,9 @@ for await (const file of new Glob("content/*.md").scan()) {
   const raw = await Bun.file(file).text();
   const { data, html } = await parseMarkdown(raw);
   const slug = file.replace("content/", "").replace(".md", "");
-  posts.push({ slug, title: data.title || slug, date: data.date || "", html });
+  // Generate description from content (strip HTML, limit to 155 chars for SEO)
+  const description = html.replace(/<[^>]*>/g, "").slice(0, 155).trim();
+  posts.push({ slug, title: data.title || slug, date: data.date || "", html, description });
 }
 
 posts.sort((a, b) => (b.date > a.date ? 1 : -1));
@@ -69,6 +71,7 @@ for (const post of posts) {
   const html = injectGtag(postTemplate
     .replace(/\{\{title\}\}/g, post.title)
     .replace(/\{\{date\}\}/g, post.date)
+    .replace(/\{\{description\}\}/g, post.description)
     .replace(/\{\{content\}\}/g, post.html));
   await Bun.write(`public/blog/${post.slug}/index.html`, html);
 }

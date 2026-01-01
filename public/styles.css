@@ -60,17 +60,6 @@ sup+sup::before {
   content: ", ";
 }
 
-.katex-display {
-  overflow-x: auto;
-  overflow-y: hidden;
-  max-width: 100%;
-  padding: 0.5em 0;
-}
-
-.katex {
-  max-width: 100%;
-}
-
 .data-footnote-backref,
 a[data-footnote-backref] {
   display: none;
@@ -123,4 +112,15 @@ a[data-footnote-backref] {
   a:hover {
     color: lightblue;
   }
+}
+
+.katex-display {
+  overflow-x: auto;
+  overflow-y: hidden;
+  max-width: 100%;
+  padding: 0.5em 0;
+}
+
+.katex {
+  max-width: 100%;
 }
