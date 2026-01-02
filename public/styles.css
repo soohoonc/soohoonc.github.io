@@ -8,12 +8,13 @@
 * {
   margin: 0;
   padding: 0;
+  box-sizing: border-box;
 }
 
 body {
   background-color: var(--bg);
   color: var(--text);
-  font-family: Cambria, serif;
+  font-family: "Iowan Old Style BT", Georgia, serif;
   line-height: 1.6;
   height: 100vh;
   display: flex;
@@ -22,11 +23,10 @@ body {
 }
 
 body.page {
-  display: flex;
   flex-direction: column;
-  align-items: center;
   height: auto;
-  overflow: auto;
+  overflow-x: hidden;
+  overflow-y: auto;
 }
 
 h1 {
@@ -35,18 +35,17 @@ h1 {
 
 h2,
 h3 {
-  margin: 0.25em 0 0.25em;
+  margin: 0.25em 0;
 }
 
 hr {
-  margin-top: 1em;
-  margin-bottom: 1em;
+  margin: 1em 0;
 }
 
 ul,
 ol {
-  margin-top: 0.5em;
-  margin-bottom: 0.5em;
+  margin-top: 0.25em;
+  margin-bottom: 0.25em;
   padding-left: 1.5em;
 }
 
@@ -58,36 +57,26 @@ sup {
   line-height: 0;
 }
 
-sup+sup::before {
+sup + sup::before {
   content: ", ";
 }
 
-.data-footnote-backref,
 a[data-footnote-backref] {
   display: none;
 }
 
-.background {
-  position: fixed;
-  inset: 0;
-  font-family: monospace;
-  white-space: nowrap;
-  user-select: none;
-}
-
 .content {
-  width: 95vw;
+  width: 100%;
   max-width: 1024px;
-  padding-top: 1em;
-  padding-bottom: 2em;
+  padding: 1em 1em 0;
 }
 
 .header {
-  width: 95vw;
+  width: 100%;
   max-width: 1024px;
   display: flex;
   justify-content: space-between;
-  padding-top: 1em;
+  padding: 1em 1em 0;
 }
 
 .header nav {

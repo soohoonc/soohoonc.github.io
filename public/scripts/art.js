@@ -1,25 +1,26 @@
 class InteractiveArt extends HTMLElement {
   connectedCallback() {
-    this.style.display = 'block';
-    this.style.width = '100%';
-    this.style.overflow = 'hidden';
-    this.style.fontFamily = 'monospace';
-    this.style.fontSize = '10px';
-    this.style.lineHeight = '1';
-    this.style.whiteSpace = 'pre';
-    this.style.userSelect = 'none';
-    this.style.cursor = 'default';
-    this.style.padding = '0';
-    this.style.margin = '0 0 1em 0';
-    this.style.boxSizing = 'border-box';
+    this.style.display = "block";
+    this.style.width = "100%";
+    this.style.overflow = "hidden";
+    this.style.fontFamily = "monospace";
+    this.style.fontSize = "10px";
+    this.style.lineHeight = "1";
+    this.style.whiteSpace = "pre";
+    this.style.userSelect = "none";
+    this.style.cursor = "default";
+    this.style.padding = "0";
+    this.style.margin = "0";
+    this.style.boxSizing = "border-box";
 
-    const width = this.offsetWidth || 1024;
+    const width = this.offsetWidth || 768;
     const height = Math.min(450, width);
     this.style.height = `${height}px`;
     const cols = Math.floor(width / 6);
     const rows = Math.floor(height / 10);
 
-    const chars = '$@B%8&WM#*oahkbdpqwmZO0QLCJUYXzcvunxrjft/\\|()1{}[]?-_+~<>i!lI;:,"^`\'.';
+    const chars =
+      "$@B%8&WM#*oahkbdpqwmZO0QLCJUYXzcvunxrjft/\\|()1{}[]?-_+~<>i!lI;:,\"^`'.";
     let grid = [];
     let offsetX = [];
     let offsetY = [];
@@ -35,7 +36,7 @@ class InteractiveArt extends HTMLElement {
     }
 
     const render = () => {
-      this.textContent = grid.map(row => row.join('')).join('\n');
+      this.textContent = grid.map((row) => row.join("")).join("\n");
     };
 
     let mouseX = cols / 2;
@@ -44,21 +45,47 @@ class InteractiveArt extends HTMLElement {
     let prevMouseY = mouseY;
     let smoothVelX = 0;
     let smoothVelY = 0;
+    let hasInteracted = false;
 
-    this.addEventListener('mousemove', (e) => {
+    const handleMove = (clientX, clientY) => {
       const rect = this.getBoundingClientRect();
-      prevMouseX = mouseX;
-      prevMouseY = mouseY;
-      mouseX = (e.clientX - rect.left) / 6;
-      mouseY = (e.clientY - rect.top) / 10;
+      const newMouseX = (clientX - rect.left) / 6;
+      const newMouseY = (clientY - rect.top) / 10;
+
+      if (!hasInteracted) {
+        // First interaction - set prev to current to avoid velocity spike
+        prevMouseX = newMouseX;
+        prevMouseY = newMouseY;
+        hasInteracted = true;
+      } else {
+        prevMouseX = mouseX;
+        prevMouseY = mouseY;
+      }
+
+      mouseX = newMouseX;
+      mouseY = newMouseY;
+    };
+
+    this.addEventListener("mousemove", (e) => {
+      handleMove(e.clientX, e.clientY);
     });
 
-    this.addEventListener('mouseleave', () => {
+    this.addEventListener("touchmove", (e) => {
+      if (e.touches.length > 0) {
+        handleMove(e.touches[0].clientX, e.touches[0].clientY);
+      }
+    }, { passive: true });
+
+    const handleLeave = () => {
       prevMouseX = mouseX;
       prevMouseY = mouseY;
       smoothVelX = 0;
       smoothVelY = 0;
-    });
+      hasInteracted = false;
+    };
+
+    this.addEventListener("mouseleave", handleLeave);
+    this.addEventListener("touchend", handleLeave);
 
     let time = Date.now() * 0.001;
     let affectedCells = new Set();
@@ -73,7 +100,9 @@ class InteractiveArt extends HTMLElement {
       const clampedVelY = Math.max(-5, Math.min(5, rawVelY));
       smoothVelX = smoothVelX * 0.9 + clampedVelX * 0.1;
       smoothVelY = smoothVelY * 0.9 + clampedVelY * 0.1;
-      const mouseSpeed = Math.sqrt(smoothVelX * smoothVelX + smoothVelY * smoothVelY);
+      const mouseSpeed = Math.sqrt(
+        smoothVelX * smoothVelX + smoothVelY * smoothVelY,
+      );
 
       const mouseMoved = Math.abs(rawVelX) > 0.01 || Math.abs(rawVelY) > 0.01;
 
@@ -109,7 +138,7 @@ class InteractiveArt extends HTMLElement {
 
       const allAffected = new Set([...affectedCells, ...newAffectedCells]);
       for (const key of allAffected) {
-        const [x, y] = key.split(',').map(Number);
+        const [x, y] = key.split(",").map(Number);
 
         offsetX[y][x] = lerp(offsetX[y][x], 0, 0.05);
         offsetY[y][x] = lerp(offsetY[y][x], 0, 0.05);
@@ -126,16 +155,23 @@ class InteractiveArt extends HTMLElement {
           const distortX = x + offsetX[y][x];
           const distortY = y + offsetY[y][x];
 
-          const n1 = Math.sin(distortX * 0.08 + time * 0.4) * Math.cos(distortY * 0.08 + time * 0.3);
-          const n2 = Math.sin(distortX * 0.15 - time * 0.5) * Math.cos(distortY * 0.12 + time * 0.4);
+          const n1 =
+            Math.sin(distortX * 0.08 + time * 0.4) *
+            Math.cos(distortY * 0.08 + time * 0.3);
+          const n2 =
+            Math.sin(distortX * 0.15 - time * 0.5) *
+            Math.cos(distortY * 0.12 + time * 0.4);
           const n3 = Math.sin(distortX * 0.04 + distortY * 0.04 + time * 0.2);
-          const n4 = Math.sin(distortX * 0.25 + time * 0.6) * Math.cos(distortY * 0.2 - time * 0.5);
+          const n4 =
+            Math.sin(distortX * 0.25 + time * 0.6) *
+            Math.cos(distortY * 0.2 - time * 0.5);
           const n5 = Math.cos(distortX * 0.06 - distortY * 0.07 + time * 0.25);
 
           const noise = (n1 + n2 * 0.6 + n3 * 0.4 + n4 * 0.3 + n5 * 0.5) / 2.8;
 
           const intensity = Math.floor((noise + 1) * 0.5 * (chars.length - 1));
-          grid[y][x] = chars[Math.max(0, Math.min(chars.length - 1, intensity))];
+          grid[y][x] =
+            chars[Math.max(0, Math.min(chars.length - 1, intensity))];
         }
       }
 
@@ -147,4 +183,4 @@ class InteractiveArt extends HTMLElement {
   }
 }
 
-customElements.define('interactive-art', InteractiveArt);
+customElements.define("interactive-art", InteractiveArt);

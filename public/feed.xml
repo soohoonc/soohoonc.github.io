@@ -10,8 +10,10 @@
       <title><![CDATA[When 1 + 1 > 2]]></title>
       <link>https://soohoonchoi.com/blog/1-plus-1-geq-2</link>
       <guid>https://soohoonchoi.com/blog/1-plus-1-geq-2</guid>
-      <pubDate>Wed, 31 Dec 2025 00:00:00 GMT</pubDate>
-      <description><![CDATA[Through running Greptile, I have observed a team that produced a superlinear amount of output far exceeding what I think I could have done by cloning myself. Unfortunately, I have also observed the contrary, where some teams produce a sublinear amount of output compared to the scaled productivity of any single member in the team. The reason why such phenomena occur is a central problem in organizational management. After trying to read more on why this happens, I couldn't help but be disappointe...]]></description>
+      <pubDate>Sat, 31 Jan 2026 00:00:00 GMT</pubDate>
+      <description><![CDATA[From my time at Greptile, I witnessed a team that achieved an astonishing amount. By that I mean the mixture of different members produced far more than what would have been possible with a team of the same size composed of clones of any single member. Unfortunately, I have also observed the contrary: teams that produce a questionable amount of output compared to what each member seems capable of alone.
+
+Having had to run engineering teams, I needed to understand why this happens. I couldn’t hel...]]></description>
     </item>
     <item>
       <title><![CDATA[5 Years of Software Engineering]]></title>
@@ -19,10 +21,12 @@
       <guid>https://soohoonchoi.com/blog/5-years-swe</guid>
       <pubDate>Sun, 21 Dec 2025 00:00:00 GMT</pubDate>
       <description><![CDATA[Here I briefly document the first 5 years of my software engineering career.
-I wrote my first line of code in 2020 and while I still have a lot to learn, I am in a position where I can claim that I can build things that other engineers find useful. I outline a rough summary of some of the key points that helped me become the engineer I am today.
+
+I wrote my first line of code in 2020 and while I still have a lot to learn, I am now at a spot where I can build things from the ground up that some other engineers find useful. I will outline a rough summary of some of the key points that helped me get here to reflect upon and to serve as reference for those who care.
+
 2020
 
-Take CS 1371, computing for engineers, second semester of freshman year as a biomedical engineering student, it is the most interesting class I ha...]]></description>
+Take my first programming class CS 1371, computing for engineers in my second semester of fre...]]></description>
     </item>
   </channel>
 </rss>

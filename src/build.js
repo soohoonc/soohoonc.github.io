@@ -28,6 +28,10 @@ async function parseMarkdown(raw) {
 
   let html = String(result);
 
+  // Add line break between paragraphs and before sections
+  html = html.replace(/<\/p>\n<p>/g, '</p>\n<br/>\n<p>');
+  html = html.replace(/<\/p>\n<h([1-6])>/g, '</p>\n<br/>\n<h$1>');
+
   return { data, html };
 }
 
