@@ -1,168 +1,53 @@
 class InteractiveArt extends HTMLElement {
-  connectedCallback() {
-    this.style.display = "block";
-    this.style.width = "100%";
-    this.style.overflow = "hidden";
-    this.style.fontFamily = "monospace";
-    this.style.fontSize = "10px";
-    this.style.lineHeight = "1";
-    this.style.whiteSpace = "pre";
-    this.style.userSelect = "none";
-    this.style.cursor = "default";
-    this.style.padding = "0";
-    this.style.margin = "0";
-    this.style.boxSizing = "border-box";
-
-    const width = this.offsetWidth || 768;
-    const height = Math.min(450, width);
-    this.style.height = `${height}px`;
-    const cols = Math.floor(width / 6);
-    const rows = Math.floor(height / 10);
-
-    const chars =
-      "$@B%8&WM#*oahkbdpqwmZO0QLCJUYXzcvunxrjft/\\|()1{}[]?-_+~<>i!lI;:,\"^`'.";
-    let grid = [];
-    let offsetX = [];
-    let offsetY = [];
-
-    let cols = 0, rows = 0, grid, offX, offY, cutDepth, affectedCells = new Set();
-    let mouseX = 0, mouseY = 0, prevMouseX = 0, prevMouseY = 0;
-    let smoothVelX = 0, smoothVelY = 0;
-
-    const render = () => {
-      this.textContent = grid.map((row) => row.join("")).join("\n");
-    };
-
-    let mouseX = cols / 2;
-    let mouseY = rows / 2;
-    let prevMouseX = mouseX;
-    let prevMouseY = mouseY;
-    let smoothVelX = 0;
-    let smoothVelY = 0;
-    let hasInteracted = false;
-
-    const handleMove = (clientX, clientY) => {
-      const rect = this.getBoundingClientRect();
-      const newMouseX = (clientX - rect.left) / 6;
-      const newMouseY = (clientY - rect.top) / 10;
-
-      if (!hasInteracted) {
-        // First interaction - set prev to current to avoid velocity spike
-        prevMouseX = newMouseX;
-        prevMouseY = newMouseY;
-        hasInteracted = true;
-      } else {
-        prevMouseX = mouseX;
-        prevMouseY = mouseY;
-      }
-
-      mouseX = newMouseX;
-      mouseY = newMouseY;
-    };
-
-    this.addEventListener("mousemove", (e) => {
-      handleMove(e.clientX, e.clientY);
+  async connectedCallback() {
+    Object.assign(this.style, {
+      display: 'block', width: '100%', overflow: 'hidden',
+      fontFamily: 'monospace', fontSize: '10px', lineHeight: '1',
+      whiteSpace: 'pre', userSelect: 'none', cursor: 'default',
+      padding: '0', margin: '0 0 1em 0', boxSizing: 'border-box',
     });
 
-    this.addEventListener("touchmove", (e) => {
-      if (e.touches.length > 0) {
-        handleMove(e.touches[0].clientX, e.touches[0].clientY);
-      }
-    }, { passive: true });
+    let charWidth = 6;
+    try {
+      const { prepareWithSegments, layoutWithLines } = await import('https://esm.sh/@chenglou/pretext');
+      const { lines } = layoutWithLines(prepareWithSegments('M', '10px monospace'), Infinity, 10);
+      charWidth = lines[0]?.width || 6;
+    } catch (e) {}
+    const charHeight = 10;
+    const chars = '$@B%8&WM#*oahkbdpqwmZO0QLCJUYXzcvunxrjft/\\|()1{}[]?-_+~<>i!lI;:,"^`\'.';
 
-    const handleLeave = () => {
-      prevMouseX = mouseX;
-      prevMouseY = mouseY;
-      smoothVelX = 0;
-      smoothVelY = 0;
-      hasInteracted = false;
+    let cols = 0, rows = 0, grid;
+
+    const resize = () => {
+      const w = this.offsetWidth || 1024;
+      const h = Math.min(450, w);
+      this.style.height = `${h}px`;
+      const newCols = Math.floor(w / charWidth);
+      const newRows = Math.floor(h / charHeight);
+      if (newCols === cols && newRows === rows) return;
+      cols = newCols; rows = newRows;
+      grid = new Array(cols * rows).fill('');
     };
-
-    this.addEventListener("mouseleave", handleLeave);
-    this.addEventListener("touchend", handleLeave);
-
-    this.addEventListener('mouseleave', () => {
-      prevMouseX = mouseX; prevMouseY = mouseY;
-      smoothVelX = smoothVelY = 0;
-    });
+    resize();
 
     this._ro = new ResizeObserver(resize);
     this._ro.observe(this);
 
     let time = Date.now() * 0.001;
-    const lerp = (a, b, t) => a + (b - a) * t;
 
     const animate = () => {
       this._raf = requestAnimationFrame(animate);
       time += 0.005;
 
-      const rawVelX = mouseX - prevMouseX;
-      const rawVelY = mouseY - prevMouseY;
-      const clampedVelX = Math.max(-5, Math.min(5, rawVelX));
-      const clampedVelY = Math.max(-5, Math.min(5, rawVelY));
-      smoothVelX = smoothVelX * 0.9 + clampedVelX * 0.1;
-      smoothVelY = smoothVelY * 0.9 + clampedVelY * 0.1;
-      const mouseSpeed = Math.sqrt(
-        smoothVelX * smoothVelX + smoothVelY * smoothVelY,
-      );
-
-      if (Math.abs(rawVelX) > 0.01 || Math.abs(rawVelY) > 0.01) {
-        const minX = Math.max(0, Math.floor(mouseX - 20));
-        const maxX = Math.min(cols, Math.ceil(mouseX + 20));
-        const minY = Math.max(0, Math.floor(mouseY - 20));
-        const maxY = Math.min(rows, Math.ceil(mouseY + 20));
-        for (let y = minY; y < maxY; y++) {
-          for (let x = minX; x < maxX; x++) {
-            const dx = x - mouseX, dy = y - mouseY;
-            const distSq = dx * dx + dy * dy;
-            if (distSq < 400) {
-              const dist = Math.sqrt(distSq);
-              const inf = (20 - dist - 1) / 20;
-              const i = y * cols + x;
-              offX[i] += smoothVelX * inf * inf * 0.3 - smoothVelY * inf * mouseSpeed * 0.1;
-              offY[i] += smoothVelY * inf * inf * 0.3 + smoothVelX * inf * mouseSpeed * 0.1;
-              cutDepth[i] = Math.min(1, cutDepth[i] + Math.max(0, (6 - dist) / 6) * mouseSpeed * 0.5);
-              newAffected.add(i);
-            }
-          }
-        }
-      }
-
-      const allAffected = new Set([...affectedCells, ...newAffectedCells]);
-      for (const key of allAffected) {
-        const [x, y] = key.split(",").map(Number);
-
-        offsetX[y][x] = lerp(offsetX[y][x], 0, 0.05);
-        offsetY[y][x] = lerp(offsetY[y][x], 0, 0.05);
-
-        if (Math.abs(offsetX[y][x]) > 0.01 || Math.abs(offsetY[y][x]) > 0.01) {
-          newAffectedCells.add(key);
-        }
-      }
-      affectedCells = newAffected;
-
       for (let y = 0; y < rows; y++) {
         for (let x = 0; x < cols; x++) {
-          const distortX = x + offsetX[y][x];
-          const distortY = y + offsetY[y][x];
-
-          const n1 =
-            Math.sin(distortX * 0.08 + time * 0.4) *
-            Math.cos(distortY * 0.08 + time * 0.3);
-          const n2 =
-            Math.sin(distortX * 0.15 - time * 0.5) *
-            Math.cos(distortY * 0.12 + time * 0.4);
-          const n3 = Math.sin(distortX * 0.04 + distortY * 0.04 + time * 0.2);
-          const n4 =
-            Math.sin(distortX * 0.25 + time * 0.6) *
-            Math.cos(distortY * 0.2 - time * 0.5);
-          const n5 = Math.cos(distortX * 0.06 - distortY * 0.07 + time * 0.25);
-
+          const n1 = Math.sin(x * 0.08 + time * 0.4) * Math.cos(y * 0.08 + time * 0.3);
+          const n2 = Math.sin(x * 0.15 - time * 0.5) * Math.cos(y * 0.12 + time * 0.4);
+          const n3 = Math.sin(x * 0.04 + y * 0.04 + time * 0.2);
+          const n4 = Math.sin(x * 0.25 + time * 0.6) * Math.cos(y * 0.2 - time * 0.5);
+          const n5 = Math.cos(x * 0.06 - y * 0.07 + time * 0.25);
           const noise = (n1 + n2 * 0.6 + n3 * 0.4 + n4 * 0.3 + n5 * 0.5) / 2.8;
-
-          const intensity = Math.floor((noise + 1) * 0.5 * (chars.length - 1));
-          grid[y][x] =
-            chars[Math.max(0, Math.min(chars.length - 1, intensity))];
+          grid[y * cols + x] = chars[Math.floor((noise + 1) * 0.5 * (chars.length - 1))];
         }
       }
 
@@ -183,4 +68,4 @@ class InteractiveArt extends HTMLElement {
   }
 }
 
-customElements.define("interactive-art", InteractiveArt);
+customElements.define('interactive-art', InteractiveArt);
