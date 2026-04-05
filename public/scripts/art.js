@@ -25,15 +25,9 @@ class InteractiveArt extends HTMLElement {
     let offsetX = [];
     let offsetY = [];
 
-    for (let i = 0; i < rows; i++) {
-      grid[i] = [];
-      offsetX[i] = [];
-      offsetY[i] = [];
-      for (let j = 0; j < cols; j++) {
-        offsetX[i][j] = 0;
-        offsetY[i][j] = 0;
-      }
-    }
+    let cols = 0, rows = 0, grid, offX, offY, cutDepth, affectedCells = new Set();
+    let mouseX = 0, mouseY = 0, prevMouseX = 0, prevMouseY = 0;
+    let smoothVelX = 0, smoothVelY = 0;
 
     const render = () => {
       this.textContent = grid.map((row) => row.join("")).join("\n");
@@ -88,17 +82,18 @@ class InteractiveArt extends HTMLElement {
     this.addEventListener("touchend", handleLeave);
 
     this.addEventListener('mouseleave', () => {
-      prevMouseX = mouseX;
-      prevMouseY = mouseY;
-      smoothVelX = 0;
-      smoothVelY = 0;
+      prevMouseX = mouseX; prevMouseY = mouseY;
+      smoothVelX = smoothVelY = 0;
     });
 
+    this._ro = new ResizeObserver(resize);
+    this._ro.observe(this);
+
     let time = Date.now() * 0.001;
-    let affectedCells = new Set();
     const lerp = (a, b, t) => a + (b - a) * t;
 
     const animate = () => {
+      this._raf = requestAnimationFrame(animate);
       time += 0.005;
 
       const rawVelX = mouseX - prevMouseX;
@@ -111,33 +106,23 @@ class InteractiveArt extends HTMLElement {
         smoothVelX * smoothVelX + smoothVelY * smoothVelY,
       );
 
-      const mouseMoved = Math.abs(rawVelX) > 0.01 || Math.abs(rawVelY) > 0.01;
-
-      const newAffectedCells = new Set();
-
-      if (mouseMoved) {
+      if (Math.abs(rawVelX) > 0.01 || Math.abs(rawVelY) > 0.01) {
         const minX = Math.max(0, Math.floor(mouseX - 20));
         const maxX = Math.min(cols, Math.ceil(mouseX + 20));
         const minY = Math.max(0, Math.floor(mouseY - 20));
         const maxY = Math.min(rows, Math.ceil(mouseY + 20));
-
         for (let y = minY; y < maxY; y++) {
           for (let x = minX; x < maxX; x++) {
-            const dx = x - mouseX;
-            const dy = y - mouseY;
+            const dx = x - mouseX, dy = y - mouseY;
             const distSq = dx * dx + dy * dy;
-
             if (distSq < 400) {
-              const dist = Math.sqrt(distSq) + 1;
-              const influence = Math.max(0, (20 - dist) / 20);
-
-              offsetX[y][x] += smoothVelX * influence * influence * 0.3;
-              offsetY[y][x] += smoothVelY * influence * influence * 0.3;
-
-              offsetX[y][x] += -smoothVelY * influence * mouseSpeed * 0.1;
-              offsetY[y][x] += smoothVelX * influence * mouseSpeed * 0.1;
-
-              newAffectedCells.add(`${x},${y}`);
+              const dist = Math.sqrt(distSq);
+              const inf = (20 - dist - 1) / 20;
+              const i = y * cols + x;
+              offX[i] += smoothVelX * inf * inf * 0.3 - smoothVelY * inf * mouseSpeed * 0.1;
+              offY[i] += smoothVelY * inf * inf * 0.3 + smoothVelX * inf * mouseSpeed * 0.1;
+              cutDepth[i] = Math.min(1, cutDepth[i] + Math.max(0, (6 - dist) / 6) * mouseSpeed * 0.5);
+              newAffected.add(i);
             }
           }
         }
@@ -154,8 +139,7 @@ class InteractiveArt extends HTMLElement {
           newAffectedCells.add(key);
         }
       }
-
-      affectedCells = newAffectedCells;
+      affectedCells = newAffected;
 
       for (let y = 0; y < rows; y++) {
         for (let x = 0; x < cols; x++) {
@@ -182,11 +166,20 @@ class InteractiveArt extends HTMLElement {
         }
       }
 
-      render();
-      requestAnimationFrame(animate);
+      let out = '';
+      for (let y = 0; y < rows; y++) {
+        if (y > 0) out += '\n';
+        for (let x = 0; x < cols; x++) out += grid[y * cols + x];
+      }
+      this.textContent = out;
     };
 
     animate();
+  }
+
+  disconnectedCallback() {
+    cancelAnimationFrame(this._raf);
+    this._ro?.disconnect();
   }
 }
 
