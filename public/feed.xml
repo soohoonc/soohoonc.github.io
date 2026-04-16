@@ -11,9 +11,9 @@
       <link>https://soohoonchoi.com/blog/good-ai-code</link>
       <guid>https://soohoonchoi.com/blog/good-ai-code</guid>
       <pubDate>Thu, 02 Apr 2026 00:00:00 GMT</pubDate>
-      <description><![CDATA[Software development is changing. In the past couple of months we've heard stories ranging from Claude Code writing a somewhat functional C compiler to companies reporting that >90% of their code being written by AI. At Greptile we found that in 2025, the median lines of code contributed per developer grew from 4,450 to 7,839 and individual file changes became 20% larger and "denser." 1 More code is being generated faster than before and there is no sign of things slowing down.
+      <description><![CDATA[Software development is changing. In the past couple of months we've heard stories ranging from Claude Code writing a somewhat functional C compiler to companies reporting that >90% of their code being written by AI. At Greptile we found that in 2025, the median lines of code contributed per developer grew from 4,450 to 7,839, while individual file changes became 20% larger and "denser." 1 More code is being generated faster than before and there is no sign of things slowing down.
 
-While this is al...]]></description>
+While this is...]]></description>
     </item>
     <item>
       <title><![CDATA[When 1 + 1 > 2]]></title>
