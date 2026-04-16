@@ -64,9 +64,9 @@ for (const post of posts) {
 }
 
 // Generate blog index
-const postsList = posts
-  .map(p => `<p><a href="/blog/${p.slug}">${p.title}</a></p>`)
-  .join("\n    ");
+const postsList = `<div class="blog-list">\n    ` + posts
+  .map(p => `<div class="blog-row"><a href="/blog/${p.slug}">${p.title}</a><small>${p.date}</small></div>`)
+  .join("\n    ") + `\n  </div>`;
 const blogHtml = blogTemplate.replace(/\{\{posts\}\}/g, postsList);
 await Bun.write("public/blog/index.html", blogHtml);
 

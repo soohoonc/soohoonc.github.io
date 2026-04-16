@@ -49,8 +49,29 @@ ol {
   padding-left: 1.5em;
 }
 
-#footnote-label {
-  display: none;
+.footnotes {
+  margin-top: 2em;
+  padding-top: 1em;
+  border-top: 1px solid currentColor;
+  font-size: 0.9em;
+}
+
+.footnotes #footnote-label {
+  position: static;
+  width: auto;
+  height: auto;
+  clip: auto;
+  overflow: visible;
+  font-size: 1rem;
+  margin-bottom: 0.5em;
+}
+
+.footnotes ol {
+  padding-left: 1.25em;
+}
+
+.footnotes li p {
+  margin: 0.25em 0;
 }
 
 sup {
@@ -65,10 +86,36 @@ a[data-footnote-backref] {
   display: none;
 }
 
+.content img {
+  display: block;
+  max-width: 100%;
+  height: auto;
+  margin: 1em auto;
+}
+
 .content {
   width: 100%;
   max-width: 1024px;
-  padding: 1em 1em 0;
+  padding: 1em 1em 4em;
+}
+
+.blog-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75em;
+  margin-top: 1em;
+}
+
+.blog-list .blog-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 1em;
+}
+
+.blog-list .blog-row small {
+  color: #888;
+  white-space: nowrap;
 }
 
 .header {
