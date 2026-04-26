@@ -2,13 +2,19 @@
   color-scheme: light dark;
   --bg: #f1f1f1;
   --text: #0e0e0e;
+  --page-max-width: 1024px;
+  --page-padding: 1rem;
+  --page-content-width: min(
+    var(--page-max-width),
+    calc(100% - (var(--page-padding) * 2))
+  );
   font-size: 18px;
 }
 
 * {
+  box-sizing: border-box;
   margin: 0;
   padding: 0;
-  box-sizing: border-box;
 }
 
 html {
@@ -16,31 +22,21 @@ html {
 }
 
 body {
-  background-color: var(--bg);
-  color: var(--text);
+  margin: 0;
+  min-height: 100vh;
   font-family: "Iowan Old Style BT", Georgia, serif;
   line-height: 1.6;
-  width: 100%;
-  height: 100vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  background: var(--bg);
+  color: var(--text);
+  overflow-x: hidden;
 }
 
 body.page {
-  flex-direction: column;
-  height: auto;
-  overflow-x: hidden;
-  overflow-y: auto;
-  align-items: stretch;
-  justify-content: flex-start;
-  width: 100%;
-  margin: 0;
   scrollbar-gutter: stable;
 }
 
 h1 {
-  margin: 0 0 0.25em;
+  margin-bottom: 0.25em;
 }
 
 h2,
@@ -54,9 +50,64 @@ hr {
 
 ul,
 ol {
-  margin-top: 0.25em;
-  margin-bottom: 0.25em;
+  margin: 0.25em 0;
   padding-left: 1.5em;
+}
+
+.content img {
+  display: block;
+  max-width: 100%;
+  height: auto;
+  margin: 1em auto;
+}
+
+.content,
+.header {
+  width: var(--page-content-width);
+  margin-inline: auto;
+  padding-inline: var(--page-padding);
+}
+
+.content {
+  padding-top: 1em;
+  padding-bottom: 4em;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  padding-top: 1em;
+  align-items: baseline;
+}
+
+.header > site-breadcrumb {
+  flex: 1;
+  min-width: 0;
+  overflow-wrap: break-word;
+}
+
+.header nav {
+  display: flex;
+  gap: 0.5em;
+}
+
+.blog-list {
+  margin-top: 1em;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75em;
+}
+
+.blog-list .blog-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 1em;
+}
+
+.blog-list .blog-row small {
+  color: #888;
+  white-space: nowrap;
 }
 
 .footnotes {
@@ -67,13 +118,13 @@ ol {
 }
 
 .footnotes #footnote-label {
+  font-size: 1rem;
+  margin-bottom: 0.5em;
   position: static;
   width: auto;
   height: auto;
   clip: auto;
   overflow: visible;
-  font-size: 1rem;
-  margin-bottom: 0.5em;
 }
 
 .footnotes ol {
@@ -94,53 +145,6 @@ sup + sup::before {
 
 a[data-footnote-backref] {
   display: none;
-}
-
-.content img {
-  display: block;
-  max-width: 100%;
-  height: auto;
-  margin: 1em auto;
-}
-
-.content,
-.header {
-  width: min(1024px, calc(100% - 2rem));
-  margin: 0 auto;
-}
-
-.content {
-  padding: 1em 1em 4em;
-}
-
-.blog-list {
-  display: flex;
-  flex-direction: column;
-  gap: 0.75em;
-  margin-top: 1em;
-}
-
-.blog-list .blog-row {
-  display: flex;
-  justify-content: space-between;
-  align-items: baseline;
-  gap: 1em;
-}
-
-.blog-list .blog-row small {
-  color: #888;
-  white-space: nowrap;
-}
-
-.header {
-  display: flex;
-  justify-content: space-between;
-  padding: 1em 1em 0;
-}
-
-.header nav {
-  display: flex;
-  gap: 0.5em;
 }
 
 @media (max-width: 768px) {
@@ -165,9 +169,9 @@ a[data-footnote-backref] {
 }
 
 .katex-display {
+  max-width: 100%;
   overflow-x: auto;
   overflow-y: hidden;
-  max-width: 100%;
   padding: 0.5em 0;
 }
 
