@@ -1,7 +1,7 @@
 :root {
   color-scheme: light dark;
-  --bg: #ffffff;
-  --text: #000000;
+  --bg: #f1f1f1;
+  --text: #0e0e0e;
   font-size: 18px;
 }
 
@@ -11,11 +11,16 @@
   box-sizing: border-box;
 }
 
+html {
+  scrollbar-gutter: stable;
+}
+
 body {
   background-color: var(--bg);
   color: var(--text);
   font-family: "Iowan Old Style BT", Georgia, serif;
   line-height: 1.6;
+  width: 100%;
   height: 100vh;
   display: flex;
   align-items: center;
@@ -27,6 +32,11 @@ body.page {
   height: auto;
   overflow-x: hidden;
   overflow-y: auto;
+  align-items: stretch;
+  justify-content: flex-start;
+  width: 100%;
+  margin: 0;
+  scrollbar-gutter: stable;
 }
 
 h1 {
@@ -78,7 +88,7 @@ sup {
   line-height: 0;
 }
 
-sup+sup::before {
+sup + sup::before {
   content: ", ";
 }
 
@@ -93,9 +103,13 @@ a[data-footnote-backref] {
   margin: 1em auto;
 }
 
+.content,
+.header {
+  width: min(1024px, calc(100% - 2rem));
+  margin: 0 auto;
+}
+
 .content {
-  width: 100%;
-  max-width: 1024px;
   padding: 1em 1em 4em;
 }
 
@@ -119,8 +133,6 @@ a[data-footnote-backref] {
 }
 
 .header {
-  width: 100%;
-  max-width: 1024px;
   display: flex;
   justify-content: space-between;
   padding: 1em 1em 0;
@@ -139,7 +151,7 @@ a[data-footnote-backref] {
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --bg: #0e0e0e;
+    --bg: #1e1e1e;
     --text: #fefefe;
   }
 

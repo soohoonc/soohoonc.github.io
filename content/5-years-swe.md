@@ -14,18 +14,18 @@ I wrote my first line of code in 2020 and while I still have a lot to learn, I a
 - Observe that all the "cool companies" are hiring out of CS after attending different career fairs. The company I am most interested in, Neuralink, is hiring more CS majors than biomedical engineering majors.
 - Join a research lab working on BCIs, PI tells me that majoring in CS is probably more helpful for actual research.
 - Take summer courses in intro to OOP to see if I really want to be a CS major (not a good class to start with looking back).
-- Attempt a computer science interview, [try two sum on leetcode](https://leetcode.com/u/soohoonchoi/) and get my ass kicked. Realize how far behind the curve I am.
+- Attempt a computer science interview, try two sum on leetcode and do really badly. I am way behind.
 - Fall 2020: Switch majors to CS, take data structures and algorithms, software design, and computer systems I. I want to take as many classes as possible to learn as fast as possible.
 - Join the most technical sounding CS campus organizations: machine learning club, computer security club, and competitive programming club. See what the standard of a good computer science student is.
 
 ## 2021
 
 - Spring 2021: Take database design, systems II, and intro to AI, continue to classmaxx.
-- Start internship search, get into Amazon during peak ZIRP hiring, but end up not being able to attend because of visa issues.
+- Amazon internship but can not attend because of visa issues.
 - Instead take more courses over the summer on computer networking, algorithm design, and machine learning.
 - Realize that at this rate I will finish my CS major next semester. I still want to do an internship + learn more, so consider adding a math minor/major.
 - Fall of 2021: Take database systems, deep learning, and complexity & automata theory.
-- Also take the junior capstone course, where I meet my now cofounder [Daksh](https://dakskgupta.com), we start working on projects together.
+- Also take the junior capstone course, where I meet my now cofounder [Daksh](https://dakshgupta.com), we start working on projects together.
 
 ## 2022
 
